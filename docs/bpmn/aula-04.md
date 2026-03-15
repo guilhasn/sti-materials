@@ -119,18 +119,6 @@ Usar **anotações de texto** (text annotations) no diagrama para marcar:
 
 ---
 
-## Critérios de avaliação
-
-| Critério | Peso |
-|----------|------|
-| Uso correcto dos símbolos BPMN (eventos, tarefas, gateways) | 30% |
-| Lanes correctamente atribuídas aos actores | 20% |
-| Fluxo completo do início ao fim | 20% |
-| Anotações de problemas identificados | 15% |
-| Legibilidade e organização visual do diagrama | 15% |
-
----
-
 ## Interpretação para decisão pública
 
 O mapeamento AS-IS é o primeiro passo para qualquer projecto de transformação digital na AP. Sem documentar o que existe, qualquer investimento em tecnologia corre o risco de automatizar ineficiências em vez de as eliminar. O diagrama AS-IS torna-se o **ponto de partida objectivo** para a discussão com decisores — deixa de ser opinião e passa a ser evidência visual.

@@ -230,17 +230,6 @@ Propor **3 melhorias concretas**, por exemplo:
 - Deliberação simplificada por despacho do presidente (abaixo de determinado limiar)
 - Pagamento online com emissão automática de alvará em PDF
 
----
-
-## Critérios de avaliação (comuns a todos os exercícios)
-
-| Critério | Peso |
-|----------|------|
-| Uso correcto dos símbolos BPMN (eventos, tarefas, gateways) | 30% |
-| Lanes correctamente atribuídas aos actores reais | 20% |
-| Fluxo completo do início ao fim, sem lacunas | 20% |
-| Problemas anotados com anotações de texto | 15% |
-| Legibilidade e organização visual do diagrama | 15% |
 
 !!! danger "Erro crítico"
     Criar um AS-IS idealizado em vez de representar a realidade. O mapeamento AS-IS documenta o que **acontece**, não o que **deveria** acontecer. Resistir à tentação de "melhorar" o processo nesta fase.

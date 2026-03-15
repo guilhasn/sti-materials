@@ -131,18 +131,6 @@ Propor **3 KPI (Key Performance Indicators)** que o sistema TO-BE permite medir 
 
 ---
 
-## Critérios de avaliação
-
-| Critério | Peso |
-|----------|------|
-| Uso correcto dos novos elementos BPMN (service tasks, mensagens) | 25% |
-| Lanes reflectem correctamente o papel do sistema | 15% |
-| Cada problema do AS-IS tem solução no TO-BE | 25% |
-| Tabela comparativa completa e fundamentada | 20% |
-| KPI propostos são mensuráveis e relevantes | 15% |
-
----
-
 ## Interpretação para decisão pública
 
 O redesenho TO-BE é o artefacto que permite a um dirigente municipal ou vereador avaliar o investimento necessário em sistemas de informação. Ao comparar AS-IS e TO-BE lado a lado, a decisão deixa de ser "devemos comprar software?" e passa a ser "que problemas concretos vamos resolver e com que ganho mensurável?". Esta é a base de qualquer proposta de investimento em transformação digital na administração pública.
