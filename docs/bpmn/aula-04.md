@@ -73,30 +73,34 @@ O processo actual de tratamento de pedidos de intervenção funciona assim:
 
 **Tarefa 1 — Estrutura base**
 
-Criar um diagrama com **3 pools (lanes)**:
+Criar **1 pool** (Câmara Municipal de Pombal) com **4 lanes** — cada lane representa um actor diferente no processo:
 
-| Lane | Actor |
-|------|-------|
-| Cidadão | Quem inicia o pedido |
-| Atendimento | Técnico de balcão |
-| Serviço Responsável | Chefe de divisão + técnico de campo |
+| Lane | Quem é | O que faz neste processo |
+|------|--------|--------------------------|
+| Cidadão | Munícipe afectado pela tempestade | Inicia o pedido de intervenção |
+| Técnico de Atendimento | Funcionário do balcão | Regista o pedido e encaminha |
+| Chefe de Divisão | Responsável pelo serviço técnico | Analisa o pedido e decide a intervenção |
+| Técnico de Campo | Técnico operacional | Realiza visita ao local e elabora relatório |
+
+!!! tip "No bpmn.io"
+    Criar o pool → clicar com botão direito dentro do pool → **Add Lane** para adicionar lanes. Nomear cada lane com o nome do actor.
 
 **Tarefa 2 — Modelar o fluxo principal**
 
-Representar as seguintes actividades no diagrama:
+Representar os seguintes elementos, colocando cada um na lane do actor correcto:
 
-1. Cidadão contacta a câmara (evento de início)
-2. Técnico regista pedido (tarefa)
-3. Técnico identifica serviço responsável (tarefa)
-4. Gateway: serviço identificado com certeza? (gateway exclusivo)
-    - Sim → encaminhar ao serviço
-    - Não → consultar chefe de divisão e depois encaminhar
-5. Chefe de divisão analisa pedido (tarefa)
-6. Gateway: aceita ou reencaminha? (gateway exclusivo)
-7. Técnico de campo realiza visita (tarefa)
-8. Relatório é devolvido (tarefa)
-9. Decisão de intervenção (tarefa)
-10. Encerramento informal do pedido (evento de fim)
+1. :material-circle-outline:{ .icon-green } **Evento de início** (lane Cidadão) → "Contactar a câmara"
+2. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Atendimento) → "Registar pedido"
+3. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Atendimento) → "Encaminhar pedido por email ao chefe de divisão"
+4. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Chefe de Divisão) → "Analisar pedido"
+5. :material-rhombus:{ .icon-orange } **Gateway exclusivo** (lane Chefe de Divisão) → "Aceita o pedido?"
+    - **Não** → :material-square-rounded:{ .icon-blue } **Tarefa** (lane Chefe de Divisão) → "Reencaminhar a outro serviço" → :material-circle:{ .icon-red } **Evento de fim**
+    - **Sim** → segue para o passo 6
+6. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Chefe de Divisão) → "Atribuir a técnico de campo"
+7. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Campo) → "Realizar visita ao local"
+8. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Campo) → "Elaborar relatório"
+9. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Chefe de Divisão) → "Decidir intervenção"
+10. :material-circle:{ .icon-red } **Evento de fim** (lane Chefe de Divisão) → "Pedido encerrado informalmente"
 
 **Tarefa 3 — Anotar problemas**
 
