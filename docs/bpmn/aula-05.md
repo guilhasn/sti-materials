@@ -69,7 +69,7 @@
 
 1. Abrir o diagrama AS-IS da Aula 4 (ou uma cópia).
 2. Criar um **novo diagrama** para o TO-BE — não desenhar por cima do AS-IS.
-3. Consultar a [Cheatsheet BPMN 2.0](../referencia/cheatsheet-bpmn.md) para os novos elementos.
+3. Consultar a [Notação BPMN 2.0](index.md) para os novos elementos.
 
 ### Tarefas
 

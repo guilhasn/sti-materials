@@ -1,4 +1,4 @@
-# Módulo BPMN — Processos na Administração Pública
+# Notação BPMN 2.0 — Processos na Administração Pública
 
 <span class="aula-badge">Aulas 4–5</span>
 
@@ -11,10 +11,130 @@ Este módulo introduz a notação **BPMN 2.0** como ferramenta de mapeamento e r
 Os serviços públicos assentam em processos — licenciamentos, atendimento, contratação, resposta a emergências. Quando esses processos não estão documentados:
 
 - Ninguém sabe exactamente quem faz o quê
-- As ineficiências repetem-se sem serem identificadas
-- A introdução de sistemas de informação faz-se às cegas
+- Não é possível medir tempos de resposta
+- Cada funcionário resolve à sua maneira
+- Melhorias são tentadas sem diagnóstico
 
-O BPMN fornece uma **linguagem visual padronizada** (ISO/IEC 19510) que permite a qualquer técnico ou dirigente ler, discutir e melhorar um processo — sem necessidade de conhecimentos de programação.
+O **BPMN** (Business Process Model and Notation) é uma notação visual normalizada (**ISO/IEC 19510**) que permite representar processos de forma clara, mensurável e partilhável entre técnicos, dirigentes e fornecedores de tecnologia.
+
+!!! note "BPMN não é um fluxograma"
+    Ao contrário dos fluxogramas informais, o BPMN 2.0 segue uma especificação internacional mantida pela OMG (Object Management Group). Cada símbolo tem um significado preciso e universalmente reconhecido. Um diagrama BPMN feito em Portugal é legível por qualquer analista de processos no mundo.
+
+---
+
+## Elementos fundamentais
+
+### Eventos
+
+Os eventos marcam o que **acontece** durante o processo — início, fim, ou algo intermédio.
+
+| Evento | Símbolo | Quando usar | Exemplo |
+|--------|---------|-------------|---------|
+| **Início simples** | ○ círculo fino verde | Ponto de partida do processo | Cidadão apresenta pedido |
+| **Início por mensagem** | ○ com envelope | Processo inicia ao receber comunicação | Email recebido com reclamação |
+| **Fim simples** | ◉ círculo grosso vermelho | Processo termina | Certidão emitida |
+| **Fim por mensagem** | ◉ com envelope | Processo termina com envio de comunicação | Notificação enviada ao cidadão |
+| **Intermédio de mensagem (envio)** | ◎ com envelope preenchido | Envio de notificação durante o processo | SMS enviado ao requerente |
+| **Intermédio de mensagem (recepção)** | ◎ com envelope vazio | Espera por recepção de informação | Aguardar parecer do serviço jurídico |
+| **Intermédio de temporização** | ◎ com relógio | Espera por tempo definido | Aguardar 5 dias úteis para resposta |
+
+---
+
+### Actividades / Tarefas
+
+As actividades representam **trabalho executado** por alguém ou por um sistema.
+
+| Tipo | Ícone | Quando usar | Exemplo |
+|------|-------|-------------|---------|
+| **User Task** | 👤 pessoa | Tarefa executada por uma pessoa num ecrã | Registar pedido no sistema |
+| **Service Task** | ⚙️ engrenagem | Tarefa automática do sistema, sem intervenção humana | Enviar SMS ao cidadão |
+| **Manual Task** | ✋ mão | Tarefa física sem apoio de sistema de informação | Inspeccionar infraestrutura no local |
+| **Send Task** | ✉️→ envelope com seta | Envio de mensagem ou documento | Enviar parecer ao requerente |
+| **Receive Task** | ✉️ envelope | Espera pela recepção de informação | Receber documentação do cidadão |
+
+!!! tip "Regra prática para escolher o tipo de tarefa"
+    - **Computador desligado?** → Manual Task
+    - **Precisa de ecrã?** → User Task
+    - **Sem pessoa nenhuma?** → Service Task
+
+!!! warning "Nomes das tarefas"
+    Usar sempre **verbo + objecto**: "Registar pedido", "Validar dados", "Notificar cidadão". Nomes vagos como "Processar" ou "Tratar" não descrevem nada — são processos inteiros, não tarefas.
+
+---
+
+### Gateways — Decisões e ramificações
+
+Os gateways controlam a **bifurcação e convergência** do fluxo.
+
+| Tipo | Símbolo | Comportamento | Exemplo |
+|------|---------|---------------|---------|
+| **Exclusivo (XOR)** | ◇ com **X** | Apenas **UM** caminho segue | Pedido classificado? Sim → encaminhar / Não → triagem |
+| **Paralelo (AND)** | ◇ com **+** | **TODOS** os caminhos seguem em simultâneo | Após registo → notificar cidadão **E** encaminhar ao serviço |
+| **Inclusivo (OR)** | ◇ com **O** | **UM ou MAIS** caminhos seguem | Dano afecta estrada **E/OU** habitação → accionar um ou ambos |
+
+!!! danger "Regra obrigatória para gateway paralelo"
+    Um gateway paralelo (AND) que abre ramificações **DEVE** ser fechado por outro gateway paralelo antes de convergir. Esquecer o fecho é o erro mais frequente e invalida o diagrama.
+
+**Exemplos práticos:**
+
+- **Exclusivo:** "O pedido foi classificado com confiança?" → Sim: encaminhamento automático / Não: triagem manual
+- **Paralelo:** "Após registo da ocorrência" → notificar cidadão **E** encaminhar ao serviço responsável (ambos em simultâneo)
+- **Inclusivo:** "Tipo de dano reportado?" → Estrada, Habitação, Infraestrutura pública (um ou mais podem ser verdadeiros)
+
+---
+
+### Fluxos — Como ligar os elementos
+
+| Tipo | Representação | Quando usar |
+|------|---------------|-------------|
+| **Fluxo de sequência** | → seta sólida com ponta preenchida | Liga actividades **dentro** do mesmo pool, pela ordem de execução |
+| **Fluxo de mensagem** | ⇢ seta tracejada com ponta aberta | Liga elementos em **pools diferentes** — comunicação entre organizações |
+| **Associação** | ··· linha pontilhada | Liga anotações de texto ou objectos de dados a elementos do processo |
+
+!!! note "Regra de ouro"
+    Fluxos de sequência (seta sólida) só existem **dentro** do mesmo pool. Entre pools diferentes, usar **sempre** fluxos de mensagem (seta tracejada). Se o bpmn.io criar automaticamente uma seta tracejada ao ligar entre pools, está correcto.
+
+---
+
+### Pools e Lanes
+
+| Elemento | O que representa | Exemplo |
+|----------|------------------|---------|
+| **Pool** | Uma organização ou entidade autónoma | Câmara Municipal de Pombal |
+| **Lane** | Um papel, departamento ou actor dentro da organização | Técnico de Atendimento, Chefe de Divisão |
+
+**Boas práticas:**
+
+- Cada lane corresponde a um **papel real** — "Técnico de Protecção Civil", não "Departamento" genérico
+- Todos os elementos do processo devem estar **dentro** de um pool
+- Elementos soltos fora de pools causam erros de validação BPMN
+
+---
+
+### Artefactos
+
+Os artefactos acrescentam informação ao diagrama **sem alterar o fluxo**.
+
+| Artefacto | Quando usar | Exemplo |
+|-----------|-------------|---------|
+| **Anotação de texto** | Comentários, notas, explicações | "⚠ Sem validação de dados — risco de registo incompleto" |
+| **Grupo** | Agrupamento visual de actividades relacionadas (sem impacto no fluxo) | Agrupar tarefas da "Fase de triagem" |
+| **Objecto de dados** | Representa um documento, formulário ou ficheiro | Formulário de pedido, Relatório de visita |
+
+---
+
+## Erros frequentes
+
+| Erro | Correcção |
+|------|-----------|
+| Fluxo de sequência entre pools diferentes | Usar fluxo de **mensagem** (tracejado) entre pools |
+| Gateway paralelo sem fecho | Fechar **sempre** com outro gateway paralelo antes de convergir |
+| Actividade sem fluxo de entrada ou saída | Todas as tarefas (excepto após início / antes de fim) precisam de ambos |
+| Evento de início na lane errada | O início deve estar na lane do actor que **despoleta** o processo |
+| Processo sem evento de início ou fim | Todo o diagrama precisa de ambos — sem eles não tem âmbito |
+| Tarefas genéricas ("Processar", "Tratar") | Usar **verbo + objecto**: "Verificar identidade", "Emitir certidão" |
+| Gateway sem rótulo nas saídas | Cada seta de saída precisa de condição: "Sim", "Não", ou descrição |
+| Misturar AS-IS com TO-BE no mesmo diagrama | São **sempre** dois diagramas distintos |
 
 ---
 
@@ -22,26 +142,30 @@ O BPMN fornece uma **linguagem visual padronizada** (ISO/IEC 19510) que permite 
 
 | Aula | Tema | Foco |
 |------|------|------|
-| [Aula 4](aula-04.md) | Mapeamento AS-IS | Documentar o processo actual tal como é executado |
-| [Aula 5](aula-05.md) | Redesenho TO-BE | Propor melhorias com integração de SI |
+| [Aula 4](aula-04.md) | Mapeamento AS-IS com BPMN | Documentar o processo actual — com todos os problemas |
+| [Aula 5](aula-05.md) | Redesenho TO-BE com SI | Propor melhorias com sistemas de informação integrados |
 
-## Caso prático
+### Caso prático
 
-O módulo utiliza o processo de **tratamento de pedidos de intervenção** na sequência da Tempestade Kristin, com foco no balcão de atendimento de uma câmara municipal.
+Ambas as aulas utilizam o cenário da **Tempestade Kristin** — a Câmara Municipal de Pombal a gerir pedidos de intervenção após danos causados pela tempestade. O dataset `Atendimentos_Pombal_2025.xlsx` contém 4 847 registos com 692 ocorrências, das quais **287 ficaram sem qualquer intervenção** (41%).
 
-!!! abstract "Cenário"
-    Após a Tempestade Kristin, centenas de cidadãos contactam a câmara para reportar danos em estradas, habitações e infraestruturas públicas. O balcão de atendimento funciona sem processo formal — cada técnico resolve a situação como entende. O resultado: pedidos perdidos, duplicações, tempos de resposta impossíveis de medir.
+### Exercícios adicionais
 
-## Ferramenta
+A página de [Exercícios Práticos](exercicios.md) contém 4 cenários adicionais de organismos da AP portuguesa — hospital, universidade, polícia e junta de freguesia — para praticar mapeamento BPMN em contextos variados.
 
-Todas as actividades práticas utilizam o **bpmn.io** — editor gratuito e open-source de diagramas BPMN 2.0.
+---
 
-- :material-web: [bpmn.io](https://bpmn.io) — acesso directo ao editor online
-- :material-book-open-variant: [Guia de utilização bpmn.io](../referencia/guia-bpmnio.md)
-- :material-card-bulleted-outline: [Cheatsheet BPMN 2.0](../referencia/cheatsheet-bpmn.md)
+## Ferramenta — bpmn.io
+
+O [bpmn.io](https://bpmn.io) é um editor gratuito e open-source de diagramas BPMN 2.0. Funciona directamente no navegador — sem instalação, sem registo, sem custo.
+
+Consultar o [Guia de Utilização do bpmn.io](../referencia/guia-bpmnio.md) para instruções detalhadas.
+
+---
 
 ## Pré-requisitos
 
 - Navegador web actualizado (Chrome, Firefox ou Edge)
+- Acesso à internet para usar o [bpmn.io](https://bpmn.io)
 - Não é necessário instalar software
 - Recomendado: segundo ecrã ou monitor para ter o diagrama e o enunciado lado a lado

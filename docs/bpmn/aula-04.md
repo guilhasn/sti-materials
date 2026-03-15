@@ -69,7 +69,7 @@ O processo actual de tratamento de pedidos de intervenção funciona assim:
 
 1. Abrir o [bpmn.io](https://bpmn.io) no navegador.
 2. Criar um novo diagrama em branco.
-3. Consultar a [Cheatsheet BPMN 2.0](../referencia/cheatsheet-bpmn.md) para referência dos símbolos.
+3. Consultar a [Notação BPMN 2.0](index.md) para referência dos símbolos.
 
 ### Tarefas
 

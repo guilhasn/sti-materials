@@ -13,7 +13,7 @@ Materiais de apoio à componente prática da UC **Sistemas e Tecnologias de Info
 
 ## Referência rápida
 
-- [Cheatsheet BPMN 2.0](referencia/cheatsheet-bpmn.md)
+- [Notação BPMN 2.0](bpmn/index.md) — elementos, regras e erros frequentes
 - [Guia da ferramenta bpmn.io](referencia/guia-bpmnio.md)
 
 ---

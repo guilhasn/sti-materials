@@ -64,11 +64,11 @@ nav:
       - Aula 2 — Funções Condicionais: excel/aula-02.md
       - Aula 3 — Caso Integrador: excel/aula-03.md
   - BPMN (Aulas 4–5):
-      - Visão Geral: bpmn/index.md
-      - Aula 4 — Processo AS-IS: bpmn/aula-04.md
+      - Notação BPMN 2.0: bpmn/index.md
+      - Aula 4 — Mapeamento AS-IS: bpmn/aula-04.md
       - Aula 5 — Redesenho TO-BE: bpmn/aula-05.md
+      - Exercícios Práticos: bpmn/exercicios.md
   - Referência:
-      - Cheatsheet BPMN 2.0: referencia/cheatsheet-bpmn.md
       - Guia bpmn.io: referencia/guia-bpmnio.md
 
 extra:
