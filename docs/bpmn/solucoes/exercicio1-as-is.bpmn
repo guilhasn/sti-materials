@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  id="Definitions_Ex1"
+                  targetNamespace="http://bpmn.io/schema/bpmn"
+                  exporter="bpmn-js"
+                  exporterVersion="12.0.0">
+
+  <bpmn:collaboration id="Collaboration_1">
+    <bpmn:participant id="Participant_Hospital" name="Hospital Distrital de Leiria — Triagem na Urgência (AS-IS)" processRef="Process_1" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_Utente" name="Utente">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DeslocarExames</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Administrativo" name="Administrativo">
+        <bpmn:flowNodeRef>Task_RegistarDados</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EntregarFicha</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RegistarSaida</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RegistarInternamento</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_RegistarReencaminhamento</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Alta</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Internamento</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Reencaminhamento</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Enfermeiro" name="Enfermeiro de Triagem">
+        <bpmn:flowNodeRef>Task_AvaliarSintomas</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EscreverPrioridade</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ColocarPilha</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Medico" name="Médico">
+        <bpmn:flowNodeRef>Task_ChamarDoente</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Exames</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_PreencherRequisicao</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ReceberResultados</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_MergeExames</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Decisao</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <!-- Eventos -->
+    <bpmn:startEvent id="StartEvent_1" name="Utente chega à urgência">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_Alta" name="Processo concluído (Alta)">
+      <bpmn:incoming>Flow_Alta2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:endEvent id="EndEvent_Internamento" name="Processo concluído (Internamento)">
+      <bpmn:incoming>Flow_Int2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:endEvent id="EndEvent_Reencaminhamento" name="Processo concluído (Reencaminhamento)">
+      <bpmn:incoming>Flow_Reenc2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <!-- Tarefas — Lane Administrativo -->
+    <bpmn:task id="Task_RegistarDados" name="Registar dados do utente em ficha de papel">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_EntregarFicha" name="Entregar ficha ao enfermeiro de triagem">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Tarefas — Lane Enfermeiro -->
+    <bpmn:task id="Task_AvaliarSintomas" name="Avaliar sintomas e classificar prioridade (pulseira)">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_EscreverPrioridade" name="Escrever prioridade na ficha e colocar pulseira">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_ColocarPilha" name="Colocar ficha na pilha por ordem de prioridade">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Tarefas — Lane Médico -->
+    <bpmn:task id="Task_ChamarDoente" name="Chamar próximo doente da pilha">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_PreencherRequisicao" name="Preencher requisição de exames (papel)">
+      <bpmn:incoming>Flow_ExSim</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_ReceberResultados" name="Receber resultados dos exames">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Tarefas — Lane Utente -->
+    <bpmn:task id="Task_DeslocarExames" name="Deslocar-se aos exames com requisição">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Tarefas — Lane Administrativo (saída) -->
+    <bpmn:task id="Task_RegistarSaida" name="Registar saída do utente">
+      <bpmn:incoming>Flow_Alta1</bpmn:incoming>
+      <bpmn:outgoing>Flow_Alta2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_RegistarInternamento" name="Registar internamento">
+      <bpmn:incoming>Flow_Int1</bpmn:incoming>
+      <bpmn:outgoing>Flow_Int2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_RegistarReencaminhamento" name="Registar reencaminhamento">
+      <bpmn:incoming>Flow_Reenc1</bpmn:incoming>
+      <bpmn:outgoing>Flow_Reenc2</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Gateways -->
+    <bpmn:exclusiveGateway id="Gateway_Exames" name="Necessário exames?">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_ExSim</bpmn:outgoing>
+      <bpmn:outgoing>Flow_ExNao</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="Gateway_MergeExames">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:incoming>Flow_ExNao</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="Gateway_Decisao" name="Decisão clínica?">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_Alta1</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Int1</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Reenc1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <!-- Fluxos de sequência -->
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_RegistarDados" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_RegistarDados" targetRef="Task_EntregarFicha" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_EntregarFicha" targetRef="Task_AvaliarSintomas" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_AvaliarSintomas" targetRef="Task_EscreverPrioridade" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="Task_EscreverPrioridade" targetRef="Task_ColocarPilha" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="Task_ColocarPilha" targetRef="Task_ChamarDoente" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="Task_ChamarDoente" targetRef="Gateway_Exames" />
+    <bpmn:sequenceFlow id="Flow_ExSim" name="Sim" sourceRef="Gateway_Exames" targetRef="Task_PreencherRequisicao" />
+    <bpmn:sequenceFlow id="Flow_ExNao" name="Não" sourceRef="Gateway_Exames" targetRef="Gateway_MergeExames" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_PreencherRequisicao" targetRef="Task_DeslocarExames" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="Task_DeslocarExames" targetRef="Task_ReceberResultados" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Task_ReceberResultados" targetRef="Gateway_MergeExames" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Gateway_MergeExames" targetRef="Gateway_Decisao" />
+    <bpmn:sequenceFlow id="Flow_Alta1" name="Alta" sourceRef="Gateway_Decisao" targetRef="Task_RegistarSaida" />
+    <bpmn:sequenceFlow id="Flow_Int1" name="Internamento" sourceRef="Gateway_Decisao" targetRef="Task_RegistarInternamento" />
+    <bpmn:sequenceFlow id="Flow_Reenc1" name="Reencaminhamento" sourceRef="Gateway_Decisao" targetRef="Task_RegistarReencaminhamento" />
+    <bpmn:sequenceFlow id="Flow_Alta2" sourceRef="Task_RegistarSaida" targetRef="EndEvent_Alta" />
+    <bpmn:sequenceFlow id="Flow_Int2" sourceRef="Task_RegistarInternamento" targetRef="EndEvent_Internamento" />
+    <bpmn:sequenceFlow id="Flow_Reenc2" sourceRef="Task_RegistarReencaminhamento" targetRef="EndEvent_Reencaminhamento" />
+
+    <!-- Anotações de texto -->
+    <bpmn:textAnnotation id="TextAnnotation_1">
+      <bpmn:text>⚠ Registo em papel sem campos obrigatórios — dados incompletos</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1" sourceRef="Task_RegistarDados" targetRef="TextAnnotation_1" />
+
+    <bpmn:textAnnotation id="TextAnnotation_2">
+      <bpmn:text>⚠ Sem sistema de chamada — doentes chamados em voz alta</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_2" sourceRef="Task_ChamarDoente" targetRef="TextAnnotation_2" />
+
+    <bpmn:textAnnotation id="TextAnnotation_3">
+      <bpmn:text>⚠ Requisição de exames em papel — resultados demoram e extraviam-se</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_3" sourceRef="Task_PreencherRequisicao" targetRef="TextAnnotation_3" />
+
+    <bpmn:textAnnotation id="TextAnnotation_4">
+      <bpmn:text>⚠ Saída do utente nem sempre registada</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_4" sourceRef="Task_RegistarSaida" targetRef="TextAnnotation_4" />
+
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+
+      <!-- Pool -->
+      <bpmndi:BPMNShape id="Participant_Hospital_di" bpmnElement="Participant_Hospital" isHorizontal="true">
+        <dc:Bounds x="160" y="60" width="1900" height="1000" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Lanes -->
+      <bpmndi:BPMNShape id="Lane_Utente_di" bpmnElement="Lane_Utente" isHorizontal="true">
+        <dc:Bounds x="190" y="60" width="1870" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Administrativo_di" bpmnElement="Lane_Administrativo" isHorizontal="true">
+        <dc:Bounds x="190" y="310" width="1870" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Enfermeiro_di" bpmnElement="Lane_Enfermeiro" isHorizontal="true">
+        <dc:Bounds x="190" y="560" width="1870" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Medico_di" bpmnElement="Lane_Medico" isHorizontal="true">
+        <dc:Bounds x="190" y="810" width="1870" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Start Event (Utente lane) -->
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="252" y="167" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="226" y="210" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <!-- Tasks — Administrativo -->
+      <bpmndi:BPMNShape id="Task_RegistarDados_di" bpmnElement="Task_RegistarDados">
+        <dc:Bounds x="310" y="395" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_EntregarFicha_di" bpmnElement="Task_EntregarFicha">
+        <dc:Bounds x="460" y="395" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Tasks — Enfermeiro -->
+      <bpmndi:BPMNShape id="Task_AvaliarSintomas_di" bpmnElement="Task_AvaliarSintomas">
+        <dc:Bounds x="460" y="645" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_EscreverPrioridade_di" bpmnElement="Task_EscreverPrioridade">
+        <dc:Bounds x="610" y="645" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_ColocarPilha_di" bpmnElement="Task_ColocarPilha">
+        <dc:Bounds x="760" y="645" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Tasks — Médico -->
+      <bpmndi:BPMNShape id="Task_ChamarDoente_di" bpmnElement="Task_ChamarDoente">
+        <dc:Bounds x="760" y="895" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Gateway_Exames_di" bpmnElement="Gateway_Exames" isMarkerVisible="true">
+        <dc:Bounds x="915" y="910" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="897" y="967" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_PreencherRequisicao_di" bpmnElement="Task_PreencherRequisicao">
+        <dc:Bounds x="1010" y="835" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Task — Utente (exames) -->
+      <bpmndi:BPMNShape id="Task_DeslocarExames_di" bpmnElement="Task_DeslocarExames">
+        <dc:Bounds x="1010" y="145" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Task — Médico (resultados) -->
+      <bpmndi:BPMNShape id="Task_ReceberResultados_di" bpmnElement="Task_ReceberResultados">
+        <dc:Bounds x="1160" y="895" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Gateway_MergeExames_di" bpmnElement="Gateway_MergeExames" isMarkerVisible="true">
+        <dc:Bounds x="1305" y="910" width="50" height="50" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Gateway_Decisao_di" bpmnElement="Gateway_Decisao" isMarkerVisible="true">
+        <dc:Bounds x="1405" y="910" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1390" y="967" width="80" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <!-- Tasks — Administrativo (saída) -->
+      <bpmndi:BPMNShape id="Task_RegistarSaida_di" bpmnElement="Task_RegistarSaida">
+        <dc:Bounds x="1530" y="345" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_RegistarInternamento_di" bpmnElement="Task_RegistarInternamento">
+        <dc:Bounds x="1530" y="425" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_RegistarReencaminhamento_di" bpmnElement="Task_RegistarReencaminhamento">
+        <dc:Bounds x="1530" y="505" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- End Events — Administrativo -->
+      <bpmndi:BPMNShape id="EndEvent_Alta_di" bpmnElement="EndEvent_Alta">
+        <dc:Bounds x="1692" y="367" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1670" y="410" width="80" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="EndEvent_Internamento_di" bpmnElement="EndEvent_Internamento">
+        <dc:Bounds x="1692" y="447" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1670" y="490" width="80" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="EndEvent_Reencaminhamento_di" bpmnElement="EndEvent_Reencaminhamento">
+        <dc:Bounds x="1692" y="527" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1670" y="570" width="80" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <!-- Annotations -->
+      <bpmndi:BPMNShape id="TextAnnotation_1_di" bpmnElement="TextAnnotation_1">
+        <dc:Bounds x="250" y="500" width="220" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="TextAnnotation_2_di" bpmnElement="TextAnnotation_2">
+        <dc:Bounds x="700" y="990" width="220" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="TextAnnotation_3_di" bpmnElement="TextAnnotation_3">
+        <dc:Bounds x="1020" y="990" width="260" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="TextAnnotation_4_di" bpmnElement="TextAnnotation_4">
+        <dc:Bounds x="1650" y="320" width="200" height="30" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Sequence Flows -->
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="270" y="203" />
+        <di:waypoint x="270" y="435" />
+        <di:waypoint x="310" y="435" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="410" y="435" />
+        <di:waypoint x="460" y="435" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="510" y="475" />
+        <di:waypoint x="510" y="645" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="560" y="685" />
+        <di:waypoint x="610" y="685" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="710" y="685" />
+        <di:waypoint x="760" y="685" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="810" y="725" />
+        <di:waypoint x="810" y="895" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="860" y="935" />
+        <di:waypoint x="915" y="935" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_ExSim_di" bpmnElement="Flow_ExSim">
+        <di:waypoint x="940" y="910" />
+        <di:waypoint x="940" y="875" />
+        <di:waypoint x="1010" y="875" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="948" y="883" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_ExNao_di" bpmnElement="Flow_ExNao">
+        <di:waypoint x="940" y="960" />
+        <di:waypoint x="940" y="980" />
+        <di:waypoint x="1330" y="980" />
+        <di:waypoint x="1330" y="960" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="948" y="963" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="1060" y="835" />
+        <di:waypoint x="1060" y="225" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="1110" y="185" />
+        <di:waypoint x="1210" y="185" />
+        <di:waypoint x="1210" y="895" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="1260" y="935" />
+        <di:waypoint x="1305" y="935" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="1355" y="935" />
+        <di:waypoint x="1405" y="935" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_Alta1_di" bpmnElement="Flow_Alta1">
+        <di:waypoint x="1430" y="910" />
+        <di:waypoint x="1430" y="385" />
+        <di:waypoint x="1530" y="385" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1438" y="643" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_Int1_di" bpmnElement="Flow_Int1">
+        <di:waypoint x="1455" y="935" />
+        <di:waypoint x="1490" y="935" />
+        <di:waypoint x="1490" y="465" />
+        <di:waypoint x="1530" y="465" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1495" y="700" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_Reenc1_di" bpmnElement="Flow_Reenc1">
+        <di:waypoint x="1430" y="960" />
+        <di:waypoint x="1430" y="990" />
+        <di:waypoint x="1510" y="990" />
+        <di:waypoint x="1510" y="545" />
+        <di:waypoint x="1530" y="545" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1440" y="973" width="95" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_Alta2_di" bpmnElement="Flow_Alta2">
+        <di:waypoint x="1630" y="385" />
+        <di:waypoint x="1692" y="385" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_Int2_di" bpmnElement="Flow_Int2">
+        <di:waypoint x="1630" y="465" />
+        <di:waypoint x="1692" y="465" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_Reenc2_di" bpmnElement="Flow_Reenc2">
+        <di:waypoint x="1630" y="545" />
+        <di:waypoint x="1692" y="545" />
+      </bpmndi:BPMNEdge>
+
+      <!-- Associations -->
+      <bpmndi:BPMNEdge id="Association_1_di" bpmnElement="Association_1">
+        <di:waypoint x="340" y="475" />
+        <di:waypoint x="340" y="500" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Association_2_di" bpmnElement="Association_2">
+        <di:waypoint x="810" y="975" />
+        <di:waypoint x="810" y="990" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Association_3_di" bpmnElement="Association_3">
+        <di:waypoint x="1060" y="915" />
+        <di:waypoint x="1100" y="990" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Association_4_di" bpmnElement="Association_4">
+        <di:waypoint x="1630" y="365" />
+        <di:waypoint x="1650" y="345" />
+      </bpmndi:BPMNEdge>
+
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</bpmn:definitions>

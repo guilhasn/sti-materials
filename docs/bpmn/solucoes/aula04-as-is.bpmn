@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  id="Definitions_Aula04"
+                  targetNamespace="http://bpmn.io/schema/bpmn"
+                  exporter="bpmn-js"
+                  exporterVersion="12.0.0">
+
+  <bpmn:collaboration id="Collaboration_1">
+    <bpmn:participant id="Participant_CMP" name="Câmara Municipal de Pombal — Tratamento de Pedidos de Intervenção (AS-IS)" processRef="Process_1" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_1" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_Cidadao" name="Cidadão">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_TecAtendimento" name="Técnico de Atendimento">
+        <bpmn:flowNodeRef>Task_RegistarPedido</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_EncaminharEmail</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_ChefeDivisao" name="Chefe de Divisão">
+        <bpmn:flowNodeRef>Task_AnalisarPedido</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_AceitaPedido</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Reencaminhar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Perdido</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_AtribuirTecnico</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DecidirIntervencao</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_Encerrado</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_TecCampo" name="Técnico de Campo">
+        <bpmn:flowNodeRef>Task_RealizarVisita</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_ElaborarRelatorio</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <!-- Eventos -->
+    <bpmn:startEvent id="StartEvent_1" name="Contactar a câmara (balcão ou telefone)">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_Perdido" name="Pedido pode perder-se">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:endEvent id="EndEvent_Encerrado" name="Pedido encerrado informalmente">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <!-- Tarefas — Lane Técnico de Atendimento -->
+    <bpmn:task id="Task_RegistarPedido" name="Registar pedido em papel/Excel">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_EncaminharEmail" name="Encaminhar pedido por email ao chefe de divisão">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Tarefas — Lane Chefe de Divisão -->
+    <bpmn:task id="Task_AnalisarPedido" name="Analisar pedido">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_Reencaminhar" name="Reencaminhar a outro serviço">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_AtribuirTecnico" name="Atribuir a técnico de campo">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_DecidirIntervencao" name="Decidir intervenção">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Tarefas — Lane Técnico de Campo -->
+    <bpmn:task id="Task_RealizarVisita" name="Realizar visita ao local">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:task>
+
+    <bpmn:task id="Task_ElaborarRelatorio" name="Elaborar relatório">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Gateway -->
+    <bpmn:exclusiveGateway id="Gateway_AceitaPedido" name="Aceita o pedido?">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <!-- Fluxos de sequência -->
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_RegistarPedido" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_RegistarPedido" targetRef="Task_EncaminharEmail" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_EncaminharEmail" targetRef="Task_AnalisarPedido" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_AnalisarPedido" targetRef="Gateway_AceitaPedido" />
+    <bpmn:sequenceFlow id="Flow_5" name="Não" sourceRef="Gateway_AceitaPedido" targetRef="Task_Reencaminhar" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="Task_Reencaminhar" targetRef="EndEvent_Perdido" />
+    <bpmn:sequenceFlow id="Flow_7" name="Sim" sourceRef="Gateway_AceitaPedido" targetRef="Task_AtribuirTecnico" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_AtribuirTecnico" targetRef="Task_RealizarVisita" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="Task_RealizarVisita" targetRef="Task_ElaborarRelatorio" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="Task_ElaborarRelatorio" targetRef="Task_DecidirIntervencao" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Task_DecidirIntervencao" targetRef="EndEvent_Encerrado" />
+
+    <!-- Anotações de texto -->
+    <bpmn:textAnnotation id="TextAnnotation_1">
+      <bpmn:text>⚠ Registo em papel/Excel sem modelo padrão — dados incompletos</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1" sourceRef="Task_RegistarPedido" targetRef="TextAnnotation_1" />
+
+    <bpmn:textAnnotation id="TextAnnotation_2">
+      <bpmn:text>⚠ Email sem rastreabilidade — pedidos perdidos</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_2" sourceRef="Task_EncaminharEmail" targetRef="TextAnnotation_2" />
+
+    <bpmn:textAnnotation id="TextAnnotation_3">
+      <bpmn:text>⚠ Reencaminhamento sem notificação ao cidadão</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_3" sourceRef="Task_Reencaminhar" targetRef="TextAnnotation_3" />
+
+    <bpmn:textAnnotation id="TextAnnotation_4">
+      <bpmn:text>⚠ Sem prazo definido — visita pode demorar semanas</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_4" sourceRef="Task_RealizarVisita" targetRef="TextAnnotation_4" />
+
+    <bpmn:textAnnotation id="TextAnnotation_5">
+      <bpmn:text>⚠ Encerramento informal — sem registo de conclusão</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_5" sourceRef="EndEvent_Encerrado" targetRef="TextAnnotation_5" />
+
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+
+      <!-- Pool -->
+      <bpmndi:BPMNShape id="Participant_CMP_di" bpmnElement="Participant_CMP" isHorizontal="true">
+        <dc:Bounds x="160" y="60" width="1560" height="1000" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Lanes -->
+      <bpmndi:BPMNShape id="Lane_Cidadao_di" bpmnElement="Lane_Cidadao" isHorizontal="true">
+        <dc:Bounds x="190" y="60" width="1530" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_TecAtendimento_di" bpmnElement="Lane_TecAtendimento" isHorizontal="true">
+        <dc:Bounds x="190" y="310" width="1530" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_ChefeDivisao_di" bpmnElement="Lane_ChefeDivisao" isHorizontal="true">
+        <dc:Bounds x="190" y="560" width="1530" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_TecCampo_di" bpmnElement="Lane_TecCampo" isHorizontal="true">
+        <dc:Bounds x="190" y="810" width="1530" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Start Event — Lane Cidadão (y center ~185) -->
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="272" y="167" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="246" y="210" width="88" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <!-- Tasks — Lane Técnico de Atendimento (y center ~435) -->
+      <bpmndi:BPMNShape id="Task_RegistarPedido_di" bpmnElement="Task_RegistarPedido">
+        <dc:Bounds x="340" y="395" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_EncaminharEmail_di" bpmnElement="Task_EncaminharEmail">
+        <dc:Bounds x="500" y="395" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Tasks — Lane Chefe de Divisão (y center ~685) -->
+      <bpmndi:BPMNShape id="Task_AnalisarPedido_di" bpmnElement="Task_AnalisarPedido">
+        <dc:Bounds x="500" y="645" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Gateway_AceitaPedido_di" bpmnElement="Gateway_AceitaPedido" isMarkerVisible="true">
+        <dc:Bounds x="655" y="660" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="710" y="675" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_Reencaminhar_di" bpmnElement="Task_Reencaminhar">
+        <dc:Bounds x="770" y="590" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="EndEvent_Perdido_di" bpmnElement="EndEvent_Perdido">
+        <dc:Bounds x="932" y="612" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="906" y="655" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_AtribuirTecnico_di" bpmnElement="Task_AtribuirTecnico">
+        <dc:Bounds x="770" y="710" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_DecidirIntervencao_di" bpmnElement="Task_DecidirIntervencao">
+        <dc:Bounds x="1250" y="645" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="EndEvent_Encerrado_di" bpmnElement="EndEvent_Encerrado">
+        <dc:Bounds x="1422" y="667" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1396" y="710" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <!-- Tasks — Lane Técnico de Campo (y center ~935) -->
+      <bpmndi:BPMNShape id="Task_RealizarVisita_di" bpmnElement="Task_RealizarVisita">
+        <dc:Bounds x="940" y="895" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="Task_ElaborarRelatorio_di" bpmnElement="Task_ElaborarRelatorio">
+        <dc:Bounds x="1100" y="895" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Anotações -->
+      <bpmndi:BPMNShape id="TextAnnotation_1_di" bpmnElement="TextAnnotation_1">
+        <dc:Bounds x="280" y="500" width="220" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="TextAnnotation_2_di" bpmnElement="TextAnnotation_2">
+        <dc:Bounds x="460" y="500" width="210" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="TextAnnotation_3_di" bpmnElement="TextAnnotation_3">
+        <dc:Bounds x="880" y="570" width="210" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="TextAnnotation_4_di" bpmnElement="TextAnnotation_4">
+        <dc:Bounds x="880" y="990" width="220" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="TextAnnotation_5_di" bpmnElement="TextAnnotation_5">
+        <dc:Bounds x="1380" y="730" width="220" height="40" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Fluxos de sequência -->
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="290" y="203" />
+        <di:waypoint x="290" y="435" />
+        <di:waypoint x="340" y="435" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="440" y="435" />
+        <di:waypoint x="500" y="435" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="550" y="475" />
+        <di:waypoint x="550" y="645" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="600" y="685" />
+        <di:waypoint x="655" y="685" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
+        <di:waypoint x="680" y="660" />
+        <di:waypoint x="680" y="630" />
+        <di:waypoint x="770" y="630" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="688" y="638" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
+        <di:waypoint x="870" y="630" />
+        <di:waypoint x="932" y="630" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
+        <di:waypoint x="680" y="710" />
+        <di:waypoint x="680" y="750" />
+        <di:waypoint x="770" y="750" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="688" y="723" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="870" y="750" />
+        <di:waypoint x="905" y="750" />
+        <di:waypoint x="905" y="935" />
+        <di:waypoint x="940" y="935" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="1040" y="935" />
+        <di:waypoint x="1100" y="935" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="1200" y="935" />
+        <di:waypoint x="1225" y="935" />
+        <di:waypoint x="1225" y="685" />
+        <di:waypoint x="1250" y="685" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="1350" y="685" />
+        <di:waypoint x="1422" y="685" />
+      </bpmndi:BPMNEdge>
+
+      <!-- Associações (anotações) -->
+      <bpmndi:BPMNEdge id="Association_1_di" bpmnElement="Association_1">
+        <di:waypoint x="390" y="475" />
+        <di:waypoint x="390" y="500" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Association_2_di" bpmnElement="Association_2">
+        <di:waypoint x="550" y="475" />
+        <di:waypoint x="565" y="500" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Association_3_di" bpmnElement="Association_3">
+        <di:waypoint x="870" y="610" />
+        <di:waypoint x="880" y="600" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Association_4_di" bpmnElement="Association_4">
+        <di:waypoint x="990" y="975" />
+        <di:waypoint x="990" y="990" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Association_5_di" bpmnElement="Association_5">
+        <di:waypoint x="1440" y="703" />
+        <di:waypoint x="1470" y="730" />
+      </bpmndi:BPMNEdge>
+
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</bpmn:definitions>
