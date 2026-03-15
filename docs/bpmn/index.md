@@ -30,13 +30,13 @@ Os eventos marcam o que **acontece** durante o processo — início, fim, ou alg
 
 | Evento | Símbolo | Quando usar | Exemplo |
 |--------|---------|-------------|---------|
-| **Início simples** | ○ círculo fino verde | Ponto de partida do processo | Cidadão apresenta pedido |
-| **Início por mensagem** | ○ com envelope | Processo inicia ao receber comunicação | Email recebido com reclamação |
-| **Fim simples** | ◉ círculo grosso vermelho | Processo termina | Certidão emitida |
-| **Fim por mensagem** | ◉ com envelope | Processo termina com envio de comunicação | Notificação enviada ao cidadão |
-| **Intermédio de mensagem (envio)** | ◎ com envelope preenchido | Envio de notificação durante o processo | SMS enviado ao requerente |
-| **Intermédio de mensagem (recepção)** | ◎ com envelope vazio | Espera por recepção de informação | Aguardar parecer do serviço jurídico |
-| **Intermédio de temporização** | ◎ com relógio | Espera por tempo definido | Aguardar 5 dias úteis para resposta |
+| **Início simples** | :material-circle-outline:{ .icon-green } círculo fino | Ponto de partida do processo | Cidadão apresenta pedido |
+| **Início por mensagem** | :material-email-outline:{ .icon-green } círculo fino com envelope | Processo inicia ao receber comunicação | Email recebido com reclamação |
+| **Fim simples** | :material-circle:{ .icon-red } círculo grosso | Processo termina | Certidão emitida |
+| **Fim por mensagem** | :material-email:{ .icon-red } círculo grosso com envelope | Processo termina com envio de comunicação | Notificação enviada ao cidadão |
+| **Intermédio de mensagem (envio)** | :material-email-arrow-right-outline:{ .icon-blue } círculo duplo com envelope | Envio de notificação durante o processo | SMS enviado ao requerente |
+| **Intermédio de mensagem (recepção)** | :material-email-arrow-left-outline:{ .icon-blue } círculo duplo com envelope vazio | Espera por recepção de informação | Aguardar parecer do serviço jurídico |
+| **Intermédio de temporização** | :material-clock-outline:{ .icon-blue } círculo duplo com relógio | Espera por tempo definido | Aguardar 5 dias úteis para resposta |
 
 ---
 
@@ -46,11 +46,11 @@ As actividades representam **trabalho executado** por alguém ou por um sistema.
 
 | Tipo | Ícone | Quando usar | Exemplo |
 |------|-------|-------------|---------|
-| **User Task** | 👤 pessoa | Tarefa executada por uma pessoa num ecrã | Registar pedido no sistema |
-| **Service Task** | ⚙️ engrenagem | Tarefa automática do sistema, sem intervenção humana | Enviar SMS ao cidadão |
-| **Manual Task** | ✋ mão | Tarefa física sem apoio de sistema de informação | Inspeccionar infraestrutura no local |
-| **Send Task** | ✉️→ envelope com seta | Envio de mensagem ou documento | Enviar parecer ao requerente |
-| **Receive Task** | ✉️ envelope | Espera pela recepção de informação | Receber documentação do cidadão |
+| **User Task** | :material-account:{ .icon-blue } pessoa | Tarefa executada por uma pessoa num ecrã | Registar pedido no sistema |
+| **Service Task** | :material-cog:{ .icon-blue } engrenagem | Tarefa automática do sistema, sem intervenção humana | Enviar SMS ao cidadão |
+| **Manual Task** | :material-hand-back-right:{ .icon-blue } mão | Tarefa física sem apoio de sistema de informação | Inspeccionar infraestrutura no local |
+| **Send Task** | :material-email-arrow-right:{ .icon-blue } envelope com seta | Envio de mensagem ou documento | Enviar parecer ao requerente |
+| **Receive Task** | :material-email-arrow-left:{ .icon-blue } envelope | Espera pela recepção de informação | Receber documentação do cidadão |
 
 !!! tip "Regra prática para escolher o tipo de tarefa"
     - **Computador desligado?** → Manual Task
@@ -87,9 +87,9 @@ Os gateways controlam a **bifurcação e convergência** do fluxo.
 
 | Tipo | Representação | Quando usar |
 |------|---------------|-------------|
-| **Fluxo de sequência** | → seta sólida com ponta preenchida | Liga actividades **dentro** do mesmo pool, pela ordem de execução |
-| **Fluxo de mensagem** | ⇢ seta tracejada com ponta aberta | Liga elementos em **pools diferentes** — comunicação entre organizações |
-| **Associação** | ··· linha pontilhada | Liga anotações de texto ou objectos de dados a elementos do processo |
+| **Fluxo de sequência** | :material-arrow-right-bold:{ .icon-blue } seta sólida com ponta preenchida | Liga actividades **dentro** do mesmo pool, pela ordem de execução |
+| **Fluxo de mensagem** | :material-arrow-right-thin:{ .icon-blue } seta tracejada com ponta aberta | Liga elementos em **pools diferentes** — comunicação entre organizações |
+| **Associação** | :material-dots-horizontal:{ .icon-blue } linha pontilhada | Liga anotações de texto ou objectos de dados a elementos do processo |
 
 !!! note "Regra de ouro"
     Fluxos de sequência (seta sólida) só existem **dentro** do mesmo pool. Entre pools diferentes, usar **sempre** fluxos de mensagem (seta tracejada). Se o bpmn.io criar automaticamente uma seta tracejada ao ligar entre pools, está correcto.

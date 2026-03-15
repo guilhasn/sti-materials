@@ -57,6 +57,20 @@
   font-weight: 600;
 }
 
+/* ---------- ícones BPMN com cor ---------- */
+.icon-green {
+  color: #27AE60;
+}
+.icon-red {
+  color: #C0392B;
+}
+.icon-blue {
+  color: #0F4C81;
+}
+.icon-orange {
+  color: #E67E22;
+}
+
 /* ---------- links ---------- */
 .md-typeset a {
   color: #0F4C81;
