@@ -1,36 +1,26 @@
-﻿# STI Materials
+# STI Materials
 
-Site da UC **Sistemas e Tecnologias de Informacao (MAP)** publicado com Docusaurus e GitHub Pages.
+Site da UC **Sistemas e Tecnologias de Informacao (MAP)** publicado com MkDocs Material e GitHub Pages.
 
-## Escopo atual
+## Modulos
 
-Bloco **Excel para Decisao Publica** (Aulas 1-3):
-
-- Aula 1: Tabelas Dinamicas + `CONTAR`, `SOMA`, `MEDIA`, `MAXIMO`, `MINIMO`
-- Aula 2: `CONTAR.SE`, `SOMA.SE`, `SE`
-- Aula 3: Caso integrador em contexto de Administracao Publica
+- **Excel para Decisao Publica** (Aulas 1–3): Tabelas Dinamicas, funcoes condicionais, caso integrador
+- **BPMN — Processos na AP** (Aulas 4–5): Mapeamento AS-IS, redesenho TO-BE com SI
 
 ## Estrutura
 
-- `docs/` conteudos didaticos
-- `static/files/excel/` datasets, fichas e resolucoes
-- `src/css/` tema visual institucional
-- `.github/workflows/deploy.yml` deploy para GitHub Pages
+- `docs/` — conteudos didaticos (Markdown)
+- `docs/assets/` — CSS, ficheiros para download
+- `mkdocs.yml` — configuracao do site
+- `.github/workflows/deploy.yml` — deploy automatico para GitHub Pages
 
 ## Desenvolvimento local
 
 ```bash
-npm ci
-npm start
-```
-
-## Build
-
-```bash
-npm run build
-npm run serve
+pip install -r requirements.txt
+mkdocs serve
 ```
 
 ## Publicacao
 
-A publicacao ocorre automaticamente em push para `main` via GitHub Actions.
+Push para `main` → GitHub Actions publica automaticamente.
