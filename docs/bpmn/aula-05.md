@@ -1,4 +1,4 @@
-# Aula 5 — Redesenho TO-BE com Sistemas de Informação
+# Redesenho TO-BE com Sistemas de Informação
 
 ## Objectivos
 
@@ -71,36 +71,55 @@
 
 ### Tarefas
 
-**Tarefa 1 — Novas lanes**
+**Tarefa 1 — Estrutura base**
 
-Actualizar a estrutura de lanes para reflectir o papel do sistema:
+Criar **1 pool** (Câmara Municipal de Pombal — Processo Redesenhado) com **5 lanes**:
 
-| Lane | Actor |
-|------|-------|
-| Cidadão | Inicia pedido (online ou presencial) |
-| Sistema / Plataforma | Validação, classificação, notificações |
-| Atendimento | Triagem manual (apenas excepções) |
-| Serviço Responsável | Chefe de divisão + técnico de campo |
+| Lane | Quem é | O que faz neste processo |
+|------|--------|--------------------------|
+| Cidadão | Munícipe afectado pela tempestade | Submete pedido e recebe notificações |
+| Sistema / Plataforma | Plataforma digital de gestão de pedidos | Valida, classifica, notifica e regista automaticamente |
+| Técnico de Atendimento | Funcionário do balcão | Triagem manual apenas em casos de excepção |
+| Chefe de Divisão | Responsável pelo serviço técnico | Valida pedido e decide intervenção |
+| Técnico de Campo | Técnico operacional | Realiza visita ao local e regista relatório na plataforma |
+
+!!! tip "No bpmn.io"
+    Criar o pool → clicar com botão direito dentro do pool → **Add Lane** para adicionar lanes. Nomear cada lane com o nome do actor.
 
 **Tarefa 2 — Modelar o fluxo TO-BE**
 
-Representar o processo redesenhado incluindo:
+Representar os seguintes elementos, colocando cada um na lane do actor correcto:
 
-1. Evento de início: cidadão submete formulário
-2. Tarefa de serviço (service task): sistema valida e atribui número
-3. Tarefa de serviço: classificação automática
-4. Gateway exclusivo: classificação com confiança?
-5. Fluxo principal e fluxo de excepção (triagem)
-6. Evento intermédio de mensagem: notificação ao cidadão
-7. Tarefas no serviço responsável (validação, visita, relatório)
-8. Eventos intermédios de mensagem: notificações ao cidadão em cada transição
-9. Encerramento formal com evento de fim
+1. :material-circle-outline:{ .icon-green } **Evento de início** (lane Cidadão) → "Submeter pedido no portal municipal"
+    - O cidadão preenche um formulário online no portal da câmara (ou o técnico de atendimento preenche no balcão usando o mesmo formulário digital). Campos obrigatórios garantem dados completos.
+2. :material-cog:{ .icon-blue } **Service Task** (lane Sistema) → "Validar dados e atribuir número de registo"
+    - O sistema valida automaticamente os campos obrigatórios e gera um número de registo único. O cidadão recebe confirmação imediata com o número.
+3. :material-cog:{ .icon-blue } **Service Task** (lane Sistema) → "Classificar serviço responsável"
+    - Com base no tipo de dano seleccionado pelo cidadão, o sistema aplica regras pré-configuradas para determinar o serviço competente (obras, protecção civil, ambiente, habitação).
+4. :material-rhombus:{ .icon-orange } **Gateway exclusivo** (lane Sistema) → "Classificação automática com confiança?"
+    - **Não** → :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Atendimento) → "Triagem manual" — o técnico revê o pedido e atribui manualmente o serviço. Segue para o passo 5.
+    - **Sim** → segue directamente para o passo 5.
+5. :material-cog:{ .icon-blue } **Service Task** (lane Sistema) → "Encaminhar pedido e notificar chefe de divisão"
+    - O sistema encaminha automaticamente o pedido ao chefe de divisão do serviço competente e envia-lhe uma notificação.
+6. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Chefe de Divisão) → "Validar pedido e atribuir técnico de campo"
+    - O chefe de divisão consulta o pedido na plataforma com todos os dados e atribui um técnico de campo.
+7. :material-email-arrow-right-outline:{ .icon-green } **Evento intermédio de mensagem** (lane Sistema) → "Notificar cidadão: pedido em análise"
+    - O sistema envia SMS/email ao cidadão a informar que o pedido está a ser tratado e por quem.
+8. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Campo) → "Realizar visita e registar relatório na plataforma"
+    - O técnico desloca-se ao local, avalia a situação e regista o relatório directamente na plataforma via tablet ou telemóvel. Fotografias podem ser anexadas.
+9. :material-cog:{ .icon-blue } **Service Task** (lane Sistema) → "Actualizar estado e notificar cidadão: visita concluída"
+    - O sistema actualiza automaticamente o estado do pedido e envia notificação ao cidadão.
+10. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Chefe de Divisão) → "Aprovar intervenção"
+    - O chefe de divisão analisa o relatório na plataforma e aprova o tipo de intervenção necessária. O sistema regista a decisão e actualiza prazos.
+11. :material-cog:{ .icon-blue } **Service Task** (lane Sistema) → "Encerrar pedido e notificar cidadão"
+    - Após execução da intervenção, o pedido é encerrado formalmente no sistema com data, descrição e custo. O cidadão recebe notificação final e pode avaliar o serviço.
+12. :material-circle:{ .icon-red } **Evento de fim** (lane Sistema) → "Pedido encerrado formalmente"
 
 !!! tip "Novos elementos BPMN a usar"
-    Neste diagrama, introduzir dois tipos de tarefa novos:
+    Neste diagrama, introduzir dois tipos de elemento novos:
 
-    - **Service Task** (ícone de engrenagem) — actividade executada pelo sistema sem intervenção humana
-    - **Evento intermédio de mensagem** (envelope no círculo) — notificação enviada ou recebida
+    - :material-cog: **Service Task** (rectângulo com engrenagem) — actividade executada pelo sistema sem intervenção humana
+    - :material-email-arrow-right-outline: **Evento intermédio de mensagem** (círculo duplo com envelope) — notificação enviada ao cidadão
 
 **Tarefa 3 — Tabela comparativa**
 

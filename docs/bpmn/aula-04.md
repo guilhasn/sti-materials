@@ -1,4 +1,4 @@
-# Aula 4 — Mapeamento AS-IS com BPMN
+# Mapeamento AS-IS com BPMN
 
 ## Objectivos
 
@@ -90,28 +90,44 @@ Criar **1 pool** (Câmara Municipal de Pombal) com **4 lanes** — cada lane rep
 Representar os seguintes elementos, colocando cada um na lane do actor correcto:
 
 1. :material-circle-outline:{ .icon-green } **Evento de início** (lane Cidadão) → "Contactar a câmara"
-2. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Atendimento) → "Registar pedido"
-3. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Atendimento) → "Encaminhar pedido por email ao chefe de divisão"
+    - O cidadão dirige-se ao balcão presencial ou telefona para a câmara para reportar um dano causado pela tempestade.
+2. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Atendimento) → "Registar pedido em papel/Excel"
+    - O técnico regista o pedido em papel ou numa folha Excel local. Não existe modelo padrão — cada técnico regista à sua maneira.
+3. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Atendimento) → "Encaminhar pedido por email"
+    - O técnico tenta identificar o serviço responsável (obras, protecção civil, ambiente, habitação) e encaminha o pedido por email ou nota interna ao chefe de divisão competente. Muitas vezes tem dúvidas sobre qual o serviço correcto.
 4. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Chefe de Divisão) → "Analisar pedido"
+    - O chefe de divisão recebe o email e analisa se o pedido é da sua competência.
 5. :material-rhombus:{ .icon-orange } **Gateway exclusivo** (lane Chefe de Divisão) → "Aceita o pedido?"
-    - **Não** → :material-square-rounded:{ .icon-blue } **Tarefa** (lane Chefe de Divisão) → "Reencaminhar a outro serviço" → :material-circle:{ .icon-red } **Evento de fim**
-    - **Sim** → segue para o passo 6
+    - **Não** → :material-square-rounded:{ .icon-blue } **Tarefa** (lane Chefe de Divisão) → "Reencaminhar a outro serviço" → :material-circle:{ .icon-red } **Evento de fim** — o pedido sai deste fluxo e pode perder-se na transição.
+    - **Sim** → segue para o passo 6.
 6. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Chefe de Divisão) → "Atribuir a técnico de campo"
+    - O chefe de divisão escolhe um técnico de campo disponível e comunica-lhe a tarefa (verbalmente ou por email).
 7. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Campo) → "Realizar visita ao local"
+    - O técnico desloca-se ao local do dano para avaliar a situação. Não há prazo definido para esta visita.
 8. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Técnico de Campo) → "Elaborar relatório"
+    - O técnico redige um relatório com o que observou e devolve-o ao chefe de divisão.
 9. :material-square-rounded:{ .icon-blue } **Tarefa** (lane Chefe de Divisão) → "Decidir intervenção"
+    - O chefe de divisão analisa o relatório e decide que tipo de intervenção é necessária. O cidadão não recebe qualquer notificação sobre o estado do pedido.
 10. :material-circle:{ .icon-red } **Evento de fim** (lane Chefe de Divisão) → "Pedido encerrado informalmente"
+    - O encerramento é informal — não há registo sistemático de conclusão nem confirmação ao cidadão.
 
 **Tarefa 3 — Anotar problemas**
 
-Usar **anotações de texto** (text annotations) no diagrama para marcar:
+Usar **anotações de texto** (text annotations) no diagrama para marcar os problemas identificados. Ligar cada anotação ao elemento correspondente com uma **associação** (linha tracejada):
 
-- Onde há risco de perda de informação
-- Onde o cidadão fica sem resposta
-- Onde há duplicação de esforço
+| Junto ao passo | Anotação sugerida |
+|----------------|-------------------|
+| 2 — "Registar pedido" | ⚠ Registo em papel/Excel sem modelo padrão — dados incompletos |
+| 3 — "Encaminhar por email" | ⚠ Email sem rastreabilidade — pedidos perdidos |
+| 5 — Gateway "Aceita?" (caminho Não) | ⚠ Reencaminhamento sem notificação ao cidadão |
+| 7 — "Realizar visita ao local" | ⚠ Sem prazo definido — visita pode demorar semanas |
+| 10 — Evento de fim | ⚠ Encerramento informal — sem registo de conclusão |
+
+!!! note "No bpmn.io"
+    Para criar uma anotação: seleccionar o elemento → no menu de contexto clicar em **T** (Text Annotation). A associação (linha tracejada) é criada automaticamente.
 
 !!! warning "Atenção"
-    O mapeamento AS-IS documenta **o que acontece na realidade**, não o que deveria acontecer. Resistir à tentação de "melhorar" o processo nesta fase — isso é o trabalho da Aula 5.
+    O mapeamento AS-IS documenta **o que acontece na realidade**, não o que deveria acontecer. Resistir à tentação de "melhorar" o processo nesta fase.
 
 !!! danger "Erro crítico"
     Criar um diagrama AS-IS idealizado (como o processo deveria funcionar) em vez de representar a realidade. O valor do AS-IS está precisamente em expor os problemas.
