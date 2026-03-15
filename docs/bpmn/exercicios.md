@@ -1,4 +1,4 @@
-# Exercícios Práticos — BPMN na Administração Pública
+# Exercícios — BPMN na Administração Pública
 
 Quatro cenários de organismos públicos portugueses para praticar mapeamento de processos em BPMN 2.0. Cada exercício pode ser resolvido individualmente ou em grupo no [bpmn.io](https://bpmn.io).
 
@@ -104,8 +104,8 @@ Propor **3 melhorias concretas** ao processo, indicando:
 
 ### Tarefa — Modelar o AS-IS
 
-1. Criar um diagrama BPMN com **4 lanes**: Estudante, Serviços Académicos, Coordenador de Curso, Docente.
-2. Representar os 12 passos, incluindo o gateway no passo 2 (documentação completa?).
+1. Criar um diagrama BPMN com **5 lanes**: Estudante, Serviços Académicos, Coordenador de Curso, Docente, CTC (Conselho Técnico-Científico).
+2. Representar os 12 passos, incluindo os gateways no passo 2 (documentação completa?) e após o passo 10 (resultado da deliberação do CTC: deferido ou indeferido).
 3. Anotar pelo menos 3 problemas com **anotações de texto**.
 4. Exportar em `.bpmn` e `.png`.
 

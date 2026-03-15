@@ -1,6 +1,6 @@
-# Casos Práticos Guiados — BPMN na Administração Pública
+# Exercícios Guiados — BPMN na Administração Pública
 
-Quatro cenários guiados passo-a-passo para construir diagramas BPMN no [bpmn.io](https://bpmn.io). Cada caso indica exactamente que elementos usar e onde os colocar — ideal para consolidar a notação antes de avançar para os exercícios autónomos.
+Quatro exercícios guiados passo-a-passo para construir diagramas BPMN no [bpmn.io](https://bpmn.io). Cada exercício indica exactamente que elementos usar e onde os colocar — ideal para consolidar a notação antes de avançar para os exercícios autónomos.
 
 !!! info "Como usar estes casos"
     1. Abrir o [bpmn.io](https://bpmn.io) → **Try online**
@@ -54,7 +54,7 @@ Representar os seguintes elementos, pela ordem indicada:
 5. **Tarefa** na lane Técnico → "Imprimir e entregar comprovativo"
 6. **Tarefa** na lane Back-office → "Verificar histórico contributivo"
 7. **Gateway exclusivo** → "Dados consistentes?"
-    - **Não** → **Tarefa** "Solicitar esclarecimento ao atendimento" → volta ao fluxo após resolução
+    - **Não** → **Tarefa** "Solicitar esclarecimento ao atendimento" → após recepção do esclarecimento, fluxo regressa ao passo 6 (Verificar histórico contributivo)
     - **Sim** → continuar
 8. **Tarefa** na lane Back-office → "Emitir decisão"
 9. **Tarefa** na lane Cidadão → "Receber carta com decisão"
@@ -109,12 +109,12 @@ Criar um pool com **3 lanes**:
 1. **Evento de início** na lane EE → "EE entrega formulário de matrícula"
 2. **Tarefa** na lane Secretaria → "Verificar documentação"
 3. **Gateway exclusivo** → "Documentação completa?"
-    - **Não** → **Tarefa** "Contactar EE por telefone" → loop de volta ao gateway após entrega
+    - **Não** → **Tarefa** "Contactar EE por telefone" → após entrega dos documentos em falta, fluxo regressa ao passo 2 (Verificar documentação)
     - **Sim** → continuar
 4. **Tarefa** na lane Secretaria → "Registar matrícula no SIGE"
 5. **Gateway exclusivo** → "É transferência?"
-    - **Sim** → **Tarefa** "Pedir processo à escola de origem" (Send Task — comunicação externa)
-    - **Não** → continuar
+    - **Sim** → **Tarefa** "Pedir processo à escola de origem" (Send Task — comunicação externa) → segue para o passo 6
+    - **Não** → segue directamente para o passo 6
 6. **Tarefa** na lane Direcção → "Distribuir alunos pelas turmas"
 7. **Gateway paralelo** (losango com **+**) → abre duas ramificações simultâneas:
     - Ramificação A: **Tarefa** "Notificar EE da turma atribuída"
@@ -189,7 +189,7 @@ Criar um pool com **3 lanes**:
 ### Tarefa 3 — Anotar problemas
 
 - "⚠ Formulário em papel — requerente pode ter de voltar por dados em falta" (junto ao passo 1)
-- "⚠ Comunicação à PSP por ofício — pode não chegar a tempo do evento" (junto ao passo 7)
+- "⚠ Comunicação à PSP por ofício — pode não chegar a tempo do evento" (junto ao passo 8)
 - "⚠ Nenhuma verificação no dia do evento — condições podem ser violadas" (junto ao passo 10)
 
 ---
@@ -245,12 +245,15 @@ Criar um pool com **4 lanes**:
 8. **Tarefa** na lane Enfermeiro → "Registar valores na ficha"
 9. **Tarefa** na lane Médico → "Realizar consulta"
 10. **Gateway exclusivo** → "Necessita exames?"
-    - **Sim** → **Tarefa** "Emitir requisição de exames"
+    - **Sim** → **Tarefa** "Emitir requisição de exames" → ambos os caminhos convergem antes do passo 11
     - **Não** → continuar
 11. **Gateway exclusivo** → "Necessita receita?"
-    - **Sim** → **Tarefa** "Emitir receita electrónica"
+    - **Sim** → **Tarefa** "Emitir receita electrónica" → ambos os caminhos convergem antes do passo 12
     - **Não** → continuar
 12. **Tarefa** na lane Utente → "Marcar exames ou próxima consulta na recepção"
+
+!!! note "Gateways independentes"
+    Os gateways dos passos 10 e 11 são **independentes**: o utente pode necessitar de exames, de receita, de ambos, ou de nenhum. Modelar sequencialmente — não são alternativas exclusivas entre si.
 13. **Evento de fim**
 
 !!! note "Evento intermédio de temporização"
@@ -266,4 +269,4 @@ Criar um pool com **4 lanes**:
 ---
 
 !!! tip "Próximo passo"
-    Depois de completar estes casos guiados, avançar para os [Exercícios Práticos](exercicios.md) — cenários onde o diagrama é construído de forma autónoma, sem orientação passo-a-passo.
+    Depois de completar estes exercícios guiados, avançar para os [Exercícios](exercicios.md) — cenários onde o diagrama é construído de forma autónoma, sem orientação passo-a-passo.

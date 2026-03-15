@@ -68,8 +68,8 @@ nav:
       - Visão Geral: bpmn/index.md
       - Mapeamento AS-IS: bpmn/aula-04.md
       - Redesenho TO-BE: bpmn/aula-05.md
-      - Casos Práticos Guiados: bpmn/casos-guiados.md
-      - Exercícios Práticos: bpmn/exercicios.md
+      - Exercícios Guiados: bpmn/casos-guiados.md
+      - Exercícios: bpmn/exercicios.md
 
 extra:
   social:
