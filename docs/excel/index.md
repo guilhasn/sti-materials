@@ -1,7 +1,5 @@
 # Módulo Excel para Decisão Pública
 
-<span class="aula-badge">Aulas 1–3</span>
-
 Este módulo cobre as **3 primeiras aulas** da UC, com foco em análise operacional na Administração Pública.
 
 ---

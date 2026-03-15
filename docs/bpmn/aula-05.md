@@ -1,7 +1,5 @@
 # Aula 5 — Redesenho TO-BE com Sistemas de Informação
 
-<span class="aula-badge">Aula 5</span>
-
 ## Objectivos
 
 - [ ] Aplicar princípios de redesenho de processos ao cenário AS-IS mapeado na Aula 4.

@@ -11,10 +11,6 @@ Materiais de apoio à componente prática da UC **Sistemas e Tecnologias de Info
 | [Excel para Decisão Pública](excel/index.md) | 1 – 3 | Tabelas Dinâmicas, funções condicionais, caso integrador |
 | [BPMN — Processos na AP](bpmn/index.md) | 4 – 5 | Mapeamento AS-IS e redesenho TO-BE |
 
-## Referência rápida
-
-- [Notação BPMN 2.0](bpmn/index.md) — elementos, ferramenta bpmn.io, regras e erros frequentes
-
 ---
 
 ## Como trabalhar

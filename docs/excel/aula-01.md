@@ -1,7 +1,5 @@
 # Aula 1 — Tabelas Dinâmicas e Agregações
 
-<span class="aula-badge">Aula 1</span>
-
 ## Objectivos
 
 - [ ] Construir Tabelas Dinâmicas para resumir atendimento municipal.

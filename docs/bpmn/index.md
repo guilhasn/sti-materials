@@ -1,8 +1,12 @@
 # Notação BPMN 2.0 — Processos na Administração Pública
 
-<span class="aula-badge">Aulas 4–5</span>
+Este módulo introduz a notação **BPMN 2.0** como ferramenta de mapeamento e redesenho de processos em contexto de administração pública. Ambas as aulas utilizam o cenário da **Tempestade Kristin** — a Câmara Municipal de Pombal a gerir pedidos de intervenção após danos causados pela tempestade.
 
-Este módulo introduz a notação **BPMN 2.0** como ferramenta de mapeamento e redesenho de processos em contexto de administração pública.
+!!! info "Pré-requisitos"
+    - Navegador web actualizado (Chrome, Firefox ou Edge)
+    - Acesso à internet para usar o [bpmn.io](https://bpmn.io)
+    - Não é necessário instalar software
+    - Recomendado: segundo ecrã para ter o diagrama e o enunciado lado a lado
 
 ---
 
@@ -135,23 +139,6 @@ Os artefactos acrescentam informação ao diagrama **sem alterar o fluxo**.
 | Tarefas genéricas ("Processar", "Tratar") | Usar **verbo + objecto**: "Verificar identidade", "Emitir certidão" |
 | Gateway sem rótulo nas saídas | Cada seta de saída precisa de condição: "Sim", "Não", ou descrição |
 | Misturar AS-IS com TO-BE no mesmo diagrama | São **sempre** dois diagramas distintos |
-
----
-
-## Estrutura do módulo
-
-| Aula | Tema | Foco |
-|------|------|------|
-| [Aula 4](aula-04.md) | Mapeamento AS-IS com BPMN | Documentar o processo actual — com todos os problemas |
-| [Aula 5](aula-05.md) | Redesenho TO-BE com SI | Propor melhorias com sistemas de informação integrados |
-
-### Caso prático
-
-Ambas as aulas utilizam o cenário da **Tempestade Kristin** — a Câmara Municipal de Pombal a gerir pedidos de intervenção após danos causados pela tempestade. O dataset `Atendimentos_Pombal_2025.xlsx` contém 4 847 registos com 692 ocorrências, das quais **287 ficaram sem qualquer intervenção** (41%).
-
-### Exercícios adicionais
-
-A página de [Exercícios Práticos](exercicios.md) contém 4 cenários adicionais de organismos da AP portuguesa — hospital, universidade, polícia e junta de freguesia — para praticar mapeamento BPMN em contextos variados.
 
 ---
 
@@ -302,11 +289,3 @@ O editor online tem quatro zonas principais:
 | Não aparece a opção de lane | Clicar com botão **direito** dentro do pool (não fora) |
 | O elemento não encaixa na lane | Arrastar o elemento para dentro da lane correcta |
 
----
-
-## Pré-requisitos
-
-- Navegador web actualizado (Chrome, Firefox ou Edge)
-- Acesso à internet para usar o [bpmn.io](https://bpmn.io)
-- Não é necessário instalar software
-- Recomendado: segundo ecrã ou monitor para ter o diagrama e o enunciado lado a lado

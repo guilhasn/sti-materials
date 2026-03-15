@@ -1,7 +1,5 @@
 # Aula 3 — Caso Integrador em Administração Pública
 
-<span class="aula-badge">Aula 3</span>
-
 ## Objectivos
 
 - [ ] Integrar Tabelas Dinâmicas com funções básicas e condicionais.

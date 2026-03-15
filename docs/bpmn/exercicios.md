@@ -1,7 +1,5 @@
 # Exercícios Práticos — BPMN na Administração Pública
 
-<span class="aula-badge">Prática</span>
-
 Quatro cenários de organismos públicos portugueses para praticar mapeamento de processos em BPMN 2.0. Cada exercício pode ser resolvido individualmente ou em grupo no [bpmn.io](https://bpmn.io).
 
 !!! info "Estrutura de cada exercício"

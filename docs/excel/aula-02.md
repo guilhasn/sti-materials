@@ -1,7 +1,5 @@
 # Aula 2 — Funções Básicas Condicionais
 
-<span class="aula-badge">Aula 2</span>
-
 ## Objectivos
 
 - [ ] Aplicar `CONTAR.SE`, `SOMA.SE` e `SE` em dados de recursos humanos municipais.

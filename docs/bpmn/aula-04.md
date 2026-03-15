@@ -1,7 +1,5 @@
 # Aula 4 — Mapeamento AS-IS com BPMN
 
-<span class="aula-badge">Aula 4</span>
-
 ## Objectivos
 
 - [ ] Compreender a finalidade e os elementos fundamentais da notação BPMN 2.0.
