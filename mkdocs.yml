@@ -8,6 +8,7 @@ repo_name: guilhasn/sti-materials
 
 theme:
   name: material
+  custom_dir: overrides
   language: pt
   palette:
     scheme: default
@@ -28,6 +29,9 @@ theme:
 
 extra_css:
   - assets/ipl.css
+
+extra_javascript:
+  - assets/extra.js
 
 markdown_extensions:
   - admonition
