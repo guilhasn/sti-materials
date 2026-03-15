@@ -65,11 +65,9 @@ nav:
       - Aula 3 — Caso Integrador: excel/aula-03.md
   - BPMN (Aulas 4–5):
       - Notação BPMN 2.0: bpmn/index.md
-      - Aula 4 — Mapeamento AS-IS: bpmn/aula-04.md
-      - Aula 5 — Redesenho TO-BE: bpmn/aula-05.md
+      - Mapeamento AS-IS: bpmn/aula-04.md
+      - Redesenho TO-BE: bpmn/aula-05.md
       - Exercícios Práticos: bpmn/exercicios.md
-  - Referência:
-      - Guia bpmn.io: referencia/guia-bpmnio.md
 
 extra:
   social:

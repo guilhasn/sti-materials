@@ -44,12 +44,10 @@ docs/
     aula-02.md                # CONTAR.SE · SOMA.SE · SE
     aula-03.md                # CONT.SES · SOMASES · campo calculado
   bpmn/
-    index.md                  # Módulo BPMN
-    aula-04.md                # AS-IS — ASE Marinha Grande
-    aula-05.md                # TO-BE — redesenho com SI
-  referencia/
-    cheatsheet-bpmn.md        # Referência rápida BPMN 2.0
-    guia-bpmnio.md            # Guia da ferramenta bpmn.io
+    index.md                  # Notação BPMN 2.0 (referência completa + guia bpmn.io)
+    aula-04.md                # Mapeamento AS-IS
+    aula-05.md                # Redesenho TO-BE com SI
+    exercicios.md             # Exercícios práticos (hospital, universidade, PSP, junta)
   assets/
     ipl.css                   # Tema visual IPL (#0F4C81)
     logo_ipl.png              # Logo IPL — não apagar

@@ -13,8 +13,7 @@ Materiais de apoio à componente prática da UC **Sistemas e Tecnologias de Info
 
 ## Referência rápida
 
-- [Notação BPMN 2.0](bpmn/index.md) — elementos, regras e erros frequentes
-- [Guia da ferramenta bpmn.io](referencia/guia-bpmnio.md)
+- [Notação BPMN 2.0](bpmn/index.md) — elementos, ferramenta bpmn.io, regras e erros frequentes
 
 ---
 
