@@ -1,64 +1,64 @@
-# Aula 3 — Caso Integrador em Administracao Publica
+# Aula 3 — Caso Integrador em Administração Pública
 
-<span class="aula-badge">Aula 3</span><span class="duracao-badge">120 min</span>
+<span class="aula-badge">Aula 3</span>
 
 ## Objectivos
 
-- [ ] Integrar Tabelas Dinamicas com funcoes basicas e condicionais.
-- [ ] Produzir diagnostico operacional de ocorrencias municipais.
-- [ ] Entregar recomendacoes de melhoria com base em evidencias.
+- [ ] Integrar Tabelas Dinâmicas com funções básicas e condicionais.
+- [ ] Produzir diagnóstico operacional de ocorrências municipais.
+- [ ] Entregar recomendações de melhoria com base em evidências.
 
 ---
 
 ## Conceitos-chave
 
-| Conceito | Descricao |
+| Conceito | Descrição |
 |----------|-----------|
-| Encadeamento de analise | limpeza → indicadores → sintese → decisao |
-| Combinacao de funcoes | `CONTAR`, `SOMA`, `MEDIA`, `MAXIMO`, `MINIMO` + `CONTAR.SE`, `SOMA.SE`, `SE` |
-| Leitura critica de riscos | tempo, volume, prioridade e capacidade de resposta |
+| Encadeamento de análise | limpeza → indicadores → síntese → decisão |
+| Combinação de funções | `CONTAR`, `SOMA`, `MÉDIA`, `MÁXIMO`, `MÍNIMO` + `CONTAR.SE`, `SOMA.SE`, `SE` |
+| Leitura crítica de riscos | tempo, volume, prioridade e capacidade de resposta |
 
 !!! abstract "Contexto"
-    Este caso integrador simula a resposta da Camara Municipal de Pombal apos a Tempestade Kristin. O objectivo e transformar dados brutos de ocorrencias em priorizacao operacional e prestacao de contas.
+    Este caso integrador simula a resposta da Câmara Municipal de Pombal após a Tempestade Kristin. O objectivo é transformar dados brutos de ocorrências em priorização operacional e prestação de contas.
 
 ---
 
 ## Passo-a-passo
 
-1. Abrir `dataset.xlsx` e validar cabecalhos.
-2. Criar coluna de prioridade com `SE` (critica / alta / normal).
-3. Construir Tabela Dinamica por freguesia e tipo de dano.
+1. Abrir `dataset.xlsx` e validar cabeçalhos.
+2. Criar coluna de prioridade com `SE` (crítica / alta / normal).
+3. Construir Tabela Dinâmica por freguesia e tipo de dano.
 4. Calcular:
-    - total de ocorrencias (`CONTAR`)
+    - total de ocorrências (`CONTAR`)
     - custo total estimado (`SOMA` / `SOMA.SE`)
-    - tempo medio de resposta (`MEDIA`)
-    - pior e melhor tempo (`MAXIMO` / `MINIMO`)
-5. Identificar backlog e propor plano de acao.
+    - tempo médio de resposta (`MÉDIA`)
+    - pior e melhor tempo (`MÁXIMO` / `MÍNIMO`)
+5. Identificar backlog e propor plano de acção.
 
 ---
 
-## Exercicios
+## Exercícios
 
-1. Quantas ocorrencias criticas existem por freguesia?
+1. Quantas ocorrências críticas existem por freguesia?
 2. Qual o custo total associado a danos em infraestrutura?
-3. Em que area ocorre o maior tempo maximo de resolucao?
-4. Que servicos devem ser reforcados de imediato?
-5. Entregar uma recomendacao executiva (ate 1 pagina).
+3. Em que área ocorre o maior tempo máximo de resolução?
+4. Que serviços devem ser reforçados de imediato?
+5. Entregar uma recomendação executiva (até 1 página).
 
-!!! warning "Atencao"
-    Construir a Tabela Dinamica antes de normalizar dados e um erro frequente. Verificar sempre se os campos estao limpos e sem duplicados.
+!!! warning "Atenção"
+    Construir a Tabela Dinâmica antes de normalizar dados é um erro frequente. Verificar sempre se os campos estão limpos e sem duplicados.
 
-!!! danger "Erro critico"
-    Usar medias sem analisar extremos mascara situacoes criticas. Cruzar sempre `MEDIA` com `MAXIMO` e `MINIMO`.
+!!! danger "Erro crítico"
+    Usar médias sem analisar extremos mascara situações críticas. Cruzar sempre `MÉDIA` com `MÁXIMO` e `MÍNIMO`.
 
 !!! tip "Dica"
-    A recomendacao final deve ser orientada a decisao — nao basta listar numeros, e preciso propor accoes concretas e justificadas.
+    A recomendação final deve ser orientada à decisão — não basta listar números, é preciso propor acções concretas e justificadas.
 
 ---
 
-## Interpretacao para decisao publica
+## Interpretação para decisão pública
 
-O caso integrador simula uma situacao real de pressao sobre servicos municipais. O objectivo nao e so calcular indicadores, mas transformar dados em priorizacao operacional e prestacao de contas.
+O caso integrador simula uma situação real de pressão sobre serviços municipais. O objectivo não é só calcular indicadores, mas transformar dados em priorização operacional e prestação de contas.
 
 ---
 

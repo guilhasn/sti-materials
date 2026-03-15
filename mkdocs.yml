@@ -1,6 +1,6 @@
-site_name: STI | Sistemas e Tecnologias de Informacao
+site_name: STI | Sistemas e Tecnologias de Informação
 site_url: https://guilhasn.github.io/sti-materials/
-site_description: Materiais da UC Sistemas e Tecnologias de Informacao — Mestrado em Administracao Publica (ESTG-IPL)
+site_description: Materiais da UC Sistemas e Tecnologias de Informação — Mestrado em Administração Pública (ESTG-IPL)
 site_author: Nuno Salvador
 
 repo_url: https://github.com/guilhasn/sti-materials
@@ -39,6 +39,9 @@ markdown_extensions:
       anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.keys
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - tables
   - attr_list
   - md_in_html
@@ -50,17 +53,17 @@ plugins:
   - glightbox
 
 nav:
-  - Inicio: index.md
-  - Excel (Aulas 1-3):
-      - Visao Geral: excel/index.md
-      - Aula 1 — Tabelas Dinamicas: excel/aula-01.md
-      - Aula 2 — Funcoes Condicionais: excel/aula-02.md
+  - Início: index.md
+  - Excel (Aulas 1–3):
+      - Visão Geral: excel/index.md
+      - Aula 1 — Tabelas Dinâmicas: excel/aula-01.md
+      - Aula 2 — Funções Condicionais: excel/aula-02.md
       - Aula 3 — Caso Integrador: excel/aula-03.md
-  - BPMN (Aulas 4-5):
-      - Visao Geral: bpmn/index.md
+  - BPMN (Aulas 4–5):
+      - Visão Geral: bpmn/index.md
       - Aula 4 — Processo AS-IS: bpmn/aula-04.md
       - Aula 5 — Redesenho TO-BE: bpmn/aula-05.md
-  - Referencia:
+  - Referência:
       - Cheatsheet BPMN 2.0: referencia/cheatsheet-bpmn.md
       - Guia bpmn.io: referencia/guia-bpmnio.md
 
@@ -69,4 +72,4 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/guilhasn/sti-materials
 
-copyright: "&copy; 2025-2026 STI MAP | ESTG-IPL, Leiria"
+copyright: "&copy; 2025–2026 STI MAP | ESTG-IPL, Leiria"

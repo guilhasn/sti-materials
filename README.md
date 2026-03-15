@@ -1,18 +1,18 @@
 # STI Materials
 
-Site da UC **Sistemas e Tecnologias de Informacao (MAP)** publicado com MkDocs Material e GitHub Pages.
+Site da UC **Sistemas e Tecnologias de Informação (MAP)** publicado com MkDocs Material e GitHub Pages.
 
-## Modulos
+## Módulos
 
-- **Excel para Decisao Publica** (Aulas 1–3): Tabelas Dinamicas, funcoes condicionais, caso integrador
+- **Excel para Decisão Pública** (Aulas 1–3): Tabelas Dinâmicas, funções condicionais, caso integrador
 - **BPMN — Processos na AP** (Aulas 4–5): Mapeamento AS-IS, redesenho TO-BE com SI
 
 ## Estrutura
 
-- `docs/` — conteudos didaticos (Markdown)
+- `docs/` — conteúdos didácticos (Markdown)
 - `docs/assets/` — CSS, ficheiros para download
-- `mkdocs.yml` — configuracao do site
-- `.github/workflows/deploy.yml` — deploy automatico para GitHub Pages
+- `mkdocs.yml` — configuração do site
+- `.github/workflows/deploy.yml` — deploy automático para GitHub Pages
 
 ## Desenvolvimento local
 
@@ -21,6 +21,6 @@ pip install -r requirements.txt
 mkdocs serve
 ```
 
-## Publicacao
+## Publicação
 
 Push para `main` → GitHub Actions publica automaticamente.

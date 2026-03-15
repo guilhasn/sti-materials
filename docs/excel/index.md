@@ -1,27 +1,27 @@
-# Modulo Excel para Decisao Publica
+# Módulo Excel para Decisão Pública
 
 <span class="aula-badge">Aulas 1–3</span>
 
-Este modulo cobre as **3 primeiras aulas** da UC, com foco em analise operacional na Administracao Publica.
+Este módulo cobre as **3 primeiras aulas** da UC, com foco em análise operacional na Administração Pública.
 
 ---
 
-## Pre-requisitos
+## Pré-requisitos
 
 - Excel 2019+ ou Microsoft 365
-- Conhecimentos basicos de folhas de calculo (navegacao, filtros, ordenacao)
-- Leitura de tabelas de dados com cabecalhos
+- Conhecimentos básicos de folhas de cálculo (navegação, filtros, ordenação)
+- Leitura de tabelas de dados com cabeçalhos
 
-## Calendario (3 semanas)
+## Calendário (3 semanas)
 
 | Semana | Aula | Tema |
 |--------|------|------|
-| 1 | [Aula 1](aula-01.md) | Tabelas Dinamicas e agregacoes |
-| 2 | [Aula 2](aula-02.md) | Funcoes condicionais basicas |
-| 3 | [Aula 3](aula-03.md) | Caso integrador e recomendacao de gestao |
+| 1 | [Aula 1](aula-01.md) | Tabelas Dinâmicas e agregações |
+| 2 | [Aula 2](aula-02.md) | Funções condicionais básicas |
+| 3 | [Aula 3](aula-03.md) | Caso integrador e recomendação de gestão |
 
-## Entregaveis por aula
+## Entregáveis por aula
 
 - `dataset.xlsx` — dados de trabalho
-- `ficha.pdf` — enunciado dos exercicios
-- `resolucao_docente.xlsx` — resolucao de referencia
+- `ficha.pdf` — enunciado dos exercícios
+- `resolucao_docente.xlsx` — resolução de referência

@@ -1,65 +1,65 @@
-# Aula 1 — Tabelas Dinamicas e Agregacoes
+# Aula 1 — Tabelas Dinâmicas e Agregações
 
-<span class="aula-badge">Aula 1</span><span class="duracao-badge">120 min</span>
+<span class="aula-badge">Aula 1</span>
 
 ## Objectivos
 
-- [ ] Construir Tabelas Dinamicas para resumir atendimento municipal.
-- [ ] Interpretar indicadores por servico, canal e estado.
-- [ ] Aplicar agregacoes: `CONTAR`, `SOMA`, `MEDIA`, `MAXIMO`, `MINIMO`.
+- [ ] Construir Tabelas Dinâmicas para resumir atendimento municipal.
+- [ ] Interpretar indicadores por serviço, canal e estado.
+- [ ] Aplicar agregações: `CONTAR`, `SOMA`, `MÉDIA`, `MÁXIMO`, `MÍNIMO`.
 
 ---
 
 ## Conceitos-chave
 
-| Zona da Tabela Dinamica | Funcao |
+| Zona da Tabela Dinâmica | Função |
 |--------------------------|--------|
-| **Linhas** | Define a segmentacao (ex.: tipo de servico) |
+| **Linhas** | Define a segmentação (ex.: tipo de serviço) |
 | **Colunas** | Compara categorias lado a lado (ex.: canal) |
-| **Valores** | Agrega numeros ou contagens |
-| **Filtros** | Restringe o universo de analise |
+| **Valores** | Agrega números ou contagens |
+| **Filtros** | Restringe o universo de análise |
 
-!!! note "Tabelas Dinamicas na AP"
-    As Tabelas Dinamicas sao a ferramenta mais rapida para transformar registos brutos de atendimento em indicadores operacionais — sem necessidade de formulas.
+!!! note "Tabelas Dinâmicas na AP"
+    As Tabelas Dinâmicas são a ferramenta mais rápida para transformar registos brutos de atendimento em indicadores operacionais — sem necessidade de fórmulas.
 
 ---
 
 ## Passo-a-passo
 
-1. Abrir `dataset.xlsx` e selecionar a tabela de dados completa.
-2. Inserir Tabela Dinamica numa nova folha chamada `Analise_A1`.
-3. Montar visoes:
+1. Abrir `dataset.xlsx` e seleccionar a tabela de dados completa.
+2. Inserir Tabela Dinâmica numa nova folha chamada `Analise_A1`.
+3. Montar visões:
     - Pedidos por `Tipo_Servico` (contagem)
-    - Tempo de resposta medio por `Balcao`
-    - Satisfacao media por `Canal`
-    - Maximo e minimo de `Tempo_Resposta_Dias` por `Estado`
-4. Aplicar filtros por mes e tecnico para validar consistencia.
+    - Tempo de resposta médio por `Balcao`
+    - Satisfação média por `Canal`
+    - Máximo e mínimo de `Tempo_Resposta_Dias` por `Estado`
+4. Aplicar filtros por mês e técnico para validar consistência.
 
 ---
 
-## Exercicios
+## Exercícios
 
-1. Quantos pedidos foram registados por balcao?
-2. Qual o tempo medio de resposta por tipo de servico?
-3. Que estado tem maior tempo maximo de resposta?
-4. Em que canal a satisfacao media e mais baixa?
+1. Quantos pedidos foram registados por balcão?
+2. Qual o tempo médio de resposta por tipo de serviço?
+3. Que estado tem maior tempo máximo de resposta?
+4. Em que canal a satisfação média é mais baixa?
 5. Qual o menor tempo de resposta observado?
-6. Produzir uma conclusao de 4 linhas para um vereador.
+6. Produzir uma conclusão de 4 linhas para um vereador.
 
-!!! warning "Atencao"
-    Usar `SOMA` quando a questao exige contagem e o erro mais frequente. Verificar sempre o tipo de agregacao antes de interpretar resultados.
+!!! warning "Atenção"
+    Usar `SOMA` quando a questão exige contagem é o erro mais frequente. Verificar sempre o tipo de agregação antes de interpretar resultados.
 
-!!! danger "Erro critico"
-    Incluir linhas vazias no intervalo da Tabela Dinamica distorce todos os calculos. Selecionar apenas o bloco de dados com cabecalho.
+!!! danger "Erro crítico"
+    Incluir linhas vazias no intervalo da Tabela Dinâmica distorce todos os cálculos. Seleccionar apenas o bloco de dados com cabeçalho.
 
 !!! tip "Dica"
-    Comparar medias sem controlar filtros activos pode levar a conclusoes erradas. Verificar sempre o filtro de pagina antes de interpretar.
+    Comparar médias sem controlar filtros activos pode levar a conclusões erradas. Verificar sempre o filtro de página antes de interpretar.
 
 ---
 
-## Interpretacao para decisao publica
+## Interpretação para decisão pública
 
-A leitura de volume, tempo de resposta e satisfacao por servico permite priorizar equipas, redefinir canais de atendimento e justificar ajustes operacionais com evidencias.
+A leitura de volume, tempo de resposta e satisfação por serviço permite priorizar equipas, redefinir canais de atendimento e justificar ajustes operacionais com evidências.
 
 ---
 

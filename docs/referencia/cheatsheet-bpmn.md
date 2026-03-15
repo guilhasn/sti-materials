@@ -1,70 +1,70 @@
 # Cheatsheet BPMN 2.0
 
-Referencia rapida dos elementos BPMN 2.0 utilizados nesta UC. Baseado na especificacao oficial da OMG (omg.org/spec/BPMN/2.0).
+Referência rápida dos elementos BPMN 2.0 utilizados nesta UC. Baseado na especificação oficial da OMG (omg.org/spec/BPMN/2.0).
 
 ---
 
 ## Eventos
 
-| Elemento | Simbolo | Quando usar |
+| Elemento | Símbolo | Quando usar |
 |----------|---------|-------------|
-| **Inicio simples** | :material-circle-outline: circulo fino | Ponto onde o processo comeca |
-| **Inicio por mensagem** | :material-email-outline: circulo fino com envelope | Processo iniciado pela recepcao de uma mensagem |
-| **Fim simples** | :material-circle: circulo grosso | Ponto onde o processo termina |
-| **Fim por mensagem** | :material-email: circulo grosso com envelope preenchido | Processo termina enviando uma mensagem |
-| **Intermedio de mensagem (envio)** | :material-email-fast-outline: circulo duplo com envelope preenchido | Notificacao enviada durante o processo |
-| **Intermedio de mensagem (recepcao)** | :material-email-receive-outline: circulo duplo com envelope vazio | Processo aguarda recepcao de mensagem |
-| **Intermedio de temporizacao** | :material-clock-outline: circulo duplo com relogio | Espera por um periodo ou data especifica |
+| **Início simples** | :material-circle-outline: círculo fino | Ponto onde o processo começa |
+| **Início por mensagem** | :material-email-outline: círculo fino com envelope | Processo iniciado pela recepção de uma mensagem |
+| **Fim simples** | :material-circle: círculo grosso | Ponto onde o processo termina |
+| **Fim por mensagem** | :material-email: círculo grosso com envelope preenchido | Processo termina enviando uma mensagem |
+| **Intermédio de mensagem (envio)** | :material-email-fast-outline: círculo duplo com envelope preenchido | Notificação enviada durante o processo |
+| **Intermédio de mensagem (recepção)** | :material-email-receive-outline: círculo duplo com envelope vazio | Processo aguarda recepção de mensagem |
+| **Intermédio de temporização** | :material-clock-outline: círculo duplo com relógio | Espera por um período ou data específica |
 
 ---
 
 ## Actividades (Tasks)
 
-| Elemento | Icone | Quando usar |
+| Elemento | Ícone | Quando usar |
 |----------|-------|-------------|
 | **User Task** | :material-account: pessoa | Tarefa executada por uma pessoa |
 | **Service Task** | :material-cog: engrenagem | Tarefa executada automaticamente pelo sistema |
-| **Manual Task** | :material-hand-back-right: mao | Tarefa fisica sem apoio de SI (ex.: visita ao local) |
-| **Send Task** | :material-email-fast: envelope com seta | Envio de mensagem, notificacao ou documento |
-| **Receive Task** | :material-email-receive: envelope | Espera pela recepcao de informacao |
+| **Manual Task** | :material-hand-back-right: mão | Tarefa física sem apoio de SI (ex.: visita ao local) |
+| **Send Task** | :material-email-fast: envelope com seta | Envio de mensagem, notificação ou documento |
+| **Receive Task** | :material-email-receive: envelope | Espera pela recepção de informação |
 
-!!! tip "Regra pratica"
-    Se a tarefa pode ser feita enquanto o computador esta desligado → **Manual Task**.
-    Se precisa de um ecra → **User Task**.
-    Se nao precisa de pessoa nenhuma → **Service Task**.
+!!! tip "Regra prática"
+    Se a tarefa pode ser feita enquanto o computador está desligado → **Manual Task**.
+    Se precisa de um ecrã → **User Task**.
+    Se não precisa de pessoa nenhuma → **Service Task**.
 
 ---
 
-## Gateways (Decisoes)
+## Gateways (Decisões)
 
-| Elemento | Simbolo | Quando usar |
+| Elemento | Símbolo | Quando usar |
 |----------|---------|-------------|
 | **Exclusivo (XOR)** | :material-rhombus-outline: losango com X | Apenas **um** caminho segue (ou/ou) |
-| **Paralelo (AND)** | :material-rhombus-outline: losango com + | **Todos** os caminhos seguem em simultaneo |
+| **Paralelo (AND)** | :material-rhombus-outline: losango com + | **Todos** os caminhos seguem em simultâneo |
 | **Inclusivo (OR)** | :material-rhombus-outline: losango com O | **Um ou mais** caminhos seguem |
 
 !!! warning "Gateways de abertura e fecho"
-    Um gateway paralelo (AND) que abre ramificacoes **deve** ser fechado por outro gateway paralelo antes de convergir. Esquecer o fecho e o erro mais frequente.
+    Um gateway paralelo (AND) que abre ramificações **deve** ser fechado por outro gateway paralelo antes de convergir. Esquecer o fecho é o erro mais frequente.
 
-### Exemplos praticos
+### Exemplos práticos
 
-**Gateway exclusivo — decisao binaria:**
+**Gateway exclusivo — decisão binária:**
 
-> Pedido classificado com confianca? → Sim: encaminhar automaticamente / Nao: triagem manual
+> Pedido classificado com confiança? → Sim: encaminhar automaticamente / Não: triagem manual
 
-**Gateway paralelo — accoes simultaneas:**
+**Gateway paralelo — acções simultâneas:**
 
-> Apos registo do pedido: notificar cidadao **E** encaminhar ao servico (ambas em paralelo)
+> Após registo do pedido: notificar cidadão **E** encaminhar ao serviço (ambas em paralelo)
 
 ---
 
 ## Fluxos
 
-| Elemento | Representacao | Quando usar |
+| Elemento | Representação | Quando usar |
 |----------|---------------|-------------|
-| **Fluxo de sequencia** | → seta solida | Liga actividades pela ordem de execucao |
-| **Fluxo de mensagem** | ⇢ seta tracejada | Comunicacao entre pools (ex.: cidadao → camara) |
-| **Associacao** | ··· linha pontilhada | Liga anotacoes de texto a elementos |
+| **Fluxo de sequência** | → seta sólida | Liga actividades pela ordem de execução |
+| **Fluxo de mensagem** | ⇢ seta tracejada | Comunicação entre pools (ex.: cidadão → câmara) |
+| **Associação** | ··· linha pontilhada | Liga anotações de texto a elementos |
 
 ---
 
@@ -72,11 +72,11 @@ Referencia rapida dos elementos BPMN 2.0 utilizados nesta UC. Baseado na especif
 
 | Elemento | Quando usar |
 |----------|-------------|
-| **Pool** | Representa uma organizacao ou entidade (ex.: Camara Municipal) |
+| **Pool** | Representa uma organização ou entidade (ex.: Câmara Municipal) |
 | **Lane** | Subdivide o pool por actor ou departamento (ex.: Atendimento, Obras) |
 
 !!! note "Regra de ouro"
-    Fluxos de sequencia (seta solida) so existem **dentro** do mesmo pool. Entre pools diferentes, usar fluxos de mensagem (seta tracejada).
+    Fluxos de sequência (seta sólida) só existem **dentro** do mesmo pool. Entre pools diferentes, usar fluxos de mensagem (seta tracejada).
 
 ---
 
@@ -84,19 +84,19 @@ Referencia rapida dos elementos BPMN 2.0 utilizados nesta UC. Baseado na especif
 
 | Elemento | Quando usar |
 |----------|-------------|
-| **Anotacao de texto** | Comentarios, notas explicativas, identificacao de problemas |
+| **Anotação de texto** | Comentários, notas explicativas, identificação de problemas |
 | **Grupo** | Agrupamento visual de actividades relacionadas (sem impacto no fluxo) |
-| **Objecto de dados** | Documento, formulario ou ficheiro utilizado ou produzido |
+| **Objecto de dados** | Documento, formulário ou ficheiro utilizado ou produzido |
 
 ---
 
 ## Erros frequentes a evitar
 
-| Erro | Correccao |
+| Erro | Correcção |
 |------|-----------|
-| Fluxo de sequencia entre pools diferentes | Usar fluxo de mensagem (tracejado) |
-| Gateway paralelo sem fecho | Adicionar gateway de convergencia |
-| Actividade sem fluxo de entrada | Todas as tarefas (excepto apos inicio) precisam de fluxo de entrada |
-| Actividade sem fluxo de saida | Todas as tarefas (excepto antes de fim) precisam de fluxo de saida |
-| Evento de inicio dentro de lane errada | O inicio deve estar na lane do actor que despoleta o processo |
+| Fluxo de sequência entre pools diferentes | Usar fluxo de mensagem (tracejado) |
+| Gateway paralelo sem fecho | Adicionar gateway de convergência |
+| Actividade sem fluxo de entrada | Todas as tarefas (excepto após início) precisam de fluxo de entrada |
+| Actividade sem fluxo de saída | Todas as tarefas (excepto antes de fim) precisam de fluxo de saída |
+| Evento de início dentro de lane errada | O início deve estar na lane do actor que despoleta o processo |
 | Misturar AS-IS e TO-BE no mesmo diagrama | Criar sempre diagramas separados |
