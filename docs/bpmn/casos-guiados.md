@@ -2,10 +2,16 @@
 
 Quatro exercícios guiados passo-a-passo para construir diagramas BPMN no [bpmn.io](https://bpmn.io). Cada exercício indica exactamente que elementos usar e onde os colocar — ideal para consolidar a notação antes de avançar para os exercícios autónomos.
 
-!!! info "Como usar estes casos"
+!!! info "Como usar estes exercícios"
     1. Abrir o [bpmn.io](https://bpmn.io) → **Try online**
-    2. Seguir as tarefas pela ordem indicada
+    2. Seguir as tarefas pela ordem indicada (AS-IS primeiro, TO-BE depois)
     3. Consultar a [Visão Geral BPMN](index.md) sempre que surgir dúvida sobre um símbolo
+
+!!! info "Estrutura de cada exercício"
+    1. **Tarefa 1** — Criar pool e lanes (estrutura base)
+    2. **Tarefa 2** — Modelar o fluxo AS-IS (passo-a-passo)
+    3. **Tarefa 3** — Anotar problemas com text annotations
+    4. **Tarefa 4** — Propor melhorias TO-BE (com novos elementos BPMN)
 
 ---
 
@@ -71,6 +77,19 @@ Usar **anotações de texto** para marcar:
 - "⚠ Consulta manual a outro sistema — lento e propenso a erro" (junto ao passo 7)
 - "⚠ Cidadão espera 7–15 dias sem qualquer actualização" (junto ao passo 10)
 
+### Tarefa 4 — Propor melhorias TO-BE
+
+Criar um **novo diagrama** com as seguintes melhorias. Para cada melhoria, indicar o princípio de redesenho aplicado:
+
+| Problema AS-IS | Melhoria TO-BE | Princípio | Elemento BPMN |
+|----------------|----------------|-----------|---------------|
+| Formulário sem validação | Formulário digital com campos obrigatórios e validação automática | Padronização | :material-cog: Service Task → "Validar dados do pedido" |
+| Consulta manual ao histórico | Integração automática com sistema de histórico contributivo | Automatização | :material-cog: Service Task → "Consultar histórico contributivo" |
+| Cidadão espera 7–15 dias sem informação | Notificação automática por SMS/email em cada mudança de estado | Monitorização | :material-email-arrow-right-outline: Evento intermédio de mensagem |
+
+!!! tip "Dica TO-BE"
+    Adicionar uma lane **Sistema / Plataforma** ao pool para representar as tarefas automatizadas (Service Tasks). Comparar os dois diagramas lado a lado para evidenciar as melhorias.
+
 ---
 
 ## Caso 2 — Pedido de Matrícula / Transferência numa Escola Secundária
@@ -130,6 +149,15 @@ Criar um pool com **3 lanes**:
 - "⚠ Formulário em papel — risco de extravio" (junto ao passo 1)
 - "⚠ Introdução manual no SIGE — erros de transcrição" (junto ao passo 4)
 - "⚠ Ofício em papel para escola de origem — semanas de espera" (junto ao passo 5)
+
+### Tarefa 4 — Propor melhorias TO-BE
+
+| Problema AS-IS | Melhoria TO-BE | Princípio | Elemento BPMN |
+|----------------|----------------|-----------|---------------|
+| Formulário em papel | Formulário online com upload de documentos e validação automática | Padronização | :material-cog: Service Task → "Validar documentação submetida" |
+| Introdução manual no SIGE | Integração directa: dados do formulário online alimentam o SIGE automaticamente | Automatização | :material-cog: Service Task → "Registar matrícula no SIGE" |
+| Ofício em papel para escola de origem | Pedido electrónico via plataforma inter-escolas (ex.: SIGE nacional) | Automatização | :material-cog: Service Task → "Solicitar processo à escola de origem" |
+| EE sem visibilidade do estado | Portal de acompanhamento onde o EE consulta o estado da matrícula | Monitorização | :material-email-arrow-right-outline: Notificações automáticas por email |
 
 ---
 
@@ -191,6 +219,15 @@ Criar um pool com **3 lanes**:
 - "⚠ Formulário em papel — requerente pode ter de voltar por dados em falta" (junto ao passo 1)
 - "⚠ Comunicação à PSP por ofício — pode não chegar a tempo do evento" (junto ao passo 8)
 - "⚠ Nenhuma verificação no dia do evento — condições podem ser violadas" (junto ao passo 10)
+
+### Tarefa 4 — Propor melhorias TO-BE
+
+| Problema AS-IS | Melhoria TO-BE | Princípio | Elemento BPMN |
+|----------------|----------------|-----------|---------------|
+| Formulário em papel | Formulário online com validação de zona e horário integrada (dados do PDM) | Padronização + Automatização | :material-cog: Service Task → "Validar zona e horário" |
+| Comunicação à PSP por ofício | Notificação electrónica automática à PSP via plataforma partilhada | Automatização | :material-cog: Service Task → "Notificar PSP electronicamente" |
+| Nenhuma verificação no dia do evento | Checklist digital de fiscalização com registo obrigatório pós-evento | Monitorização | Tarefa + Evento intermédio de temporização (após data do evento) |
+| Pagamento presencial obrigatório | Pagamento online com emissão automática de alvará em PDF | Eliminação | :material-cog: Service Task → "Emitir alvará digital" |
 
 ---
 
@@ -265,6 +302,16 @@ Criar um pool com **4 lanes**:
 - "⚠ Utente sem previsão de tempo de espera — insatisfação" (junto ao passo 7)
 - "⚠ Ficha de papel — valores de pré-triagem podem perder-se" (junto ao passo 9)
 - "⚠ Chamada em voz alta — utentes não ouvem, perdem a vez" (junto ao passo 10)
+
+### Tarefa 4 — Propor melhorias TO-BE
+
+| Problema AS-IS | Melhoria TO-BE | Princípio | Elemento BPMN |
+|----------------|----------------|-----------|---------------|
+| Lista de espera em caderno | Lista de espera digital com notificação automática quando há vaga | Automatização | :material-cog: Service Task → "Notificar utente de vaga disponível" |
+| Ficha de papel na pré-triagem | Registo digital dos sinais vitais directamente no sistema clínico (tablet) | Automatização | :material-cog: Service Task → "Registar sinais vitais no sistema" |
+| Chamada em voz alta | Sistema de senhas electrónico com ecrã na sala de espera | Automatização | :material-cog: Service Task → "Chamar utente por ecrã e SMS" |
+| Utente sem previsão de espera | Ecrã na sala de espera com tempo estimado e posição na fila | Monitorização | :material-cog: Service Task → "Actualizar tempo estimado de espera" |
+| Requisição de exames em papel | Requisição electrónica integrada com laboratório | Automatização + Eliminação | :material-cog: Service Task → "Enviar requisição electrónica ao laboratório" |
 
 ---
 
