@@ -10,6 +10,7 @@ Materiais de apoio à componente prática da UC **Sistemas e Tecnologias de Info
 |--------|-------|------|
 | [Excel para Decisão Pública](excel/index.md) | 1 – 3 | Tabelas Dinâmicas, funções condicionais, caso integrador |
 | [BPMN — Processos na AP](bpmn/index.md) | 4 – 5 | Mapeamento AS-IS e redesenho TO-BE |
+| [Modelação de Dados — E-R](er/index.md) | 6 – 8 | Modelo E-R, normalização prática, do processo aos dados |
 
 ---
 
@@ -20,5 +21,10 @@ Materiais de apoio à componente prática da UC **Sistemas e Tecnologias de Info
 3. Resolver os exercícios com o software indicado.
 4. Confirmar resultados com a resolução do docente (quando disponível).
 
-!!! info "Caso âncora"
-    Todas as aulas utilizam o cenário fictício mas realista da **Câmara Municipal de Pombal** a gerir as consequências da **Tempestade Kristin**. Este fio condutor liga Excel, BPMN, modelação de dados e Power BI num contexto único de administração pública.
+!!! info "Casos âncora"
+    As aulas utilizam cenários fictícios mas realistas de administração pública:
+
+    - **Excel e BPMN (Aulas 1–5)** — Câmara Municipal de Pombal a gerir as consequências da **Tempestade Kristin**
+    - **Modelação de Dados (Aulas 6–8)** — Câmara Municipal de Óbidos a gerir os seus **eventos culturais** (Festival de Chocolate, Mercado Medieval, etc.)
+
+    Este fio condutor liga Excel, BPMN, modelação de dados e Power BI em contextos de administração pública.

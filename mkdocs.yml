@@ -70,6 +70,14 @@ nav:
       - Redesenho TO-BE: bpmn/aula-05.md
       - Exercícios Guiados: bpmn/casos-guiados.md
       - Exercícios: bpmn/exercicios.md
+  - Modelação de Dados (Aulas 6–8):
+      - Visão Geral: er/index.md
+      - Modelação Conceptual: er/aula-06.md
+      - Do Processo ao Modelo: er/aula-07.md
+      - Modelo Completo: er/aula-08.md
+      - Exercícios Guiados: er/casos-guiados.md
+      - Exercícios: er/exercicios.md
+      - Auto-avaliação: er/avaliacao.md
 
 extra:
   social:
