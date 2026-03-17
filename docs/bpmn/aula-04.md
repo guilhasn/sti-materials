@@ -73,7 +73,7 @@ O processo actual de tratamento de pedidos de intervenção funciona assim:
 
 **Tarefa 1 — Estrutura base**
 
-Criar **1 pool** (Câmara Municipal de Pombal) com **4 lanes** — cada lane representa um actor diferente no processo:
+Criar **1 pool** (Câmara Municipal de Vila Feliz) com **4 lanes** — cada lane representa um actor diferente no processo:
 
 | Lane | Quem é | O que faz neste processo |
 |------|--------|--------------------------|

@@ -9,7 +9,7 @@
                   exporterVersion="12.0.0">
 
   <bpmn:collaboration id="Collaboration_1">
-    <bpmn:participant id="Participant_CentroSaude" name="Centro de Saúde de Pombal — Marcação e Realização de Consulta (AS-IS)" processRef="Process_1" />
+    <bpmn:participant id="Participant_CentroSaude" name="Centro de Saúde de Vila Feliz — Marcação e Realização de Consulta (AS-IS)" processRef="Process_1" />
   </bpmn:collaboration>
 
   <bpmn:process id="Process_1" isExecutable="false">

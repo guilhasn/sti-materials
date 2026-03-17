@@ -73,7 +73,7 @@
 
 **Tarefa 1 — Estrutura base**
 
-Criar **1 pool** (Câmara Municipal de Pombal — Processo Redesenhado) com **5 lanes**:
+Criar **1 pool** (Câmara Municipal de Vila Feliz — Processo Redesenhado) com **5 lanes**:
 
 | Lane | Quem é | O que faz neste processo |
 |------|--------|--------------------------|

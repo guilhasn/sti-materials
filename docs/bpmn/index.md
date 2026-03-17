@@ -104,7 +104,7 @@ Os gateways controlam a **bifurcação e convergência** do fluxo.
 
 | Elemento | O que representa | Exemplo |
 |----------|------------------|---------|
-| **Pool** | Uma organização ou entidade autónoma | Câmara Municipal de Pombal |
+| **Pool** | Uma organização ou entidade autónoma | Câmara Municipal de Vila Feliz |
 | **Lane** | Um papel, departamento ou actor dentro da organização | Técnico de Atendimento, Chefe de Divisão |
 
 **Boas práticas:**

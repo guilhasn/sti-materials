@@ -236,7 +236,7 @@ Criar um pool com **3 lanes**:
 ### Contexto
 
 !!! abstract "Cenário"
-    O **Centro de Saúde de Pombal** (extensão de saúde) gere consultas de medicina geral e familiar. O processo de marcação e realização de consulta envolve o utente, a recepção, o enfermeiro e o médico. O sistema de marcação é parcialmente informatizado, mas a comunicação interna depende de chamadas em voz alta e fichas em papel.
+    O **Centro de Saúde de Vila Feliz** (extensão de saúde) gere consultas de medicina geral e familiar. O processo de marcação e realização de consulta envolve o utente, a recepção, o enfermeiro e o médico. O sistema de marcação é parcialmente informatizado, mas a comunicação interna depende de chamadas em voz alta e fichas em papel.
 
 ### Processo AS-IS
 

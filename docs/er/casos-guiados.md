@@ -15,20 +15,20 @@ Quatro exercícios guiados passo-a-passo para construir diagramas Entidade-Relac
 
 ---
 
-## Caso 1 — Biblioteca Municipal de Pombal
+## Caso 1 — Biblioteca Municipal de Vila Feliz
 
 ### Contexto
 
 !!! abstract "Cenário"
-    A **Biblioteca Municipal de Pombal** gere um acervo de mais de 15.000 volumes e serve centenas de leitores registados. Actualmente, os empréstimos são registados numa folha Excel com todos os dados misturados: nome do leitor, morada, título do livro, autor, data do empréstimo — tudo na mesma linha.
+    A **Biblioteca Municipal de Vila Feliz** gere um acervo de mais de 15.000 volumes e serve centenas de leitores registados. Actualmente, os empréstimos são registados numa folha Excel com todos os dados misturados: nome do leitor, morada, título do livro, autor, data do empréstimo — tudo na mesma linha.
 
 ### Dados actuais (Excel com problemas)
 
 | Leitor | BI | Morada | Livro | Autor | ISBN | DataEmprestimo | DataDevolucao |
 |--------|----|--------|-------|-------|------|---------------|--------------|
-| Ana Costa | 12345678 | R. Principal, 1, Pombal | Dom Casmurro | Machado de Assis | 978-85-01-1 | 2025-01-10 | 2025-01-25 |
-| Ana Costa | 12345678 | R. Principal, 1, Pombal | Os Maias | Eça de Queirós | 978-972-1 | 2025-01-15 | 2025-01-30 |
-| João Silva | 87654321 | Av. Heróis, 5, Pombal | Dom Casmurro | Machado de Assis | 978-85-01-1 | 2025-02-01 | 2025-02-15 |
+| Ana Costa | 12345678 | R. Principal, 1, Vila Feliz | Dom Casmurro | Machado de Assis | 978-85-01-1 | 2025-01-10 | 2025-01-25 |
+| Ana Costa | 12345678 | R. Principal, 1, Vila Feliz | Os Maias | Eça de Queirós | 978-972-1 | 2025-01-15 | 2025-01-30 |
+| João Silva | 87654321 | Av. Heróis, 5, Vila Feliz | Dom Casmurro | Machado de Assis | 978-85-01-1 | 2025-02-01 | 2025-02-15 |
 
 ### Tarefa 1 — Identificar entidades e atributos
 
@@ -100,7 +100,7 @@ Comparar Excel original vs modelo E-R:
 |------------|-----|--------|-------------|----------|-------------|---------|---------------|---------|-------------|
 | Manuel Ferreira | 123456789 | R. Nova, 3, Leiria | P-2025/001 | Construção | Lote 15, Zona Industrial | Carlos Mendes | Arquitectura | Favorável | 2025-03-10 |
 | Manuel Ferreira | 123456789 | R. Nova, 3, Leiria | P-2025/001 | Construção | Lote 15, Zona Industrial | Rita Sousa | Engenharia Civil | Favorável com condições | 2025-03-12 |
-| Sofia Lopes | 987654321 | Av. Mar, 8, Pombal | P-2025/002 | Ampliação | R. Oliveira, 22, Pombal | Carlos Mendes | Arquitectura | Desfavorável | 2025-03-15 |
+| Sofia Lopes | 987654321 | Av. Mar, 8, Vila Feliz | P-2025/002 | Ampliação | R. Oliveira, 22, Vila Feliz | Carlos Mendes | Arquitectura | Desfavorável | 2025-03-15 |
 
 ### Tarefa 1 — Identificar entidades e atributos
 

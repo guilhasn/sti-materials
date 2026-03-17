@@ -17,7 +17,7 @@
 | Leitura crítica de riscos | tempo, volume, prioridade e capacidade de resposta |
 
 !!! abstract "Contexto"
-    Este caso integrador simula a resposta da Câmara Municipal de Pombal após a Tempestade Kristin. O objectivo é transformar dados brutos de ocorrências em priorização operacional e prestação de contas.
+    Este caso integrador simula a resposta da Câmara Municipal de Vila Feliz após a Tempestade Kristin. O objectivo é transformar dados brutos de ocorrências em priorização operacional e prestação de contas.
 
 ---
 

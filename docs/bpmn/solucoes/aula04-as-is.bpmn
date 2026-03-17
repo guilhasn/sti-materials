@@ -9,7 +9,7 @@
                   exporterVersion="12.0.0">
 
   <bpmn:collaboration id="Collaboration_1">
-    <bpmn:participant id="Participant_CMP" name="Câmara Municipal de Pombal — Tratamento de Pedidos de Intervenção (AS-IS)" processRef="Process_1" />
+    <bpmn:participant id="Participant_CMP" name="Câmara Municipal de Vila Feliz — Tratamento de Pedidos de Intervenção (AS-IS)" processRef="Process_1" />
   </bpmn:collaboration>
 
   <bpmn:process id="Process_1" isExecutable="false">

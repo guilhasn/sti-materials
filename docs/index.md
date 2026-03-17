@@ -24,7 +24,7 @@ Materiais de apoio à componente prática da UC **Sistemas e Tecnologias de Info
 !!! info "Casos âncora"
     As aulas utilizam cenários fictícios mas realistas de administração pública:
 
-    - **Excel e BPMN (Aulas 1–5)** — Câmara Municipal de Pombal a gerir as consequências da **Tempestade Kristin**
+    - **Excel e BPMN (Aulas 1–5)** — Câmara Municipal de Vila Feliz a gerir as consequências da **Tempestade Kristin**
     - **Modelação de Dados (Aulas 6–8)** — Câmara Municipal de Óbidos a gerir os seus **eventos culturais** (Festival de Chocolate, Mercado Medieval, etc.)
 
     Este fio condutor liga Excel, BPMN, modelação de dados e Power BI em contextos de administração pública.
