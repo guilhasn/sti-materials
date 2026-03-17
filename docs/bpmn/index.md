@@ -1,6 +1,6 @@
 # Notação BPMN 2.0 — Processos na Administração Pública
 
-Este módulo introduz a notação **BPMN 2.0** como ferramenta de mapeamento e redesenho de processos em contexto de administração pública. Ambas as aulas utilizam o cenário da **Tempestade Kristin** — a Câmara Municipal de Pombal a gerir pedidos de intervenção após danos causados pela tempestade.
+Este módulo introduz a notação **BPMN 2.0** como ferramenta de mapeamento e redesenho de processos em contexto de administração pública.
 
 !!! info "Pré-requisitos"
     - Navegador web actualizado (Chrome, Firefox ou Edge)
