@@ -54,10 +54,10 @@ Página de consolidação de conhecimentos sobre o modelo E-R. Tente responder a
 ??? success "Resposta"
     **Falso.** O NIF é uma chave primária **simples** (constituída por um único atributo). Uma chave composta é formada por dois ou mais atributos em conjunto (por exemplo, NumAluno + CodDisciplina na tabela Inscrição).
 
-**10. Numa relação ternária, a tabela de relação contém as chaves primárias das três entidades.**
+**10. Uma relação M:N gera sempre uma tabela associativa no modelo relacional.**
 
 ??? success "Resposta"
-    **Verdadeiro.** Uma relação ternária envolve três entidades e a tabela associativa resultante contém as chaves primárias das três entidades como chaves estrangeiras, podendo ainda incluir atributos próprios da relação.
+    **Verdadeiro.** Qualquer relação M:N exige a criação de uma tabela associativa que contém as chaves primárias de ambas as entidades como chaves estrangeiras, podendo ainda incluir atributos próprios da relação (por exemplo, data, quantidade ou observações).
 
 ---
 
@@ -88,7 +88,7 @@ Página de consolidação de conhecimentos sobre o modelo E-R. Tente responder a
 - A) Relação 1:1 com participação parcial
 - B) Relação M:N (independente da participação)
 - C) Relação 1:N com participação obrigatória
-- D) Apenas relações ternárias
+- D) Apenas relações com atributos próprios
 
 ??? success "Resposta"
     **B) Relação M:N (independente da participação)** — Qualquer relação M:N exige sempre uma tabela associativa, independentemente de a participação ser obrigatória ou parcial. É a única forma de representar correctamente esta cardinalidade no modelo relacional.
@@ -241,10 +241,9 @@ Associe cada regra de conversão ao cenário onde se aplica.
 | 4. Regra 4 (relação 1:N) | | D. Município com código, nome e distrito |
 | 5. Regra 5 (entidade fraca) | | E. Parcela de terreno que depende do Contrato |
 | 6. Regra 6 (relação M:N) | | F. Funcionário tem exactamente um Gabinete e vice-versa |
-| 7. Regra 7 (relação ternária) | | G. Fornecedor fornece Produto a Armazém (3 entidades) |
 
 ??? success "Correspondência correcta"
-    1 → D | 2 → C | 3 → F | 4 → A | 5 → E | 6 → B | 7 → G
+    1 → D | 2 → C | 3 → F | 4 → A | 5 → E | 6 → B
 
 ---
 
@@ -252,7 +251,7 @@ Associe cada regra de conversão ao cenário onde se aplica.
 
 ### Caso A — Arquivo Municipal
 
-O arquivo municipal de Torres Vedras digitaliza documentos históricos. Cada documento pertence a um fundo documental. Os técnicos de arquivo registam a digitalização. Um documento pode conter referências a pessoas, locais e datas históricas.
+O arquivo municipal de Vila Feliz digitaliza documentos históricos. Cada documento pertence a um fundo documental. Os técnicos de arquivo registam a digitalização. Um documento pode conter referências a pessoas, locais e datas históricas.
 
 **Tarefa:** Identificar entidades, definir relações com cardinalidades e justificar as escolhas.
 
@@ -276,7 +275,7 @@ O arquivo municipal de Torres Vedras digitaliza documentos históricos. Cada doc
 
 ### Caso B — Piscina Municipal
 
-A piscina municipal de Caldas da Rainha gere inscrições nas aulas de natação. Existem aulas em vários horários, cada uma com um professor. Os utentes inscrevem-se por trimestre. Cada utente tem um atestado médico com validade.
+A piscina municipal de Vila Feliz gere inscrições nas aulas de natação. Existem aulas em vários horários, cada uma com um professor. Os utentes inscrevem-se por trimestre. Cada utente tem um atestado médico com validade.
 
 **Tarefa:** Identificar entidades, definir relações com cardinalidades e justificar as escolhas.
 

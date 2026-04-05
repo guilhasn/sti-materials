@@ -1,6 +1,6 @@
-site_name: STI | Sistemas e Tecnologias de Informação
+﻿site_name: STI | Sistemas e Tecnologias de Informacao
 site_url: https://guilhasn.github.io/sti-materials/
-site_description: Materiais da UC Sistemas e Tecnologias de Informação — Mestrado em Administração Pública (ESTG-IPL)
+site_description: Materiais da UC Sistemas e Tecnologias de Informacao - Mestrado em Administracao Publica (ESTG-IPL)
 site_author: Nuno Salvador
 
 repo_url: https://github.com/guilhasn/sti-materials
@@ -58,30 +58,33 @@ plugins:
   - glightbox
 
 nav:
-  - Início: index.md
-  - Excel (Aulas 1–3):
-      - Visão Geral: excel/index.md
-      - Tabelas Dinâmicas: excel/aula-01.md
-      - Funções Condicionais: excel/aula-02.md
+  - Inicio: index.md
+  - Excel (Aulas 1-3):
+      - Visao Geral: excel/index.md
+      - Tabelas Dinamicas: excel/aula-01.md
+      - Funcoes Condicionais: excel/aula-02.md
       - Caso Integrador: excel/aula-03.md
-  - BPMN (Aulas 4–5):
-      - Visão Geral: bpmn/index.md
+  - BPMN (Aulas 4-5):
+      - Visao Geral: bpmn/index.md
       - Mapeamento AS-IS: bpmn/aula-04.md
       - Redesenho TO-BE: bpmn/aula-05.md
-      - Exercícios Guiados: bpmn/casos-guiados.md
-      - Exercícios: bpmn/exercicios.md
-  - Modelação de Dados (Aulas 6–8):
-      - Visão Geral: er/index.md
-      - Modelação Conceptual: er/aula-06.md
-      - Do Processo ao Modelo: er/aula-07.md
-      - Modelo Completo: er/aula-08.md
-      - Exercícios Guiados: er/casos-guiados.md
-      - Exercícios: er/exercicios.md
-      - Auto-avaliação: er/avaliacao.md
+      - Exercicios Guiados: bpmn/casos-guiados.md
+      - Exercicios: bpmn/exercicios.md
+  - Modelacao de Dados (Aulas 6-8):
+      - Visao Geral: er/index.md
+      - Do Excel ao Modelo Conceptual: er/aula-06.md
+      - Das Relacoes as Tabelas: er/aula-07.md
+      - Da Concepcao a Especificacao: er/aula-08.md
+      - Exercicios Guiados: er/casos-guiados.md
+      - Exercicios: er/exercicios.md
+      - Auto-avaliacao: er/avaliacao.md
+  - Threads (Ficha 3):
+      - Visao Geral: threads/index.md
+      - Guia da Ficha 3: threads/ficha-03.md
 
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/guilhasn/sti-materials
 
-copyright: "&copy; 2025–2026 STI MAP | ESTG-IPL, Leiria"
+copyright: "&copy; 2025-2026 STI MAP | ESTG-IPL, Leiria"

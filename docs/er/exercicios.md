@@ -15,14 +15,14 @@ Quatro exercícios para resolver autonomamente. Cada exercício apresenta um cen
 ### Contexto
 
 !!! abstract "Cenário"
-    A **Câmara Municipal de Torres Vedras** gere actualmente mais de 30 obras públicas em simultâneo — estradas, escolas, equipamentos desportivos, espaços verdes. Cada obra é adjudicada a um empreiteiro através de concurso público. Um fiscal da câmara acompanha a execução. Actualmente, os dados estão em pastas físicas e folhas Excel separadas por ano.
+    A **Câmara Municipal de Vila Feliz** gere actualmente mais de 30 obras públicas em simultâneo — estradas, escolas, equipamentos desportivos, espaços verdes. Cada obra é adjudicada a um empreiteiro através de concurso público. Um fiscal da câmara acompanha a execução. Actualmente, os dados estão em pastas físicas e folhas Excel separadas por ano.
 
 ### Dados actuais (exemplo Excel)
 
 | Obra | Local | Empreiteiro | NIFEmpreiteiro | Contacto | Fiscal | DataInício | DataFim | Valor | Estado |
 |------|-------|-------------|----------------|----------|--------|------------|---------|-------|--------|
 | Requalificação EN8 | Km 45-52 | Construções Silva | 501234567 | J. Silva / 918... | Eng. Ana Costa | 2024-09-01 | 2025-03-30 | 850000€ | Em curso |
-| Pavilhão Escolar | EB Torres | Construções Silva | 501234567 | J. Silva / 918... | Eng. Pedro Lopes | 2024-11-15 | 2025-06-30 | 320000€ | Em curso |
+| Pavilhão Escolar | EB Vila Feliz | Construções Silva | 501234567 | J. Silva / 918... | Eng. Pedro Lopes | 2024-11-15 | 2025-06-30 | 320000€ | Em curso |
 | Parque Urbano | Zona Norte | Jardins & Co | 509876543 | M. Jardim / 926... | Eng. Ana Costa | 2025-01-10 | 2025-08-30 | 175000€ | Adjudicada |
 
 ### Problemas visíveis
@@ -62,7 +62,7 @@ Quatro exercícios para resolver autonomamente. Cada exercício apresenta um cen
 ### Contexto
 
 !!! abstract "Cenário"
-    O **Centro Social e Paroquial de Marinha Grande** oferece várias valências: lar de idosos, centro de dia, apoio domiciliário, creche e ATL. Cada utente pode estar inscrito em uma ou mais valências. A cada utente é atribuído um técnico responsável (assistente social, enfermeiro, educador). Os familiares são contactados em caso de emergência. A gestão é feita em fichas de papel e num Excel por valência.
+    O **Centro Social e Paroquial de Vila Feliz** oferece várias valências: lar de idosos, centro de dia, apoio domiciliário, creche e ATL. Cada utente pode estar inscrito em uma ou mais valências. A cada utente é atribuído um técnico responsável (assistente social, enfermeiro, educador). Os familiares são contactados em caso de emergência. A gestão é feita em fichas de papel e num Excel por valência.
 
 ### Dados actuais (exemplo Excel)
 
@@ -153,7 +153,7 @@ Quatro exercícios para resolver autonomamente. Cada exercício apresenta um cen
 ### Contexto
 
 !!! abstract "Cenário"
-    O **Serviço Municipal de Protecção Civil** de Leiria regista e gere ocorrências (inundações, incêndios, quedas de árvores, deslizamentos). Cada ocorrência mobiliza equipas e recursos (viaturas, geradores, bombas). Um agente de protecção civil coordena a resposta. Actualmente, o registo é feito por telefone e num quadro branco na sala de operações.
+    O **Serviço Municipal de Protecção Civil** de Vila Feliz regista e gere ocorrências (inundações, incêndios, quedas de árvores, deslizamentos). Cada ocorrência mobiliza equipas e recursos (viaturas, geradores, bombas). Um agente de protecção civil coordena a resposta. Actualmente, o registo é feito por telefone e num quadro branco na sala de operações.
 
 ### Dados actuais (sistema actual)
 

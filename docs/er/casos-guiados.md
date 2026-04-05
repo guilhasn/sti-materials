@@ -59,8 +59,8 @@ Perguntas-guia:
 
 Aplicar regras:
 
-- Leitor ↔ Livro (M:N) → **Regra 6** → 3 tabelas: Leitor, Livro, **Empréstimo**(codLeitor, ISBN, dataEmprestimo, dataDevolucao, devolvido)
-- Autor ↔ Livro (M:N) → **Regra 6** → tabela associativa **Autoria**(codAutor, ISBN)
+- Leitor ↔ Livro (M:N) → **Regra 6** — porque numa relação M:N nenhuma das tabelas pode receber a FK da outra sem repetição; é obrigatório criar uma tabela associativa → 3 tabelas: Leitor, Livro, **Empréstimo**(codLeitor, ISBN, dataEmprestimo, dataDevolucao, devolvido)
+- Autor ↔ Livro (M:N) → **Regra 6** — pela mesma razão: vários autores por livro e vários livros por autor exigem tabela associativa → **Autoria**(codAutor, ISBN)
 
 Esquema final:
 
@@ -125,8 +125,8 @@ Comparar Excel original vs modelo E-R:
 
 Aplicar regras:
 
-- Requerente → Processo: 1:N, obrigatória lado N → **Regra 4** → 2 tabelas, FK codRequerente no Processo
-- Técnico ↔ Processo: M:N → **Regra 6** → tabela Parecer com ambas PKs + atributos próprios
+- Requerente → Processo: 1:N, obrigatória lado N → **Regra 4** — porque cada processo pertence a exactamente um requerente, basta colocar a FK do lado N (no Processo) → 2 tabelas, FK codRequerente no Processo
+- Técnico ↔ Processo: M:N → **Regra 6** — porque um técnico analisa vários processos e um processo é analisado por vários técnicos; sem tabela intermédia, não há forma de representar esta multiplicidade → tabela Parecer com ambas PKs + atributos próprios
 
 ```
 Requerente(codRequerente, nome, NIF, morada, telefone)
@@ -155,7 +155,7 @@ Comparar Excel original vs modelo E-R:
 ### Contexto
 
 !!! abstract "Cenário"
-    Uma **IPSS (Instituição Particular de Solidariedade Social)** de Leiria distribui refeições ao domicílio a idosos e pessoas com mobilidade reduzida. Os voluntários entregam as refeições seguindo rotas pré-definidas. Cada utente pode ter restrições alimentares. O registo actual é feito em papel e num quadro na cozinha.
+    Uma **IPSS (Instituição Particular de Solidariedade Social)** de Vila Feliz distribui refeições ao domicílio a idosos e pessoas com mobilidade reduzida. Os voluntários entregam as refeições seguindo rotas pré-definidas. Cada utente pode ter restrições alimentares. O registo actual é feito em papel e num quadro na cozinha.
 
 ### Tarefa 1 — Entidades e atributos
 
@@ -171,33 +171,28 @@ Comparar Excel original vs modelo E-R:
 | Relação | Ent. A | Card. | Ent. B | Participação |
 |---------|--------|-------|--------|-------------|
 | recebe | Utente | M:N | Refeição | Obrigatória no Utente (todo utente registado recebe refeições) |
-| entrega | Voluntário | M:N | Refeição | Não obrigatória em ambas |
-| percorre | Voluntário | M:N | Rota | Não obrigatória em ambas |
-| pertence_a | Utente | M:N | Rota | Obrigatória no Utente |
+| percorre | Voluntário | 1:N | Rota | Não obrigatória em ambas (cada rota é percorrida por um voluntário de cada vez, mas o mesmo voluntário pode percorrer várias rotas) |
 
-!!! info "Relação ternária simplificada"
-    A entrega de uma refeição envolve três entidades: quem entrega (voluntário), o quê (refeição) e a quem (utente). Podemos modelar isto com uma tabela Entrega que referencia as três entidades — evitando a complexidade de uma relação ternária no diagrama E-R.
+!!! info "Relações binárias simples"
+    A entrega de uma refeição a um utente é modelada com uma relação M:N entre Utente e Refeição, gerando a tabela Entrega. O voluntário é associado à rota que percorre (1:N). Desta forma, todas as relações são binárias — mais simples de modelar e de converter em tabelas.
 
 ### Tarefa 3 — Converter em tabelas
 
 Aplicar regras:
 
-- Utente ↔ Refeição (M:N) → **Regra 6** → incorporada na tabela Entrega
-- Voluntário ↔ Refeição (M:N) → **Regra 6** → incorporada na tabela Entrega
-- Voluntário ↔ Rota (M:N) → **Regra 6** → não necessária separadamente (Entrega já inclui codRota)
-- Utente ↔ Rota (M:N) → **Regra 6** → tabela associativa UtenteRota
+- Utente ↔ Refeição (M:N) → **Regra 6** — porque um utente recebe várias refeições e a mesma refeição (ementa do dia) é entregue a vários utentes; é obrigatório criar tabela associativa → tabela **Entrega**(codUtente, codRefeicao, horaEntrega, observacoes)
+- Voluntário → Rota (1:N) → **Regra 4** — porque cada rota é percorrida por um voluntário; basta colocar a FK codVoluntario na tabela Rota → 2 tabelas, FK codVoluntario na Rota
 
 ```
 Utente(codUtente, nome, morada, telefone, contactoEmergencia, restricoes)
 Refeicao(codRefeicao, data, tipo, ementa, calorias)
 Voluntario(codVoluntario, nome, telefone, cartaConducao, disponibilidade)
-Rota(codRota, nome, zona, distanciaKm)
-Entrega(codVoluntario, codRefeicao, codUtente, codRota, horaEntrega, observacoes)
-UtenteRota(codUtente, codRota, ordemEntrega)
+Rota(codRota, nome, zona, distanciaKm, codVoluntario)
+Entrega(codUtente, codRefeicao, horaEntrega, observacoes)
 ```
 
 !!! tip "Tabela Entrega como ponto central"
-    A tabela Entrega referencia três entidades (Voluntário, Refeição, Utente) e ainda a Rota. É a tabela que responde à pergunta: "Quem entregou o quê, a quem, por que rota e a que hora?"
+    A tabela Entrega liga Utente a Refeição e responde à pergunta: "Que refeição foi entregue a que utente e a que hora?" A rota é gerida separadamente — o voluntário responsável pela rota entrega as refeições aos utentes dessa zona.
 
 ### Tarefa 4 — Detectar redundâncias
 
@@ -208,7 +203,7 @@ Comparar registo em papel vs modelo E-R:
 | Nome e morada do utente reescritos todos os dias no quadro | Entidade Utente separada — dados escritos uma vez |
 | Ementa copiada para cada utente na folha de entrega | Entidade Refeição separada — ementa definida uma vez por dia/tipo |
 | Dados do voluntário repetidos em cada folha de rota | Entidade Voluntário separada — dados pessoais escritos uma vez |
-| Sequência de entrega reescrita manualmente todos os dias | Tabela UtenteRota com ordem de entrega fixa por rota |
+| Informação da rota reescrita manualmente todos os dias | Entidade Rota com FK do voluntário — atribuição fixa e reutilizável |
 
 ---
 
@@ -217,7 +212,7 @@ Comparar registo em papel vs modelo E-R:
 ### Contexto
 
 !!! abstract "Cenário"
-    A Câmara Municipal gere um **pool de viaturas** partilhadas entre serviços. Os motoristas são funcionários que podem conduzir diferentes viaturas. Cada viatura tem manutenções periódicas registadas. As requisições são feitas por departamentos para datas específicas. Actualmente, o controlo é feito em folhas Excel separadas — uma para viaturas, outra para motoristas, outra para requisições — sem ligação entre elas.
+    A Câmara Municipal de Vila Feliz gere um **pool de viaturas** partilhadas entre serviços. Os motoristas são funcionários que podem conduzir diferentes viaturas. Cada viatura tem manutenções periódicas registadas. As requisições são feitas por departamentos para datas específicas. Actualmente, o controlo é feito em folhas Excel separadas — uma para viaturas, outra para motoristas, outra para requisições — sem ligação entre elas.
 
 ### Tarefa 1 — Entidades e atributos
 
@@ -226,42 +221,39 @@ Comparar registo em papel vs modelo E-R:
 | **Viatura** | matricula, marca, modelo, ano, combustivel, quilometragem, estado | matricula |
 | **Motorista** | codMotorista, nome, numCartaConducao, categorias, telefone | codMotorista |
 | **Departamento** | codDepartamento, nome, responsavel | codDepartamento |
-| **Requisição** | codRequisicao, matricula, codMotorista, codDepartamento, dataInicio, dataFim, destino, kmInicio, kmFim, estado | codRequisicao |
 | **Manutenção** | codManutencao, matricula, data, tipo, descricao, custo, oficina | codManutencao |
 
 ### Tarefa 2 — Relações
 
 | Relação | Ent. A | Card. | Ent. B | Participação |
 |---------|--------|-------|--------|-------------|
+| pertence_dept_v | Viatura | N:1 | Departamento | Obrigatória na Viatura (toda viatura está atribuída a um departamento) |
+| pertence_dept_m | Motorista | N:1 | Departamento | Obrigatória no Motorista (todo motorista pertence a um departamento) |
+| requisita | Viatura | M:N | Motorista | Não obrigatória em ambas (nem toda viatura está requisitada; nem todo motorista tem requisição activa) |
 | tem_manutencao | Viatura | 1:N | Manutenção | Obrigatória lado N (toda manutenção refere-se a uma viatura) |
-| solicita | Departamento | 1:N | Requisição | Obrigatória lado N (toda requisição é feita por um departamento) |
-| utiliza | Viatura | 1:N | Requisição | Obrigatória lado N (toda requisição envolve uma viatura) |
-| conduz | Motorista | 1:N | Requisição | Obrigatória lado N (toda requisição tem um motorista atribuído) |
-| motorista_habitual | Viatura | N:1 | Motorista | Não obrigatória em ambas |
 
-!!! warning "Múltiplas relações"
-    Viatura e Motorista estão ligadas através da Requisição. Mas a mesma viatura pode também ter um motorista "habitual" atribuído (relação directa N:1). São duas relações diferentes entre as mesmas entidades — cada uma com o seu significado.
+!!! note "Requisição como tabela associativa"
+    Um motorista pode conduzir várias viaturas (em datas diferentes) e uma viatura pode ser conduzida por vários motoristas. A relação M:N entre Viatura e Motorista gera a tabela Requisição, que contém atributos próprios como datas, destino e quilómetros.
 
 ### Tarefa 3 — Converter em tabelas
 
 Aplicar regras:
 
-- Viatura → Manutenção: 1:N, obrigatória lado N → **Regra 4** → FK matricula na Manutenção
-- Departamento → Requisição: 1:N, obrigatória lado N → **Regra 4** → FK codDepartamento na Requisição
-- Viatura → Requisição: 1:N, obrigatória lado N → **Regra 4** → FK matricula na Requisição
-- Motorista → Requisição: 1:N, obrigatória lado N → **Regra 4** → FK codMotorista na Requisição
-- Viatura → Motorista (habitual): N:1, não obrigatória → **Regra 4** → FK codMotoristaHabitual na Viatura
+- Viatura → Departamento (N:1, obrigatória) → **Regra 4** — porque cada viatura pertence a exactamente um departamento; basta colocar a FK codDepartamento na Viatura → FK codDepartamento na Viatura
+- Motorista → Departamento (N:1, obrigatória) → **Regra 4** — pela mesma razão: cada motorista pertence a um departamento → FK codDepartamento no Motorista
+- Viatura ↔ Motorista (M:N) → **Regra 6** — porque um motorista pode conduzir várias viaturas e uma viatura pode ser conduzida por vários motoristas; sem tabela intermédia não é possível representar esta multiplicidade → tabela Requisição com ambas PKs + atributos
+- Viatura → Manutenção (1:N, obrigatória lado N) → **Regra 4** — porque cada manutenção pertence a uma viatura → FK matricula na Manutenção
 
 ```
-Viatura(matricula, marca, modelo, ano, combustivel, quilometragem, estado, codMotoristaHabitual)
-Motorista(codMotorista, nome, numCartaConducao, categorias, telefone)
+Viatura(matricula, marca, modelo, ano, combustivel, quilometragem, estado, codDepartamento)
+Motorista(codMotorista, nome, numCartaConducao, categorias, telefone, codDepartamento)
 Departamento(codDepartamento, nome, responsavel)
-Requisicao(codRequisicao, matricula, codMotorista, codDepartamento, dataInicio, dataFim, destino, kmInicio, kmFim, estado)
+Requisicao(codRequisicao, matricula, codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado)
 Manutencao(codManutencao, matricula, data, tipo, descricao, custo, oficina)
 ```
 
 !!! tip "Requisição como tabela central"
-    A tabela Requisição contém três chaves estrangeiras (matricula, codMotorista, codDepartamento) — é o ponto de ligação entre viaturas, motoristas e departamentos. Responde à pergunta: "Que viatura foi usada, por que motorista, para que departamento, em que datas?"
+    A tabela Requisição contém duas chaves estrangeiras (matricula, codMotorista) — é o ponto de ligação entre viaturas e motoristas. O departamento que solicita pode ser inferido a partir da FK codDepartamento na Viatura ou no Motorista. Responde à pergunta: "Que viatura foi usada, por que motorista, em que datas e para que destino?"
 
 ### Tarefa 4 — Detectar redundâncias
 

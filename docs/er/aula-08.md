@@ -1,201 +1,149 @@
-# Modelo Completo e Normalização Prática
+# Modelo Completo — Da Concepção à Especificação
 
 ## Objectivos
 
-- [ ] Identificar e eliminar redundância de dados num modelo E-R
-- [ ] Aplicar regras práticas de normalização
-- [ ] Converter um diagrama E-R completo em esquema relacional
-- [ ] Definir domínios de atributos para implementação
-- [ ] Preparar o modelo de dados para desenvolvimento de aplicação
+- [ ] Aplicar três regras práticas de normalização para detectar erros comuns
+- [ ] Escolher chaves primárias adequadas para cada tabela
+- [ ] Escrever o modelo relacional completo em notação formal
+- [ ] Definir domínios e consultas que o sistema deve suportar
 
 ---
 
-## Conceitos-chave — Normalização prática (3 regras simples)
+## Normalização prática — 3 regras simples
 
-| Regra | Pergunta-guia | Acção | Exemplo |
-|-------|---------------|-------|---------|
-| **Sem repetição** | "Este dado aparece copiado em várias linhas?" | Separar numa nova entidade | Nome do espaço repetido em cada evento → Entidade Espaço |
-| **Cada facto no seu lugar** | "Este atributo depende da chave ou de outro atributo?" | Mover para a entidade correcta | Morada do patrocinador na tabela Patrocínio → mover para Patrocinador |
-| **Sem listas numa célula** | "Este campo contém vários valores separados por vírgulas?" | Criar relação M:N | "Jazz, Fado, Rock" num campo género → tabela Artista ↔ Género |
+| # | Regra | Pergunta de controlo | Exemplo de violação |
+|---|-------|----------------------|---------------------|
+| 1 | **Cada célula guarda um só valor** | Há listas ou valores separados por vírgulas? | `telefones = "912000000, 933000000"` |
+| 2 | **Nada depende apenas de parte da chave** | Se a PK é composta, cada atributo precisa de *todas* as partes? | Numa tabela `(codEvento, codArtista, nomeArtista)` — o nome depende só do artista |
+| 3 | **Nada depende de um atributo que não é chave** | Há atributos que "descrevem" outro atributo não-chave? | `(codEvento, codEspaco, moradaEspaco)` — a morada depende do espaço, não do evento |
 
 !!! note "Normalização sem formalismo"
-    Na sebenta e na literatura, a normalização é apresentada com as formas normais (1FN, 2FN, 3FN). Nesta aula usamos 3 regras práticas equivalentes que são mais fáceis de aplicar no contexto da AP. O resultado final é o mesmo: tabelas sem redundância.
+    Estas 3 regras cobrem a maioria dos casos na AP e são mais fáceis de aplicar do que a notação formal (1FN, 2FN, 3FN). Se ao preencher a tabela com dados de exemplo sentir que está a **repetir informação**, provavelmente há uma violação.
 
 ---
 
-## Cenário — Revisão do modelo E-R de eventos
+## Cenário — Vila Feliz (continuação)
 
 !!! abstract "Contexto"
-    A Câmara Municipal de Óbidos quer avançar com a implementação da base de dados para gestão de eventos. A equipa de SI já tem o modelo E-R das aulas anteriores. Agora precisa de:
+    Nas aulas anteriores construímos o modelo E-R para gestão de eventos culturais da Câmara de Vila Feliz e convertemo-lo em tabelas. Hoje vamos partir desse modelo, encontrar erros, corrigi-los e produzir a especificação final.
 
-    1. Refinar o modelo — garantir que não há redundância
-    2. Converter em tabelas relacionais finais
-    3. Definir domínios dos atributos
-    4. Preparar a especificação para o fornecedor de software
+---
 
-### Modelo com problemas — "versão do estagiário"
+## Tarefa 1 — Detectar problemas ("versão do estagiário")
 
-Antes de avançar para o exercício principal, vamos analisar uma primeira versão do modelo E-R que um estagiário preparou. Esta versão contém **erros e redundâncias propositados** que devem ser identificados e corrigidos.
+Um estagiário tentou passar o modelo E-R para tabelas e produziu esta versão:
 
-**Problemas a detectar:**
+```
+EVENTO(codEvento, designação, dataInício, dataFim, nomeEspaço, moradaEspaço, lotação)
+ARTISTA(codArtista, nome, contacto, dataNascimento, eventosOndeActua)
+PATROCINADOR(codPatrocinador, nome, NIF, contacto, valor)
+ACTUAÇÃO(codEvento, codArtista, cachê, nomeArtista)
+PATROCÍNIO(codEvento, codPatrocinador)
+```
+
+Identifique **cinco problemas** na versão acima e preencha a tabela:
 
 | # | Problema | Regra violada | Correcção |
 |---|----------|---------------|-----------|
-| 1 | Atributo `nomeEspaco` dentro da entidade Evento | Sem repetição — o nome do espaço repete-se em cada evento que lá decorre | Criar entidade Espaço e relacionar com Evento |
-| 2 | Campo `artistas` como texto livre dentro de Evento ("João Silva, Maria Santos") | Sem listas numa célula — vários valores num só campo | Criar relação M:N entre Evento e Artista |
-| 3 | Atributo `idade` armazenado na entidade Artista | Cada facto no seu lugar — a idade é derivável de `dataNascimento` | Remover `idade` e calcular a partir de `dataNascimento` |
-| 4 | Relação Evento ↔ Patrocinador sem tabela associativa (M:N tratada como 1:N) | Sem repetição — um evento pode ter vários patrocinadores e vice-versa | Criar tabela associativa Patrocínio |
-| 5 | Campo `totalPatrocinios` armazenado na entidade Evento | Cada facto no seu lugar — valor calculável a partir dos registos de Patrocínio | Remover o campo e calcular quando necessário |
+| 1 | `EVENTO` inclui `nomeEspaço`, `moradaEspaço` e `lotação` — dados do espaço repetidos em cada evento | Regra 3 — dependência de atributo não-chave | Criar tabela `ESPAÇO` separada; em `EVENTO` guardar apenas `codEspaco` (FK) |
+| 2 | `ARTISTA` tem `eventosOndeActua` — lista de valores numa única célula | Regra 1 — cada célula deve ter um só valor | Remover o campo; a relação já está na tabela `ACTUAÇÃO` |
+| 3 | `PATROCINADOR` inclui `valor` — o valor depende do par (evento, patrocinador), não só do patrocinador | Regra 2 — depende de parte da chave real (falta o evento) | Mover `valor` para a tabela `PATROCÍNIO` |
+| 4 | `ACTUAÇÃO` inclui `nomeArtista` — depende apenas de `codArtista`, não da chave composta | Regra 2 — dependência parcial da chave | Remover `nomeArtista`; obtém-se por junção com `ARTISTA` |
+| 5 | `PATROCÍNIO` não tem o atributo `valor` — perdeu-se informação do modelo E-R | Modelo incompleto | Adicionar `valor` a `PATROCÍNIO` |
 
 ---
 
-## Exercício — Sistema de Gestão de Formações Internas (9 fases)
+## Tarefa 2 — Escolher chaves primárias
 
-!!! abstract "Cenário"
-    A Câmara Municipal de Óbidos organiza formações internas para os seus funcionários — segurança no trabalho, atendimento ao público, ferramentas digitais, primeiros socorros, entre outras. Actualmente:
+Para cada tabela, identifique as chaves candidatas e justifique a escolha:
 
-    - As inscrições são feitas por email ao departamento de RH
-    - Os certificados são emitidos manualmente em Word
-    - Não existe registo centralizado de quem frequentou o quê
-    - Os formadores podem ser internos (funcionários) ou externos (empresas de formação)
-    - Cada formação tem uma sala atribuída, datas, horários e número máximo de participantes
-    - No final, cada participante avalia a formação (1 a 5 estrelas + comentário)
+| Tabela | Chaves candidatas | PK escolhida | Porquê |
+|--------|-------------------|--------------|--------|
+| EVENTO | `codEvento` | `codEvento` | Código numérico sequencial, simples e estável |
+| ESPAÇO | `codEspaco`; `nome` (se único) | `codEspaco` | O nome pode mudar (ex.: renomeação de pavilhão) |
+| ARTISTA | `codArtista` | `codArtista` | Podem existir artistas homónimos |
+| PATROCINADOR | `codPatrocinador`; `NIF` | `codPatrocinador` | O NIF é bom candidato mas é longo; o código numérico é mais prático como FK |
+| ACTUAÇÃO | `(codEvento, codArtista)` | `(codEvento, codArtista)` | Chave composta — identifica cada participação |
+| PATROCÍNIO | `(codEvento, codPatrocinador)` | `(codEvento, codPatrocinador)` | Chave composta — identifica cada patrocínio |
 
-### Fase 1 — Determinar entidades
+!!! tip "Chaves numéricas e chaves compostas"
+    Prefira chaves numéricas curtas — são mais rápidas em pesquisas e ocupam menos espaço.
 
-| Entidade | Descrição | Exemplos |
-|----------|-----------|----------|
-| Funcionário | Pessoa que trabalha na câmara | Ana Silva (Técnica Superior, Dept. Cultura) |
-| Departamento | Unidade orgânica | Cultura, Obras, Recursos Humanos |
-| Formação | Acção de formação oferecida | "Segurança no Trabalho 2025" |
-| Formador | Pessoa/empresa que dá a formação | Dr. Pedro Costa (interno) / SafetyPro, Ldª (externo) |
-| Sala | Espaço onde decorre a formação | Sala 1 (30 lugares, projector) |
-
-### Fase 2 — Desenhar DER simplificado
-
-Representar as seguintes relações no ERDPlus:
-
-- **Funcionário** — inscreve → **Formação**
-- **Departamento** — tem → **Funcionário**
-- **Formação** — é dada por → **Formador**
-- **Formação** — decorre em → **Sala**
-
-### Fase 3 — Definir pressupostos
-
-Regras de negócio a documentar:
-
-1. Cada funcionário pertence a um departamento; cada departamento tem vários funcionários.
-2. Cada funcionário pode inscrever-se em várias formações; cada formação pode ter vários inscritos.
-3. Cada formação é dada por um formador; cada formador pode dar várias formações.
-4. Cada formação decorre numa sala; cada sala pode acolher várias formações.
-5. Todos os funcionários pertencem a um departamento.
-6. Pode haver formadores sem formações atribuídas.
-7. Todas as formações têm sala e formador atribuídos.
-8. Nem todos os funcionários se inscrevem em formações.
-
-### Fase 4 — Desenhar DER completo
-
-Definir cardinalidades e participações:
-
-| Relação | Cardinalidade | Participação |
-|---------|---------------|--------------|
-| Departamento → Funcionário | 1:N | Obrigatória lado N |
-| Funcionário ↔ Formação | M:N | Não obrigatória em ambos os lados |
-| Formador → Formação | 1:N | Obrigatória lado N, não obrigatória lado 1 |
-| Sala → Formação | 1:N | Obrigatória lado N |
-
-### Fase 5 — Determinar tabelas (aplicar regras)
-
-| Relação | Card. | Partic. | Regra | Nº Tabelas |
-|---------|-------|---------|-------|------------|
-| Dept → Funcionário | 1:N | Obrig. lado N | Regra 4 | 2 |
-| Func. ↔ Formação | M:N | — | Regra 6 | 3 (inclui Inscrição) |
-| Formador → Formação | 1:N | Obrig. lado N, não obrig. lado 1 | Regra 4 | 2 |
-| Sala → Formação | 1:N | Obrig. lado N | Regra 4 | 2 |
-
-**Total de tabelas distintas: 6** — Departamento, Funcionário, Formação, Formador, Sala, Inscrição
-
-### Fase 6 — Chaves candidatas
-
-| Tabela | Chaves candidatas |
-|--------|-------------------|
-| Funcionário | numFuncionario / NIF / BI |
-| Departamento | codDepartamento / sigla |
-| Formação | codFormacao |
-| Formador | codFormador / NIF |
-| Sala | codSala / nome+piso |
-| Inscrição | numFuncionario + codFormacao |
-
-### Fase 7 — Chaves primárias
-
-| Tabela | PK escolhida | Justificação |
-|--------|--------------|--------------|
-| Funcionário | numFuncionario | Numérico, já usado internamente |
-| Departamento | codDepartamento | Numérico sequencial |
-| Formação | codFormacao | Numérico sequencial |
-| Formador | codFormador | Numérico sequencial |
-| Sala | codSala | Numérico sequencial |
-| Inscrição | numFuncionario + codFormacao | Chave composta (identifica inscrição) |
-
-!!! tip "Preferir chaves numéricas"
-    Chaves numéricas são mais eficientes, ocupam menos espaço e evitam problemas com caracteres especiais. O NIF pode ser chave candidata, mas usar um código sequencial como PK é mais robusto.
-
-### Fase 8 — Tabelas finais
-
-```
-Departamento(codDepartamento, nome, sigla, localizacao)
-Funcionario(numFuncionario, nome, email, telefone, cargo, codDepartamento)
-Formacao(codFormacao, titulo, descricao, dataInicio, dataFim, horaInicio, horaFim, maxParticipantes, codFormador, codSala)
-Formador(codFormador, nome, tipo, NIF, email, telefone, empresa)
-Sala(codSala, nome, piso, capacidade, equipamento)
-Inscricao(numFuncionario, codFormacao, dataInscricao, presenca, avaliacao, comentario)
-```
-
-!!! info "Notação"
-    PKs sublinhadas. FKs a itálico. Exemplo: Funcionario(**numFuncionario**, nome, ..., *codDepartamento*)
-
-### Fase 9 — Domínio dos atributos
-
-**Formação:**
-
-| Campo | Tipo de dados | Características |
-|-------|---------------|-----------------|
-| codFormacao | Número inteiro | Chave primária, auto-incremento |
-| titulo | Texto (100) | Obrigatório |
-| descricao | Texto (500) | Opcional |
-| dataInicio | Data | Obrigatório, ≥ data actual |
-| dataFim | Data | Obrigatório, ≥ dataInicio |
-| horaInicio | Hora | Formato HH:MM |
-| horaFim | Hora | > horaInicio |
-| maxParticipantes | Número inteiro | Obrigatório, entre 5 e 50 |
-| codFormador | Número inteiro | FK → Formador, obrigatório |
-| codSala | Número inteiro | FK → Sala, obrigatório |
-
-**Inscrição:**
-
-| Campo | Tipo de dados | Características |
-|-------|---------------|-----------------|
-| numFuncionario | Número inteiro | PK (parte 1), FK → Funcionário |
-| codFormacao | Número inteiro | PK (parte 2), FK → Formação |
-| dataInscricao | Data | Obrigatório, valor pré-definido: data actual |
-| presenca | Sim/Não | Valor pré-definido: Não |
-| avaliacao | Número inteiro | Opcional, entre 1 e 5 |
-| comentario | Texto (250) | Opcional |
+    Nas tabelas associativas (como `ACTUAÇÃO`), a chave é **composta** pelas FKs das duas entidades. Pense na analogia do **bilhete de avião**: o bilhete identifica-se pelo par *(voo, passageiro)* — nenhum dos dois sozinho basta.
 
 ---
 
-## Tarefa final — Preparar para a app
+## Tarefa 3 — Tabelas finais em notação relacional
 
-!!! abstract "Reflexão"
-    Que funcionalidades pode a aplicação oferecer com base neste modelo de dados?
+Convenções: **PK** a sublinhado, *FK* em itálico.
 
-| Funcionalidade da app | Entidades envolvidas | Dados necessários |
-|----------------------|----------------------|-------------------|
-| Catálogo de formações | Formação, Formador, Sala | Título, datas, formador, sala, vagas |
-| Inscrição online | Funcionário, Formação, Inscrição | Verificar vagas, registar inscrição |
-| Registo de presenças | Inscrição | Actualizar presença (tablet na sala) |
-| Certificado automático | Funcionário, Formação, Inscrição | Gerar PDF com nome, formação, data, horas |
-| Painel de gestão (dashboard) | Todas | Formações por departamento, taxa de presença, avaliações |
+```
+EVENTO(  codEvento,  designação,  dataInício,  dataFim,  codEspaco  )
+         ─────────                                       FK → ESPAÇO
 
-!!! tip "Ponte para a Aula 9"
-    Na próxima aula, vamos usar este modelo de dados como base para criar uma aplicação com IA. Um bom modelo de dados é a fundação de qualquer sistema de informação.
+ESPAÇO(  codEspaco,  nome,  morada,  lotação  )
+         ─────────
+
+ARTISTA(  codArtista,  nome,  contacto,  dataNascimento  )
+          ──────────
+
+PATROCINADOR(  codPatrocinador,  nome,  NIF,  contacto  )
+               ───────────────
+
+ACTUAÇÃO(  codEvento,  codArtista,  cachê  )
+           ─────────  ──────────
+           FK → EVENTO  FK → ARTISTA
+
+PATROCÍNIO(  codEvento,  codPatrocinador,  valor  )
+             ─────────  ───────────────
+             FK → EVENTO  FK → PATROCINADOR
+```
+
+**Leitura rápida:**
+
+- 4 tabelas de entidades: `EVENTO`, `ESPAÇO`, `ARTISTA`, `PATROCINADOR`
+- 2 tabelas associativas: `ACTUAÇÃO`, `PATROCÍNIO`
+- Total: **6 tabelas**, todas em conformidade com as 3 regras práticas
+
+---
+
+## Tarefa 4 — Definição de domínios (simplificada)
+
+A definição de domínios é tipicamente feita pelo programador na fase de implementação, mas o analista deve indicar as restrições do negócio. Exemplo para a tabela `EVENTO`:
+
+| Atributo | Tipo sugerido | Obrigatório | Restrição / Nota |
+|----------|---------------|-------------|-------------------|
+| `codEvento` | Inteiro auto-incremento | Sim | PK, gerado pelo sistema |
+| `designação` | Texto (200 car.) | Sim | — |
+| `dataInício` | Data | Sim | Não pode ser anterior à data actual |
+| `dataFim` | Data | Não | Se preenchida, ≥ `dataInício` |
+| `codEspaco` | Inteiro | Sim | FK → `ESPAÇO`; deve existir na tabela |
+
+!!! note "Âmbito desta tarefa"
+    Para as restantes tabelas o processo é idêntico. Em contexto de projecto real, este passo resulta num **dicionário de dados** que acompanha o modelo.
+
+---
+
+## Tarefa 5 — O que o sistema permite fazer
+
+Antes de avançar, é útil listar as perguntas que o sistema deve conseguir responder:
+
+1. **Listar todos os eventos** que decorrem num determinado mês, com o nome do espaço e a lotação.
+2. **Mostrar o elenco** (artistas e respectivo cachê) de um evento específico.
+3. **Calcular o total de patrocínios** recebidos por cada evento.
+4. **Identificar artistas** que actuaram em mais do que dois eventos no último ano.
+5. **Verificar disponibilidade** de um espaço para uma data pretendida (sem sobreposição de eventos).
+
+!!! info "Das perguntas às consultas"
+    Cada uma destas perguntas será traduzida para uma consulta SQL quando o modelo for implementado num SGBD.
+
+---
+
+!!! tip "Resumo do percurso"
+    **Aula 06** — Identificámos entidades, atributos e relações (modelo conceptual).
+
+    **Aula 07** — Definimos pressupostos e convertemos em tabelas (modelo lógico).
+
+    **Aula 08** — Validámos, corrigimos e especificámos o modelo completo.
+
+    **Próxima etapa** — Praticar com novos cenários nos exercícios guiados e autónomos.

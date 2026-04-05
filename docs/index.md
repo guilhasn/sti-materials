@@ -1,30 +1,30 @@
-# Sistemas e Tecnologias de Informação
+﻿# Sistemas e Tecnologias de Informacao
 
-Materiais de apoio à componente prática da UC **Sistemas e Tecnologias de Informação** do Mestrado em Administração Pública (ESTG-IPL).
+Materiais de apoio a componente pratica da UC **Sistemas e Tecnologias de Informacao** do Mestrado em Administracao Publica (ESTG-IPL).
 
 ---
 
-## Módulos
+## Modulos
 
-| Módulo | Aulas | Tema |
+| Modulo | Aulas | Tema |
 |--------|-------|------|
-| [Excel para Decisão Pública](excel/index.md) | 1 – 3 | Tabelas Dinâmicas, funções condicionais, caso integrador |
-| [BPMN — Processos na AP](bpmn/index.md) | 4 – 5 | Mapeamento AS-IS e redesenho TO-BE |
-| [Modelação de Dados — E-R](er/index.md) | 6 – 8 | Modelo E-R, normalização prática, do processo aos dados |
+| [Excel para Decisao Publica](excel/index.md) | 1-3 | Tabelas Dinamicas, funcoes condicionais, caso integrador |
+| [BPMN - Processos na AP](bpmn/index.md) | 4-5 | Mapeamento AS-IS e redesenho TO-BE |
+| [Modelacao de Dados - E-R](er/index.md) | 6-8 | Modelo E-R, normalizacao pratica, do processo aos dados |
+| [Threads e Comunicacao em Rede](threads/index.md) | Ficha 3 | Servidor chat com 2 clientes, sincronizacao e concorrencia |
 
 ---
 
 ## Como trabalhar
 
-1. Aceder à página da aula correspondente.
-2. Descarregar o dataset e a ficha de exercícios.
-3. Resolver os exercícios com o software indicado.
-4. Confirmar resultados com a resolução do docente (quando disponível).
+1. Aceder a pagina da aula/ficha correspondente.
+2. Descarregar os ficheiros da atividade.
+3. Resolver os exercicios com o software indicado.
+4. Validar com a resolucao do docente quando disponivel.
 
-!!! info "Casos âncora"
-    As aulas utilizam cenários fictícios mas realistas de administração pública:
+!!! info "Casos ancora"
+    As aulas usam cenarios praticos para ligar conceito e implementacao.
 
-    - **Excel e BPMN (Aulas 1–5)** — Câmara Municipal de Vila Feliz a gerir as consequências da **Tempestade Kristin**
-    - **Modelação de Dados (Aulas 6–8)** — Câmara Municipal de Óbidos a gerir os seus **eventos culturais** (Festival de Chocolate, Mercado Medieval, etc.)
-
-    Este fio condutor liga Excel, BPMN, modelação de dados e Power BI em contextos de administração pública.
+    - **Excel e BPMN (Aulas 1-5)**: gestao municipal em contexto de ocorrencias.
+    - **Modelacao de Dados (Aulas 6-8)**: desenho e refinamento de modelo de dados.
+    - **Threads (Ficha 3)**: comunicacao cliente-servidor com concorrencia controlada.

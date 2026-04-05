@@ -1,134 +1,147 @@
-# Do Processo BPMN ao Modelo de Dados
+# Das Relações às Tabelas
 
 ## Objectivos
 
-- [ ] Extrair entidades e atributos a partir de um diagrama BPMN.
-- [ ] Identificar que dados cada tarefa BPMN necessita ou produz.
-- [ ] Definir pressupostos de cardinalidade e participação.
-- [ ] Aplicar as regras de conversão para obter tabelas relacionais.
+- [ ] Compreender o que é um pressuposto e como influencia o modelo.
+- [ ] Distinguir participação obrigatória de participação não obrigatória.
+- [ ] Aplicar as regras de conversão (Regra 4 e Regra 6) ao cenário de Vila Feliz.
+- [ ] Escrever o esquema relacional final com PKs e FKs.
 
 ---
 
 ## Conceitos-chave
 
-### Elementos fundamentais da conversão BPMN → E-R
-
 | Conceito | Significado | Exemplo |
 |----------|------------|---------|
-| **Pressuposto** | Regra de negócio que define cardinalidade e participação | "Cada evento tem pelo menos um espaço" |
-| **Participação obrigatória** | Todos os registos da entidade participam na relação | Todo evento é organizado por um funcionário |
-| **Participação não obrigatória** | Nem todos os registos participam | Nem todo espaço tem eventos marcados |
-| **Regra de conversão** | Regra que transforma o DER em tabelas | Regras 1–7 (ver Visão Geral) |
-| **Esquema relacional** | Conjunto final de tabelas com PKs e FKs | Evento(codEvento, nome, ...) |
-
-!!! note "A ponte BPMN → E-R"
-    Um processo BPMN mostra quem faz o quê e em que ordem. Mas cada tarefa lê ou escreve dados. Modelar esses dados é o passo seguinte para construir o sistema de informação.
+| **Pressuposto** | Frase que descreve uma regra de funcionamento da organização | "Cada evento realiza-se num único espaço" |
+| **Participação obrigatória** | Todos os registos da entidade participam na relação | Todo evento tem obrigatoriamente um espaço |
+| **Participação não obrigatória** | Nem todos os registos participam na relação | Nem todo artista está associado a um evento |
+| **Regra de conversão** | Regra que transforma uma relação do DER em tabelas | Regra 4 (1:N), Regra 6 (M:N) |
+| **Esquema relacional** | Conjunto final de tabelas com PKs e FKs | Evento(codEvento, nome, ..., codEspaco) |
 
 ---
 
-## Cenário — Da organização de eventos ao modelo de dados
+## O que é um pressuposto?
+
+!!! info "Definição"
+    Um pressuposto é uma **frase que descreve como as coisas funcionam na organização**. Não é uma opinião — é uma regra de negócio confirmada com quem trabalha no terreno.
+
+    **Exemplo 1:**
+    "Cada evento realiza-se num único espaço, mas um espaço pode acolher vários eventos."
+    → Cardinalidade **1:N** (Espaço → Evento). Participação **obrigatória** no Evento (todo evento tem espaço).
+
+    **Exemplo 2:**
+    "Um artista pode não estar associado a nenhum evento neste momento."
+    → Participação **não obrigatória** no lado do Artista.
+
+    Os pressupostos determinam **cardinalidade** e **participação** — e estes determinam **qual regra de conversão aplicar**.
+
+---
+
+## Cenário — Continuação de Vila Feliz
 
 !!! abstract "Contexto"
-    A equipa de SI da Câmara de Óbidos mapeou o processo de organização de eventos com BPMN. Agora precisa de desenhar a base de dados que vai suportar esse processo. O ponto de partida é o diagrama BPMN — de cada tarefa, extraímos os dados necessários.
-
-### Processo BPMN de referência
-
-| Passo | Tarefa BPMN | Actor |
-|-------|------------|-------|
-| 1 | Organizador submete proposta de evento | Organizador |
-| 2 | Técnico verifica disponibilidade de espaço | Técnico Cultural |
-| 3 | Vereador aprova ou rejeita proposta | Vereador |
-| 4 | Técnico reserva espaço(s) para o evento | Técnico Cultural |
-| 5 | Técnico contacta e contrata artistas | Técnico Cultural |
-| 6 | Técnico confirma patrocínios | Técnico Cultural |
-| 7 | Sistema regista bilhetes vendidos | Sistema |
-| 8 | Responsável regista participação no evento | Responsável Evento |
-| 9 | Técnico elabora relatório de encerramento | Técnico Cultural |
+    Na Aula 06 identificámos 4 entidades (Evento, Espaço, Artista, Patrocinador), definimos os seus atributos e desenhámos o diagrama E-R no ERDPlus. Agora vamos transformar esse diagrama em **tabelas organizadas**, prontas para uma base de dados.
 
 ---
 
-## Exercício — Do BPMN ao E-R
+## Tarefa 1 — Definir pressupostos
 
-### Tarefas
+Lembram-se da Aula 06, quando perguntámos "quantos espaços tem um evento?" — essa resposta é o pressuposto. Agora formalizamos:
 
-**Tarefa 1 — Mapear dados por tarefa BPMN**
-
-Para cada tarefa do processo, identificar que dados são lidos e escritos:
-
-| Tarefa BPMN | Dados que lê | Dados que escreve | Entidade(s) |
-|-------------|-------------|-------------------|-------------|
-| Submeter proposta | — | Nome, datas, tipo, orçamento previsto | Evento |
-| Verificar disponibilidade | Espaços, datas ocupadas | — | Espaço, Reserva |
-| Aprovar proposta | Proposta, orçamento | Estado (aprovado/rejeitado) | Evento |
-| Reservar espaço | Espaço, evento, datas | Data reserva, estado | Reserva (Evento ↔ Espaço) |
-| Contratar artistas | Artistas disponíveis | Cachet, condições | Participação (Evento ↔ Artista) |
-| Confirmar patrocínios | Patrocinadores, valores | Valor confirmado | Patrocínio (Evento ↔ Patrocinador) |
-| Registar bilhetes | Evento, tipo bilhete | Quantidade vendida, receita | Bilhete |
-| Registar participação | Evento | Nº participantes, avaliação | Evento (actualizar) |
-| Elaborar relatório | Todos os dados do evento | Relatório final | Evento (actualizar) |
-
-!!! tip "Regra prática"
-    Se uma tarefa BPMN escreve dados sobre duas entidades diferentes ligadas entre si, provavelmente existe uma relação entre essas entidades.
-
-**Tarefa 2 — Definir pressupostos**
-
-Para cada relação identificada, escrever os pressupostos de negócio:
-
-| Relação | Pressuposto | Cardinalidade | Participação |
-|---------|------------|---------------|-------------|
-| Evento ↔ Espaço | Cada evento realiza-se em um ou mais espaços; cada espaço pode acolher vários eventos | M:N | Obrigatória no Evento (todo evento tem espaço); não obrigatória no Espaço |
-| Evento ↔ Artista | Cada evento pode ter vários artistas; cada artista pode actuar em vários eventos | M:N | Não obrigatória em ambas |
-| Evento ↔ Patrocinador | Cada evento pode ter vários patrocinadores; cada patrocinador pode patrocinar vários eventos | M:N | Não obrigatória em ambas |
-| Evento ↔ Bilhete | Cada evento tem vários tipos de bilhete; cada bilhete pertence a um evento | 1:N | Obrigatória no Bilhete |
-| Funcionário ↔ Evento | Cada funcionário pode organizar vários eventos; cada evento é organizado por um funcionário | 1:N | Obrigatória no Evento |
+| Relação | Pressuposto | Cardinalidade | Participação | Porquê |
+|---------|------------|---------------|--------------|--------|
+| Evento ↔ Espaço | Cada evento realiza-se num único espaço; cada espaço pode acolher vários eventos ao longo do ano. | **1:N** | **Obrigatória** no Evento (todo evento tem espaço) | Não faz sentido criar um evento sem lhe atribuir um local. |
+| Evento ↔ Artista | Cada evento pode ter vários artistas; cada artista pode actuar em vários eventos. | **M:N** | **Não obrigatória** em ambos os lados | Um evento pode ainda não ter artistas confirmados; um artista pode não ter eventos marcados. |
+| Evento ↔ Patrocinador | Cada evento pode ter vários patrocinadores; cada patrocinador pode patrocinar vários eventos. | **M:N** | **Não obrigatória** em ambos os lados | Um evento pode não ter patrocinadores; um patrocinador pode não estar activo este ano. |
 
 !!! warning "Cuidado com os pressupostos"
-    Os pressupostos definem as regras do negócio. Um pressuposto errado gera um modelo errado. Exemplo: se assumirmos que cada evento só tem um espaço (1:N), mas na realidade o Festival de Chocolate usa 5 espaços diferentes, o modelo não funcionará.
-
-**Tarefa 3 — Aplicar regras de conversão**
-
-Para cada relação, indicar a regra e as tabelas resultantes:
-
-| Relação | Cardinalidade | Participação | Regra | Tabelas |
-|---------|--------------|-------------|-------|---------|
-| Evento ↔ Espaço | M:N | — | Regra 6 | Evento, Espaço, **Reserva**(codEvento, codEspaco, dataReserva) |
-| Evento ↔ Artista | M:N | — | Regra 6 | Evento, Artista, **Participacao**(codEvento, codArtista, cachet, dataActuacao) |
-| Evento ↔ Patrocinador | M:N | — | Regra 6 | Evento, Patrocinador, **Patrocinio**(codEvento, codPatrocinador, valor, tipo) |
-| Evento ↔ Bilhete | 1:N | Obrig. lado N | Regra 4 | Evento, **Bilhete**(codBilhete, codEvento, tipo, preco, qtdVendida) |
-| Funcionário ↔ Evento | 1:N | Obrig. lado N | Regra 4 | Funcionário, Evento(... codFuncionario) |
-
-**Resultado final — Esquema relacional:**
-
-```
-Evento(codEvento, nome, dataInicio, dataFim, edicao, orcamento, estado, codFuncionario)
-Espaco(codEspaco, nome, localizacao, tipo, lotacao)
-Artista(codArtista, nome, tipo, contacto, email)
-Patrocinador(codPatrocinador, nome, NIF, contacto, email)
-Funcionario(codFuncionario, nome, cargo, departamento, email)
-Bilhete(codBilhete, codEvento, tipo, preco, qtdVendida)
-Reserva(codEvento, codEspaco, dataReserva, estado)
-Participacao(codEvento, codArtista, cachet, dataActuacao, palco)
-Patrocinio(codEvento, codPatrocinador, valor, tipo, contrapartida)
-```
-
-!!! info "Nota"
-    No ERDPlus, a funcionalidade **Convert to Relational Schema** gera automaticamente o esquema relacional a partir do diagrama E-R. Comparar o resultado automático com o manual para verificar.
-
-**Tarefa 4 — Comparar AS-IS vs. E-R**
-
-| Antes (Excel) | Depois (Modelo E-R) | Melhoria |
-|--------------|--------------------|---------|
-| Dados do artista copiados em cada linha | Entidade Artista separada | Sem redundância |
-| Patrocínio misturado com evento | Tabela Patrocínio com FK | Dados isolados, totais por patrocinador |
-| Sem chave única | Cada entidade tem PK | Registos únicos e rastreáveis |
-| Impossível saber nº total de eventos por espaço | Tabela Reserva permite consultas | Análise possível |
-| Uma só folha enorme | 9 tabelas normalizadas | Estrutura clara e sem redundância |
-
-!!! tip "Reflexão"
-    Reparem como o processo BPMN nos guiou na identificação das entidades. Cada tarefa BPMN que "escreve dados" indicou-nos uma entidade ou uma relação. O BPMN mostra o "como"; o E-R mostra o "o quê".
+    Um pressuposto errado gera um modelo errado. Se assumirmos que cada evento só tem um espaço mas na realidade o Festival de Chocolate usa 5 espaços diferentes, o modelo não funcionará. Confirmar sempre com quem conhece a organização.
 
 ---
 
-## Interpretação para decisão pública
+## Tarefa 2 — Aplicar regras de conversão
 
-A passagem do BPMN ao modelo E-R é um passo fundamental em qualquer projecto de sistema de informação na AP. O diagrama BPMN identifica os dados que circulam no processo; o modelo E-R organiza esses dados de forma estruturada, eliminando redundâncias e garantindo integridade. Juntos, constituem a base documental para a especificação de requisitos de um sistema de informação — do processo ao software, com rastreabilidade completa.
+Agora, para cada relação, indicamos a regra e explicamos **porquê**.
+
+### Evento ↔ Espaço — Regra 4 (1:N com participação obrigatória no lado N)
+
+**Porquê Regra 4?** Porque a cardinalidade é 1:N e o lado "muitos" (Evento) tem participação obrigatória — todo evento tem um espaço. A regra manda colocar a chave primária do lado "1" (Espaço) como **chave estrangeira** no lado "N" (Evento).
+
+**Resultado:** A tabela Evento recebe o atributo `codEspaco` como FK.
+
+```
+Evento(codEvento, nome, dataInicio, dataFim, edicao, orcamento, codEspaco)
+                                                                 ↑ FK → Espaço
+```
+
+### Evento ↔ Artista — Regra 6 (M:N)
+
+**Porquê Regra 6?** Porque a cardinalidade é M:N — vários para vários. A regra manda criar uma **tabela associativa** cuja chave primária é composta pelas PKs das duas entidades. Esta tabela pode ter atributos próprios (cachê, data de actuação).
+
+**Resultado:** Nasce a tabela **Actuação**.
+
+```
+Actuação(codEvento, codArtista, cachê, dataActuação)
+          ↑ FK → Evento  ↑ FK → Artista
+          └──── PK composta ────┘
+```
+
+### Evento ↔ Patrocinador — Regra 6 (M:N)
+
+**Porquê Regra 6?** Pela mesma razão: M:N. Criamos uma tabela associativa com atributos próprios (valor do patrocínio, tipo de contrapartida).
+
+**Resultado:** Nasce a tabela **Patrocínio**.
+
+```
+Patrocínio(codEvento, codPatrocinador, valor, tipo)
+            ↑ FK → Evento  ↑ FK → Patrocinador
+            └──── PK composta ──────┘
+```
+
+---
+
+## Tarefa 3 — Esquema relacional final
+
+Reunindo todas as tabelas:
+
+```
+Evento(codEvento, nome, dataInicio, dataFim, edicao, orcamento, codEspaco)
+       PK                                                       FK → Espaco
+
+Espaco(codEspaco, nome, localizacao, tipo, lotacao)
+       PK
+
+Artista(codArtista, nome, tipo, contacto, email)
+        PK
+
+Patrocinador(codPatrocinador, nome, NIF, contacto, email)
+              PK
+
+Actuação(codEvento, codArtista, cachê, dataActuação)
+         PK/FK      PK/FK
+
+Patrocínio(codEvento, codPatrocinador, valor, tipo)
+            PK/FK     PK/FK
+```
+
+Total: **6 tabelas** — 4 entidades + 2 tabelas associativas.
+
+---
+
+## Tarefa 4 — Antes e depois
+
+| Aspecto | Antes (Excel) | Depois (Modelo E-R → Tabelas) |
+|---------|--------------|-------------------------------|
+| Dados do artista | Copiados em cada linha do evento | Entidade Artista separada, referenciada por FK |
+| Dados do patrocinador | Misturados com o evento | Tabela Patrocínio com FKs para ambos os lados |
+| Chave única | Inexistente | Cada entidade tem PK; tabelas associativas têm PK composta |
+| Total investido por patrocinador | Soma manual, com risco de duplicados | Consulta simples à tabela Patrocínio |
+| Estrutura | Uma folha com tudo misturado | 6 tabelas normalizadas, cada uma com finalidade clara |
+
+**Cada dado é guardado uma vez, no sítio correcto.** O nome do artista aparece apenas na tabela Artista. Se o contacto mudar, actualiza-se num único local — e todas as referências ficam automaticamente correctas.
+
+---
+
+!!! tip "Próximo passo"
+    Na **Aula 08** vamos validar este modelo — procurar erros, escolher as melhores chaves primárias, definir domínios dos atributos e preparar a especificação final.
