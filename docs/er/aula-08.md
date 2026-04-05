@@ -140,10 +140,10 @@ Antes de avançar, é útil listar as perguntas que o sistema deve conseguir res
 ---
 
 !!! tip "Resumo do percurso"
-    **Aula 06** — Identificámos entidades, atributos e relações (modelo conceptual).
+    **Etapa 1** — Identificámos entidades, atributos e relações (modelo conceptual).
 
-    **Aula 07** — Definimos pressupostos e convertemos em tabelas (modelo lógico).
+    **Etapa 2** — Definimos pressupostos e convertemos em tabelas (modelo lógico).
 
-    **Aula 08** — Validámos, corrigimos e especificámos o modelo completo.
+    **Etapa 3** — Validámos, corrigimos e especificámos o modelo completo.
 
     **Próxima etapa** — Praticar com novos cenários nos exercícios guiados e autónomos.

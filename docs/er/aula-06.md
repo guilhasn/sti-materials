@@ -127,7 +127,7 @@ Para cada par de entidades, fazemos duas perguntas-guia e registamos a resposta:
 | | Um patrocinador pode patrocinar quantos eventos? | Vários | |
 
 !!! info "Quando ambas as respostas são 'vários'"
-    Quando ambas as respostas são "vários", precisaremos de uma **tabela especial** (tabela associativa) para guardar essa ligação — veremos como na **Aula 07**.
+    Quando ambas as respostas são "vários", precisaremos de uma **tabela especial** (tabela associativa) para guardar essa ligação — veremos como no próximo capítulo.
 
 ---
 
@@ -141,4 +141,4 @@ Para cada par de entidades, fazemos duas perguntas-guia e registamos a resposta:
 6. Definir cardinalidades em cada linha da relação: **1**, **N** ou **M** conforme a tabela da Tarefa 3. Definir participação: **Total** (obrigatória) ou **Partial** (opcional).
 
 !!! tip "Próximo passo"
-    Na **Aula 07** vamos pegar neste diagrama E-R, definir **pressupostos** de negócio, e aplicar as **regras de conversão** para transformar entidades e relações em tabelas organizadas.
+    No próximo capítulo vamos pegar neste diagrama E-R, definir **pressupostos** de negócio, e aplicar as **regras de conversão** para transformar entidades e relações em tabelas organizadas.

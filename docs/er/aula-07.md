@@ -41,13 +41,13 @@
 ## Cenário — Continuação de Vila Feliz
 
 !!! abstract "Contexto"
-    Na Aula 06 identificámos 4 entidades (Evento, Espaço, Artista, Patrocinador), definimos os seus atributos e desenhámos o diagrama E-R no ERDPlus. Agora vamos transformar esse diagrama em **tabelas organizadas**, prontas para uma base de dados.
+    No capítulo anterior identificámos 4 entidades (Evento, Espaço, Artista, Patrocinador), definimos os seus atributos e desenhámos o diagrama E-R no ERDPlus. Agora vamos transformar esse diagrama em **tabelas organizadas**, prontas para uma base de dados.
 
 ---
 
 ## Tarefa 1 — Definir pressupostos
 
-Lembram-se da Aula 06, quando perguntámos "quantos espaços tem um evento?" — essa resposta é o pressuposto. Agora formalizamos:
+Lembram-se de quando perguntámos "quantos espaços tem um evento?" — essa resposta é o pressuposto. Agora formalizamos:
 
 | Relação | Pressuposto | Cardinalidade | Participação | Porquê |
 |---------|------------|---------------|--------------|--------|
@@ -144,4 +144,4 @@ Total: **6 tabelas** — 4 entidades + 2 tabelas associativas.
 ---
 
 !!! tip "Próximo passo"
-    Na **Aula 08** vamos validar este modelo — procurar erros, escolher as melhores chaves primárias, definir domínios dos atributos e preparar a especificação final.
+    No próximo capítulo vamos validar este modelo — procurar erros, escolher as melhores chaves primárias, definir domínios dos atributos e preparar a especificação final.

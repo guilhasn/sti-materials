@@ -25,6 +25,5 @@ Materiais de apoio a componente pratica da UC **Sistemas e Tecnologias de Inform
 !!! info "Casos ancora"
     As aulas usam cenarios praticos para ligar conceito e implementacao.
 
-    - **Excel e BPMN (Aulas 1-5)**: gestao municipal em contexto de ocorrencias.
-    - **Modelacao de Dados (Aulas 6-8)**: desenho e refinamento de modelo de dados.
-    - **Threads (Ficha 3)**: comunicacao cliente-servidor com concorrencia controlada.
+    - **Excel e BPMN**: gestão municipal em contexto de ocorrências.
+    - **Modelação de Dados**: desenho e refinamento de modelo de dados.

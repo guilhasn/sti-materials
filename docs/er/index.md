@@ -29,11 +29,11 @@ O **Modelo E-R** fornece uma forma visual de projectar a estrutura dos dados **a
 
 ## Estrutura do módulo
 
-| Aula | Pergunta-chave | O que se faz |
-|------|---------------|--------------|
-| **Aula 06** — Do Excel ao Modelo Conceptual | "O que temos? O que está mal?" | Partir de um Excel caótico → identificar entidades, atributos e relações |
-| **Aula 07** — Das Relações às Tabelas | "Como organizar?" | Definir pressupostos → aplicar regras → obter tabelas |
-| **Aula 08** — Modelo Completo | "Como finalizar?" | Normalizar, escolher chaves, definir domínios → especificação final |
+| Etapa | Pergunta-chave | O que se faz |
+|-------|---------------|--------------|
+| **Do Excel ao Modelo Conceptual** | "O que temos? O que está mal?" | Partir de um Excel caótico → identificar entidades, atributos e relações |
+| **Das Relações às Tabelas** | "Como organizar?" | Definir pressupostos → aplicar regras → obter tabelas |
+| **Da Concepção à Especificação** | "Como finalizar?" | Normalizar, escolher chaves, definir domínios → especificação final |
 
 ---
 
