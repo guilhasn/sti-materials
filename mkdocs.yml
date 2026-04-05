@@ -78,9 +78,6 @@ nav:
       - Exercicios Guiados: er/casos-guiados.md
       - Exercicios: er/exercicios.md
       - Auto-avaliacao: er/avaliacao.md
-  - Threads (Ficha 3):
-      - Visao Geral: threads/index.md
-      - Guia da Ficha 3: threads/ficha-03.md
 
 extra:
   social:
