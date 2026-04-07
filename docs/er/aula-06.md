@@ -133,6 +133,9 @@ Para cada par de entidades, fazemos duas perguntas-guia e registamos a resposta:
 
 ## Tarefa 4 — Desenhar no ERDPlus
 
+!!! info "Notação Chen"
+    O ERDPlus usa a **notação Chen** — entidades em rectângulos, atributos em elipses ligadas por linhas, relações em losangos. É a notação clássica do Modelo E-R, a mesma da sebenta teórica, e a mais clara para aprender a separar visualmente os três conceitos.
+
 1. Abrir o [ERDPlus](https://erdplus.com) e criar conta gratuita (basta email e palavra-passe).
 2. Criar novo diagrama E-R: **File → New ER Diagram**.
 3. Clicar em **Entity** e criar as 4 entidades: Evento, Espaço, Artista, Patrocinador.

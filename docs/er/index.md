@@ -67,7 +67,13 @@ O **Modelo E-R** fornece uma forma visual de projectar a estrutura dos dados **a
 | **Não obrigatória (parcial)** | Linha simples | Nem todos participam |
 
 !!! note "Notação usada neste curso"
-    Usamos a convenção de **linha dupla** para participação obrigatória e **linha simples** para participação parcial — a mesma notação que o ERDPlus utiliza.
+    Adoptamos a **notação Chen** (Peter Chen, 1976) — a notação clássica do Modelo E-R, suportada pelo [ERDPlus](https://erdplus.com) e usada na sebenta teórica. Caracteriza-se por:
+
+    - **Rectângulos** para entidades, **losangos** para relações, **elipses** para atributos
+    - **Linha dupla** = participação obrigatória; **linha simples** = participação parcial
+    - **Atributo-chave** sublinhado; **multivalor** em elipse dupla; **derivado** a tracejado
+
+    Existem outras notações (Crow's Foot, UML, IDEF1X) usadas na indústria, mas a notação Chen é a mais clara para aprender o modelo conceptual — separa visualmente entidade, atributo e relação. Quando convertermos para o **esquema relacional** (tabelas), passamos à notação `TABELA(pk, atributo, fk)`, que o ERDPlus gera automaticamente.
 
 ---
 
