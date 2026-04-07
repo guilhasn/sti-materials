@@ -79,7 +79,35 @@ O **Modelo E-R** fornece uma forma visual de projectar a estrutura dos dados **a
 
 ## Conversão E-R → Tabelas — a intuição antes das regras
 
-Após desenhar o diagrama E-R, é necessário convertê-lo em **tabelas**. Em vez de decorar 7 regras, basta perceber **dois princípios**:
+### Porquê aplicar regras de conversão?
+
+O diagrama E-R é um **modelo conceptual** — desenha entidades, atributos e relações de forma visual. Mas uma base de dados real não guarda losangos nem elipses: guarda **tabelas** com linhas e colunas. As **regras de conversão** são o procedimento padronizado que traduz o diagrama em tabelas, garantindo que:
+
+- **Não se perde informação** — todos os atributos e ligações do diagrama ficam representados
+- **Não se gera redundância** — cada dado é guardado num único sítio
+- **Não aparecem campos vazios desnecessários** — evita-se o desperdício e os erros associados a NULLs
+- **Cada tabela tem uma chave que identifica univocamente as suas linhas** — base para consultas correctas
+
+Sem regras, dois analistas a converter o mesmo diagrama produziriam tabelas diferentes — algumas correctas, outras com problemas. As regras existem para que **qualquer pessoa**, partindo do mesmo diagrama, chegue às **mesmas tabelas**.
+
+### As 7 regras de conversão
+
+| Regra | Cardinalidade | Participação | Nº Tabelas | Onde fica a FK |
+|-------|--------------|-------------|------------|----------------|
+| 1 | 1:1 | Obrigatória ambas | 1 | PK de qualquer uma |
+| 2 | 1:1 | Obrigatória numa | 2 | PK da não-obrigatória → na obrigatória |
+| 3 | 1:1 | Nenhuma obrigatória | 3 | Tabela de relação com ambas PKs |
+| **4** | **1:N** | **Obrigatória lado N** | **2** | **PK do lado 1 → no lado N** |
+| 5 | 1:N | Não obrigatória lado N | 3 | Tabela de relação |
+| **6** | **M:N** | **Indiferente** | **3** | **Tabela de relação com ambas PKs** |
+| 7 | Ternária | Indiferente | 4 | Tabela de relação com todas PKs |
+
+!!! tip "Regras mais comuns na AP"
+    Na prática, **95% dos casos** caem em duas situações: **Regra 4** (relação 1:N obrigatória → 2 tabelas) e **Regra 6** (relação M:N → 3 tabelas). Dominar estas duas cobre quase todos os cenários reais.
+
+### A intuição por trás das regras
+
+Em vez de decorar 7 regras, basta perceber **dois princípios**:
 
 1. **Não queremos campos vazios (NULLs)** — desperdiçam espaço e geram confusão
 2. **Não queremos linhas repetidas** — geram inconsistências e erros
@@ -147,22 +175,6 @@ Tento meter `codPatrocinador` dentro de `EVENTO`:
 | Tudo limpo (sem vazios, sem repetições) | Fica com **2 tabelas** | Regra 4 |
 | **Células vazias** (NULLs) | Cria **3ª tabela** para esconder os vazios | Regra 5 |
 | **Linhas repetidas** | Cria **3ª tabela** para esconder as repetições | Regra 6 |
-
-!!! tip "Regras mais comuns na AP"
-    Na prática, **95% dos casos** caem em duas situações: **Regra 4** (relação 1:N obrigatória → 2 tabelas) e **Regra 6** (relação M:N → 3 tabelas). Dominar estas duas cobre quase todos os cenários reais.
-
-??? note "Tabela completa das 7 regras (referência)"
-    Para casos mais raros (1:1, ternárias), aqui fica o quadro completo:
-
-    | Regra | Cardinalidade | Participação | Nº Tabelas | Onde fica a FK |
-    |-------|--------------|-------------|------------|----------------|
-    | 1 | 1:1 | Obrigatória ambas | 1 | PK de qualquer uma |
-    | 2 | 1:1 | Obrigatória numa | 2 | PK da não-obrigatória → na obrigatória |
-    | 3 | 1:1 | Nenhuma obrigatória | 3 | Tabela de relação com ambas PKs |
-    | **4** | **1:N** | **Obrigatória lado N** | **2** | **PK do lado 1 → no lado N** |
-    | 5 | 1:N | Não obrigatória lado N | 3 | Tabela de relação |
-    | **6** | **M:N** | **Indiferente** | **3** | **Tabela de relação com ambas PKs** |
-    | 7 | Ternária | Indiferente | 4 | Tabela de relação com todas PKs |
 
 ---
 
