@@ -11,7 +11,6 @@ Materiais de apoio a componente pratica da UC **Sistemas e Tecnologias de Inform
 | [Excel para Decisao Publica](excel/index.md) | 1-3 | Tabelas Dinamicas, funcoes condicionais, caso integrador |
 | [BPMN - Processos na AP](bpmn/index.md) | 4-5 | Mapeamento AS-IS e redesenho TO-BE |
 | [Modelacao de Dados - E-R](er/index.md) | 6-8 | Modelo E-R, normalizacao pratica, do processo aos dados |
-| [Threads e Comunicacao em Rede](threads/index.md) | Ficha 3 | Servidor chat com 2 clientes, sincronizacao e concorrencia |
 
 ---
 

@@ -77,22 +77,92 @@ O **Modelo E-R** fornece uma forma visual de projectar a estrutura dos dados **a
 
 ---
 
-## Regras de Conversão E-R → Tabelas
+## Conversão E-R → Tabelas — a intuição antes das regras
 
-Após desenhar o diagrama E-R, é necessário convertê-lo em **tabelas**. As regras determinam quantas tabelas resultam:
+Após desenhar o diagrama E-R, é necessário convertê-lo em **tabelas**. Em vez de decorar 7 regras, basta perceber **dois princípios**:
 
-| Regra | Cardinalidade | Participação | Nº Tabelas | Onde fica a FK |
-|-------|--------------|-------------|------------|----------------|
-| 1 | 1:1 | Obrigatória ambas | 1 | PK de qualquer uma |
-| 2 | 1:1 | Obrigatória numa | 2 | PK da não-obrigatória → na obrigatória |
-| 3 | 1:1 | Nenhuma obrigatória | 3 | Tabela de relação com ambas PKs |
-| **4** | **1:N** | **Obrigatória lado N** | **2** | **PK do lado 1 → no lado N** |
-| 5 | 1:N | Não obrigatória lado N | 3 | Tabela de relação |
-| **6** | **M:N** | **Indiferente** | **3** | **Tabela de relação com ambas PKs** |
-| 7 | Ternária | Indiferente | 4 | Tabela de relação com todas PKs |
+1. **Não queremos campos vazios (NULLs)** — desperdiçam espaço e geram confusão
+2. **Não queremos linhas repetidas** — geram inconsistências e erros
+
+Para cada relação entre duas entidades, faça mentalmente este exercício:
+
+> *"Se eu meter a chave estrangeira (FK) no lado mais natural, escrever 3 linhas com dados reais — aparece algum vazio ou alguma linha repetida?"*
+
+A resposta dá-lhe **quantas tabelas** precisa.
+
+### Caso A — Tudo limpo → ficam 2 tabelas
+
+**Exemplo:** *Cada Evento realiza-se num único Espaço (obrigatório); cada Espaço acolhe vários Eventos.*
+
+Meto `codEspaco` dentro de `EVENTO`:
+
+| codEvento | nome | codEspaco |
+|---|---|---|
+| 1 | Festival Chocolate | 5 |
+| 2 | Mercado Medieval | 5 |
+| 3 | Natal Vila Feliz | 7 |
+
+- Há células vazias? **Não** ✅
+- Há linhas repetidas? **Não** ✅
+
+→ **Bastam 2 tabelas** (`EVENTO` e `ESPAÇO`). Esta situação chama-se tecnicamente **Regra 4**.
+
+### Caso B — Aparecem NULLs → precisa de 3 tabelas
+
+**Exemplo:** *Um Artista pode (ou não) ter um agente; cada agente representa vários artistas.*
+
+Meto `codAgente` dentro de `ARTISTA`:
+
+| codArtista | nome | codAgente |
+|---|---|---|
+| 10 | João Silva | 3 |
+| 11 | Ana Costa | *(vazio)* |
+| 12 | Pedro Lima | *(vazio)* |
+
+- Há células vazias? **Sim** ❌
+
+→ Criar uma **3ª tabela** `REPRESENTAÇÃO` só com os artistas que *têm* agente. Esta situação chama-se **Regra 5**.
+
+### Caso C — Aparecem repetições → precisa de 3 tabelas
+
+**Exemplo:** *Um Evento tem vários Patrocinadores; cada Patrocinador apoia vários Eventos.*
+
+Tento meter `codPatrocinador` dentro de `EVENTO`:
+
+| codEvento | nome | codPatrocinador |
+|---|---|---|
+| 1 | Festival Chocolate | 100 |
+| 1 | Festival Chocolate | 101 ← *mesmo evento outra vez!* |
+| 1 | Festival Chocolate | 102 ← *e outra vez!* |
+| 2 | Mercado Medieval | 100 |
+
+- Há linhas repetidas? **Sim** ❌
+
+→ Criar uma **3ª tabela** `PATROCÍNIO` com os pares (evento, patrocinador). Esta situação chama-se **Regra 6** e é **obrigatória sempre que há M:N**.
+
+### Atalho mental
+
+| O que vê na tabela tentativa? | O que faz? | Nome técnico |
+|---|---|---|
+| Tudo limpo (sem vazios, sem repetições) | Fica com **2 tabelas** | Regra 4 |
+| **Células vazias** (NULLs) | Cria **3ª tabela** para esconder os vazios | Regra 5 |
+| **Linhas repetidas** | Cria **3ª tabela** para esconder as repetições | Regra 6 |
 
 !!! tip "Regras mais comuns na AP"
-    A grande maioria dos casos usa a **Regra 4** (1:N obrigatória → 2 tabelas) e a **Regra 6** (M:N → 3 tabelas). Dominar estas duas cobre a maioria dos cenários reais.
+    Na prática, **95% dos casos** caem em duas situações: **Regra 4** (relação 1:N obrigatória → 2 tabelas) e **Regra 6** (relação M:N → 3 tabelas). Dominar estas duas cobre quase todos os cenários reais.
+
+??? note "Tabela completa das 7 regras (referência)"
+    Para casos mais raros (1:1, ternárias), aqui fica o quadro completo:
+
+    | Regra | Cardinalidade | Participação | Nº Tabelas | Onde fica a FK |
+    |-------|--------------|-------------|------------|----------------|
+    | 1 | 1:1 | Obrigatória ambas | 1 | PK de qualquer uma |
+    | 2 | 1:1 | Obrigatória numa | 2 | PK da não-obrigatória → na obrigatória |
+    | 3 | 1:1 | Nenhuma obrigatória | 3 | Tabela de relação com ambas PKs |
+    | **4** | **1:N** | **Obrigatória lado N** | **2** | **PK do lado 1 → no lado N** |
+    | 5 | 1:N | Não obrigatória lado N | 3 | Tabela de relação |
+    | **6** | **M:N** | **Indiferente** | **3** | **Tabela de relação com ambas PKs** |
+    | 7 | Ternária | Indiferente | 4 | Tabela de relação com todas PKs |
 
 ---
 

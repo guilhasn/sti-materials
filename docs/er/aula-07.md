@@ -4,7 +4,7 @@
 
 - [ ] Compreender o que é um pressuposto e como influencia o modelo.
 - [ ] Distinguir participação obrigatória de participação não obrigatória.
-- [ ] Aplicar as regras de conversão (Regra 4 e Regra 6) ao cenário de Vila Feliz.
+- [ ] Decidir, por intuição e por experimentação com dados reais, onde colocar as chaves estrangeiras.
 - [ ] Escrever o esquema relacional final com PKs e FKs.
 
 ---
@@ -16,8 +16,8 @@
 | **Pressuposto** | Frase que descreve uma regra de funcionamento da organização | "Cada evento realiza-se num único espaço" |
 | **Participação obrigatória** | Todos os registos da entidade participam na relação | Todo evento tem obrigatoriamente um espaço |
 | **Participação não obrigatória** | Nem todos os registos participam na relação | Nem todo artista está associado a um evento |
-| **Regra de conversão** | Regra que transforma uma relação do DER em tabelas | Regra 4 (1:N), Regra 6 (M:N) |
-| **Esquema relacional** | Conjunto final de tabelas com PKs e FKs | Evento(codEvento, nome, ..., codEspaco) |
+| **Chave estrangeira (FK)** | Atributo que referencia a PK de outra tabela | `codEspaco` dentro de Evento |
+| **Tabela associativa** | Tabela extra que nasce para representar uma relação M:N | Actuação, Patrocínio |
 
 ---
 
@@ -34,7 +34,7 @@
     "Um artista pode não estar associado a nenhum evento neste momento."
     → Participação **não obrigatória** no lado do Artista.
 
-    Os pressupostos determinam **cardinalidade** e **participação** — e estes determinam **qual regra de conversão aplicar**.
+    Os pressupostos determinam **cardinalidade** e **participação** — e estes vão guiar-nos na decisão sobre onde colocar as chaves estrangeiras.
 
 ---
 
@@ -42,6 +42,8 @@
 
 !!! abstract "Contexto"
     No capítulo anterior identificámos 4 entidades (Evento, Espaço, Artista, Patrocinador), definimos os seus atributos e desenhámos o diagrama E-R no ERDPlus. Agora vamos transformar esse diagrama em **tabelas organizadas**, prontas para uma base de dados.
+
+    Em vez de decorar "regras de conversão", vamos seguir uma abordagem intuitiva: desenhar as tabelas com **dados reais**, **tentar** colocar a FK no sítio mais natural e **verificar** se aparecem células vazias ou linhas repetidas. Os nomes das regras vêm depois — são apenas etiquetas para algo que já percebemos.
 
 ---
 
@@ -60,44 +62,145 @@ Lembram-se de quando perguntámos "quantos espaços tem um evento?" — essa res
 
 ---
 
-## Tarefa 2 — Aplicar regras de conversão
+## Tarefa 2 — Converter por intuição (não por receita)
 
-Agora, para cada relação, indicamos a regra e explicamos **porquê**.
+Para cada relação vamos fazer sempre o mesmo exercício:
 
-### Evento ↔ Espaço — Regra 4 (1:N com participação obrigatória no lado N)
+1. Olhar para o pressuposto.
+2. **Tentar** meter a FK no lado mais natural.
+3. Desenhar **3 ou 4 linhas** com dados reais de Vila Feliz.
+4. Perguntar: **há células vazias? há linhas repetidas?**
+5. Decidir: fica assim ou precisamos de uma tabela extra?
 
-**Porquê Regra 4?** Porque a cardinalidade é 1:N e o lado "muitos" (Evento) tem participação obrigatória — todo evento tem um espaço. A regra manda colocar a chave primária do lado "1" (Espaço) como **chave estrangeira** no lado "N" (Evento).
+### Evento ↔ Espaço
 
-**Resultado:** A tabela Evento recebe o atributo `codEspaco` como FK.
+**Pressuposto:** cada evento tem um único espaço; um espaço acolhe vários eventos (1:N, obrigatória no Evento).
+
+**Tentativa:** como cada evento tem *apenas um* espaço, parece natural guardar o `codEspaco` directamente dentro da linha do Evento. Vamos experimentar:
+
+**Tabela Evento (tentativa)**
+
+| codEvento | nome | dataInicio | codEspaco |
+|-----------|------|------------|-----------|
+| E01 | Festival Chocolate | 2026-03-14 | ESP02 |
+| E02 | Mercado Medieval | 2026-05-20 | ESP01 |
+| E03 | Natal Vila Feliz | 2026-12-10 | ESP03 |
+
+**Tabela Espaco**
+
+| codEspaco | nome | localizacao |
+|-----------|------|-------------|
+| ESP01 | Praça do Município | Centro |
+| ESP02 | Parque da Cerca | Zona Sul |
+| ESP03 | Pavilhão Municipal | Zona Norte |
+
+Agora perguntamos:
+
+- **Há células vazias?** Não. Todos os eventos têm um espaço preenchido (participação obrigatória).
+- **Há linhas repetidas?** Não. Cada evento aparece uma única vez.
+
+Resultado: **ficamos com estas duas tabelas**, tal como estão. Não precisamos de nada extra.
+
+!!! tip "Nota"
+    Isto que acabámos de fazer — colocar a PK do lado "1" como FK no lado "N" — é exactamente aquilo a que os livros chamam **Regra 4**. Mas não precisámos de decorar a regra: percebemos, com dados, que era a solução natural.
 
 ```
 Evento(codEvento, nome, dataInicio, dataFim, edicao, orcamento, codEspaco)
-                                                                 ↑ FK → Espaço
+                                                                 ↑ FK → Espaco
 ```
 
-### Evento ↔ Artista — Regra 6 (M:N)
+---
 
-**Porquê Regra 6?** Porque a cardinalidade é M:N — vários para vários. A regra manda criar uma **tabela associativa** cuja chave primária é composta pelas PKs das duas entidades. Esta tabela pode ter atributos próprios (cachê, data de actuação).
+### Evento ↔ Artista
 
-**Resultado:** Nasce a tabela **Actuação**.
+**Pressuposto:** cada evento pode ter *vários* artistas; cada artista pode actuar em *vários* eventos (M:N).
+
+**Tentativa:** por analogia com o caso anterior, alguém poderia sugerir "meter um `codArtista` dentro do Evento". Vamos experimentar com dados reais. Sabemos que o Festival de Chocolate tem 3 artistas confirmados: a Banda Filarmónica, o grupo Doces Vozes e o DJ Cacau.
+
+**Tabela Evento (tentativa falhada)**
+
+| codEvento | nome | dataInicio | codArtista |
+|-----------|------|------------|------------|
+| E01 | Festival Chocolate | 2026-03-14 | A01 |
+| E01 | Festival Chocolate | 2026-03-14 | A02 |
+| E01 | Festival Chocolate | 2026-03-14 | A03 |
+| E02 | Mercado Medieval | 2026-05-20 | A04 |
+
+Perguntamos:
+
+- **Há linhas repetidas?** **Sim!** O Festival de Chocolate aparece 3 vezes. O nome, a data, a edição, o orçamento — tudo duplicado três vezes, só para conseguir listar os três artistas. ❌
+- E se o Festival tiver 10 artistas? 10 linhas iguais, a desperdiçar espaço e a arriscar inconsistências (basta alguém corrigir a data numa linha e esquecer-se das outras).
+
+A tentativa falha. A outra opção seria meter `codEvento` dentro de Artista — mas aí seria o artista a repetir-se (o DJ Cacau actuaria em 5 eventos → 5 linhas iguais do DJ). Também falha.
+
+**Solução:** criamos uma **terceira tabela**, uma espécie de "folha de presenças", em que cada linha liga um evento a um artista.
+
+**Tabela Actuação**
+
+| codEvento | codArtista | cache | dataActuacao |
+|-----------|------------|-------|--------------|
+| E01 | A01 | 500 | 2026-03-14 |
+| E01 | A02 | 350 | 2026-03-14 |
+| E01 | A03 | 800 | 2026-03-15 |
+| E02 | A04 | 600 | 2026-05-20 |
+
+Agora cada Evento aparece uma única vez na tabela Evento, cada Artista aparece uma única vez na tabela Artista, e as **ligações** vivem na tabela Actuação. Sem repetições. ✅
+
+!!! tip "Nota"
+    Isto que acabámos de fazer — criar uma tabela associativa para representar uma relação de muitos-para-muitos — é aquilo a que se chama **Regra 6**. A tabela chamamos-lhe **Actuação** porque é isso que representa: um artista a actuar num evento.
 
 ```
-Actuação(codEvento, codArtista, cachê, dataActuação)
+Actuação(codEvento, codArtista, cache, dataActuacao)
           ↑ FK → Evento  ↑ FK → Artista
           └──── PK composta ────┘
 ```
 
-### Evento ↔ Patrocinador — Regra 6 (M:N)
+---
 
-**Porquê Regra 6?** Pela mesma razão: M:N. Criamos uma tabela associativa com atributos próprios (valor do patrocínio, tipo de contrapartida).
+### Evento ↔ Patrocinador
 
-**Resultado:** Nasce a tabela **Patrocínio**.
+**Pressuposto:** cada evento pode ter *vários* patrocinadores; cada patrocinador pode apoiar *vários* eventos (M:N).
+
+**Tentativa:** mesma história. Se tentarmos meter `codPatrocinador` dentro de Evento, o Festival de Chocolate (com 2 patrocinadores — Pastelaria Doce Lar e Banco Local) obriga-nos a duplicar a linha:
+
+**Tabela Evento (tentativa falhada)**
+
+| codEvento | nome | codPatrocinador |
+|-----------|------|-----------------|
+| E01 | Festival Chocolate | P01 |
+| E01 | Festival Chocolate | P02 |
+| E03 | Natal Vila Feliz | P01 |
+
+- **Há linhas repetidas?** Sim, outra vez. ❌
+
+Aplicamos a mesma ideia de antes: uma tabela à parte para as ligações. Chamamos-lhe **Patrocínio** porque é isso que cada linha representa — um acto de patrocínio, com o seu valor e a sua contrapartida.
+
+**Tabela Patrocínio**
+
+| codEvento | codPatrocinador | valor | tipo |
+|-----------|-----------------|-------|------|
+| E01 | P01 | 2000 | Monetário |
+| E01 | P02 | 1500 | Espécie |
+| E03 | P01 | 3000 | Monetário |
+
+Cada linha é única, cada patrocinador é registado uma única vez na tabela Patrocinador, cada evento uma única vez em Evento. ✅
+
+!!! tip "Nota"
+    Outra vez **Regra 6** — M:N resolve-se com tabela associativa. Já não é surpresa: sempre que ambos os lados podem ter "muitos", nasce uma tabela extra no meio.
 
 ```
 Patrocínio(codEvento, codPatrocinador, valor, tipo)
             ↑ FK → Evento  ↑ FK → Patrocinador
             └──── PK composta ──────┘
 ```
+
+---
+
+!!! note "A intuição por trás das duas decisões"
+    - Se um lado só pode ter **um** → a FK cabe directamente dentro dele, sem duplicar nada.
+    - Se **ambos** os lados podem ter **muitos** → nenhum dos lados aguenta a FK sem duplicar linhas, e nasce uma tabela associativa.
+
+    As "regras" dos livros são apenas nomes para estas duas observações. Quem percebe a intuição nunca mais precisa de decorar.
 
 ---
 
@@ -118,7 +221,7 @@ Artista(codArtista, nome, tipo, contacto, email)
 Patrocinador(codPatrocinador, nome, NIF, contacto, email)
               PK
 
-Actuação(codEvento, codArtista, cachê, dataActuação)
+Actuação(codEvento, codArtista, cache, dataActuacao)
          PK/FK      PK/FK
 
 Patrocínio(codEvento, codPatrocinador, valor, tipo)
