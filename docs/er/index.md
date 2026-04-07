@@ -43,7 +43,7 @@ O **Modelo E-R** fornece uma forma visual de projectar a estrutura dos dados **a
 |----------|---------|---------|---------|
 | **Entidade** | :material-rectangle-outline: Rectângulo | Objecto sobre o qual guardamos dados | Evento, Espaço, Artista |
 | **Atributo** | :material-ellipse-outline: Elipse | Propriedade de uma entidade | nome, data, lotação |
-| **Chave primária (PK)** | :material-key: Elipse sublinhada | Identifica univocamente cada registo | codEvento, NIF |
+| **Chave primária (PK)** | :material-key: Chave | Identifica univocamente cada registo | codEvento, NIF |
 | **Chave candidata** | — | Atributo que poderia ser PK | NIF, nº contribuinte |
 | **Chave estrangeira (FK)** | :material-key-link: | Referencia a PK de outra entidade | codEspaco na entidade Evento |
 | **Relação** | :material-rhombus-outline: Losango | Associação entre entidades | "realiza_em", "participa" |
