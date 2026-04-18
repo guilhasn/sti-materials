@@ -201,37 +201,52 @@ function buildFooter() {
 // ==== CONSTRUTOR DE FASES (reutilizável) ====
 // cada fase: título + descrição + pergunta-guia (opcional) + tabela/espaço
 
-function fase1() {
+function fase1(rows = []) {
   return [
     H2("Fase 1 — Determinar entidades"),
     P("Liste as entidades que identifica no cenário. Uma entidade representa algo que existe independentemente (pessoa, objecto, evento) e sobre a qual queremos guardar dados."),
     hint("Que «coisas» o cenário descreve? Cada uma pode tornar-se uma entidade?"),
     space(120),
-    makeTable(["Entidade", "Descrição curta"], [3200, 6438], [], 6),
+    makeTable(["Entidade", "Descrição curta"], [3200, 6438], rows, Math.max(1, 6 - rows.length)),
     space(),
   ];
 }
-function fase2() {
+function fase2(rows = []) {
   return [
     H2("Fase 2 — Desenhar DER simplificado"),
     P("Liste as relações entre pares de entidades, sem atributos ainda. Pode esboçar o diagrama em papel ou começar no ERDPlus."),
     hint("Entre que entidades existe ligação? Use um verbo curto para dar nome à relação."),
     space(120),
-    makeTable(["Relação (verbo)", "Entidade A", "Entidade B"], [3200, 3200, 3238], [], 5),
+    makeTable(["Relação (verbo)", "Entidade A", "Entidade B"], [3200, 3200, 3238], rows, Math.max(1, 5 - rows.length)),
     space(),
   ];
 }
-function fase3() {
-  return [
+function fase3(examples = []) {
+  const out = [
     H2("Fase 3 — Definir pressupostos"),
     P("Um pressuposto é uma regra de negócio explícita que justifica as cardinalidades. Escreva frases claras do tipo «Cada X tem um Y» ou «Um Z pode ter vários W»."),
     hint("O que é obrigatório? O que é opcional? Qual é o máximo de ligações em cada lado?"),
     space(120),
-    ...blankLines(7),
-    space(),
   ];
+  examples.forEach((ex, i) => {
+    out.push(new Paragraph({
+      spacing: { after: 120 },
+      border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: "AAAAAA", space: 1 } },
+      children: [new TextRun({ text: `${i + 1}. ${ex}`, italics: true, size: 22, color: "555555" })],
+    }));
+  });
+  const blanks = Math.max(1, 7 - examples.length);
+  for (let i = 0; i < blanks; i++) {
+    out.push(new Paragraph({
+      spacing: { after: 120 },
+      border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: "AAAAAA", space: 1 } },
+      children: [new TextRun({ text: `${examples.length + i + 1}.`, size: 22 })],
+    }));
+  }
+  out.push(space());
+  return out;
 }
-function fase4() {
+function fase4(rows = []) {
   return [
     H2("Fase 4 — Desenhar DER completo"),
     P("Para cada entidade indique os atributos, a chave primária candidata e as cardinalidades das suas relações (1:1, 1:N, M:N) com indicação de obrigatoriedade."),
@@ -240,7 +255,7 @@ function fase4() {
     makeTable(
       ["Entidade", "Atributos", "PK candidata", "Cardinalidades"],
       [2000, 3638, 1600, 2400],
-      [], 5
+      rows, Math.max(1, 5 - rows.length)
     ),
     space(),
   ];
@@ -292,23 +307,23 @@ function fase5(numRelations = 3) {
     ...blocks,
   ];
 }
-function fase6() {
+function fase6(rows = []) {
   return [
     H2("Fase 6 — Determinar chaves candidatas"),
     P("Para cada tabela, identifique os atributos (ou combinações) que podem identificar univocamente uma linha."),
     hint("Que atributos são únicos por natureza? Qual serve para distinguir linhas sem ambiguidade?"),
     space(120),
-    makeTable(["Tabela", "Chaves candidatas"], [3200, 6438], [], 6),
+    makeTable(["Tabela", "Chaves candidatas"], [3200, 6438], rows, Math.max(1, 6 - rows.length)),
     space(),
   ];
 }
-function fase7() {
+function fase7(rows = []) {
   return [
     H2("Fase 7 — Determinar chaves primárias"),
     P("Escolha a PK de cada tabela entre as chaves candidatas. Justifique a escolha (estabilidade, simplicidade, comprimento)."),
     hint("Prefira códigos internos a dados que podem mudar (ex.: CC, email). Simples vence compostas sempre que possível."),
     space(120),
-    makeTable(["Tabela", "PK escolhida", "Justificação"], [2400, 2800, 4438], [], 6),
+    makeTable(["Tabela", "PK escolhida", "Justificação"], [2400, 2800, 4438], rows, Math.max(1, 6 - rows.length)),
     space(),
   ];
 }
@@ -322,16 +337,19 @@ function fase8() {
     space(),
   ];
 }
-function fase9() {
+function fase9(rows = [], entidade = "") {
+  const heading = entidade
+    ? `Fase 9 — Definir domínio dos atributos (entidade ${entidade})`
+    : "Fase 9 — Definir domínio dos atributos (entidade principal)";
   return [
-    H2("Fase 9 — Definir domínio dos atributos (entidade principal)"),
+    H2(heading),
     P("Para a entidade mais central do modelo, defina o tipo de dados, obrigatoriedade e restrições de cada atributo."),
     hint("Tipos comuns: INTEGER, VARCHAR(n), DATE, DECIMAL(p,s), TEXT, BOOLEAN."),
     space(120),
     makeTable(
       ["Atributo", "Tipo", "Obrigatório", "Restrição"],
       [2800, 2600, 1600, 2638],
-      [], 7
+      rows, Math.max(1, 7 - rows.length)
     ),
     space(),
   ];
@@ -360,11 +378,20 @@ function contextoSection(contextoHtml, dadosHeaders, dadosRows, opts = {}) {
 
 // ==== CONTEÚDOS ====
 
-const fasesAll = (opts = {}) => [
-  ...fase1(), ...fase2(), ...fase3(), ...fase4(),
-  ...fase5(opts.numRelations ?? 3),
-  ...fase6(), ...fase7(), ...fase8(), ...fase9(),
-];
+const fasesAll = (opts = {}) => {
+  const s = opts.scaffold || {};
+  return [
+    ...fase1(s.f1),
+    ...fase2(s.f2),
+    ...fase3(s.f3),
+    ...fase4(s.f4),
+    ...fase5(opts.numRelations ?? 3),
+    ...fase6(s.f6),
+    ...fase7(s.f7),
+    ...fase8(),
+    ...fase9(s.f9, s.f9entidade),
+  ];
+};
 
 // --- TEMPLATE GENÉRICO ---
 const templateDoc = {
@@ -386,6 +413,58 @@ const templateDoc = {
     space(),
     ...fasesAll(),
   ],
+};
+
+// --- SCAFFOLD DATA PER CASE (plumbing pré-preenchido) ---
+
+// Nota pedagógica: apenas "plumbing" (continuidade entre fases) é pré-preenchido.
+// Todo o raciocínio (cardinalidades, participações, tentativas Fase 5, PKs, justificações) fica em branco.
+
+const scaffoldCaso1 = {
+  f1: [["Leitor", ""], ["Livro", ""], ["Autor", ""]],
+  f2: [["", "", ""], ["", "", ""]], // deixar em branco — identificar relações É pensamento
+  f3: ["Cada leitor tem um código único e pode requisitar vários livros ao longo do tempo."],
+  f4: [["Leitor", "", "", ""], ["Livro", "", "", ""], ["Autor", "", "", ""]],
+  f6: [["Leitor", ""], ["Livro", ""], ["Autor", ""], ["Emprestimo", ""], ["Autoria", ""]],
+  f7: [["Leitor", "", ""], ["Livro", "", ""], ["Autor", "", ""], ["Emprestimo", "", ""], ["Autoria", "", ""]],
+  f9entidade: "Leitor",
+  f9: [["codLeitor", "", "", ""], ["nome", "", "", ""], ["BI", "", "", ""],
+       ["morada", "", "", ""], ["telefone", "", "", ""], ["email", "", "", ""]],
+};
+
+const scaffoldCaso2 = {
+  f1: [["Requerente", ""], ["Processo", ""], ["Técnico", ""]],
+  f3: ["Cada processo pertence a exactamente um requerente."],
+  f4: [["Requerente", "", "", ""], ["Processo", "", "", ""], ["Técnico", "", "", ""]],
+  f6: [["Requerente", ""], ["Processo", ""], ["Tecnico", ""], ["Parecer", ""]],
+  f7: [["Requerente", "", ""], ["Processo", "", ""], ["Tecnico", "", ""], ["Parecer", "", ""]],
+  f9entidade: "Processo",
+  f9: [["numProcesso", "", "", ""], ["tipoObra", "", "", ""], ["descricao", "", "", ""],
+       ["localizacao", "", "", ""], ["dataEntrada", "", "", ""], ["estado", "", "", ""],
+       ["codRequerente (FK)", "", "", ""]],
+};
+
+const scaffoldCaso3 = {
+  f1: [["Utente", ""], ["Refeição", ""], ["Voluntário", ""], ["Rota", ""]],
+  f3: ["Cada utente pode receber várias refeições (uma ou duas por dia)."],
+  f4: [["Utente", "", "", ""], ["Refeição", "", "", ""], ["Voluntário", "", "", ""], ["Rota", "", "", ""]],
+  f6: [["Utente", ""], ["Refeicao", ""], ["Voluntario", ""], ["Rota", ""], ["Entrega", ""]],
+  f7: [["Utente", "", ""], ["Refeicao", "", ""], ["Voluntario", "", ""], ["Rota", "", ""], ["Entrega", "", ""]],
+  f9entidade: "Utente",
+  f9: [["codUtente", "", "", ""], ["nome", "", "", ""], ["morada", "", "", ""],
+       ["telefone", "", "", ""], ["contactoEmergencia", "", "", ""], ["restricoes", "", "", ""]],
+};
+
+const scaffoldCaso4 = {
+  f1: [["Viatura", ""], ["Motorista", ""], ["Departamento", ""], ["Manutenção", ""]],
+  f3: ["Cada viatura está atribuída a um departamento."],
+  f4: [["Viatura", "", "", ""], ["Motorista", "", "", ""], ["Departamento", "", "", ""], ["Manutenção", "", "", ""]],
+  f6: [["Viatura", ""], ["Motorista", ""], ["Departamento", ""], ["Manutencao", ""], ["Requisicao", ""]],
+  f7: [["Viatura", "", ""], ["Motorista", "", ""], ["Departamento", "", ""], ["Manutencao", "", ""], ["Requisicao", "", ""]],
+  f9entidade: "Viatura",
+  f9: [["matricula", "", "", ""], ["marca", "", "", ""], ["modelo", "", "", ""],
+       ["ano", "", "", ""], ["combustivel", "", "", ""], ["quilometragem", "", "", ""],
+       ["estado", "", "", ""], ["codDepartamento (FK)", "", "", ""]],
 };
 
 // --- GUIADOS (reaproveitam o contexto de casos-guiados.md) ---
@@ -450,6 +529,96 @@ const guiado4 = {
       null, null
     ),
     ...fasesAll({ numRelations: 4 }),
+  ],
+};
+
+// --- VERSÕES "COM APOIO" (scaffold) DOS GUIADOS ---
+// Mesmo conteúdo dos guiados, mas com plumbing pré-preenchido (nomes de entidades/tabelas repetidos entre fases).
+// Raciocínio (cardinalidades, Fase 5, PKs, justificações) fica em branco.
+
+function scaffoldIntro() {
+  return [
+    new Paragraph({
+      spacing: { before: 80, after: 120 },
+      shading: { fill: "FFF4E5", type: ShadingType.CLEAR },
+      border: {
+        top: { style: BorderStyle.SINGLE, size: 4, color: "F5A623" },
+        bottom: { style: BorderStyle.SINGLE, size: 4, color: "F5A623" },
+        left: { style: BorderStyle.SINGLE, size: 4, color: "F5A623" },
+        right: { style: BorderStyle.SINGLE, size: 4, color: "F5A623" },
+      },
+      children: [new TextRun({
+        text: "Versão com apoio — os nomes de entidades e tabelas já estão listados (continuidade entre fases). A si cabe preencher o raciocínio: atributos, cardinalidades, tentativas da Fase 5, chaves primárias e justificações.",
+        italics: true, size: 20, color: "8A5A00",
+      })],
+    }),
+  ];
+}
+
+const guiado1Scaffold = {
+  filename: "worksheet-guiado-1-biblioteca-scaffold.docx",
+  headerTitle: "Caso Guiado 1 (com apoio) — Biblioteca Municipal de Vila Feliz",
+  sections: [
+    H1("Caso Guiado 1 — Biblioteca Municipal de Vila Feliz"),
+    ...scaffoldIntro(),
+    ...contextoSection(
+      ["A Biblioteca Municipal de Vila Feliz gere um acervo de mais de 15.000 volumes e serve centenas de leitores registados. Actualmente, os empréstimos são registados numa folha Excel com todos os dados misturados: nome do leitor, morada, título do livro, autor, data do empréstimo — tudo na mesma linha."],
+      ["Leitor", "BI", "Morada", "Livro", "Autor", "ISBN", "DataEmpr.", "DataDev."],
+      [
+        ["Ana Costa", "12345678", "R. Principal, 1, Vila Feliz", "Dom Casmurro", "Machado de Assis", "978-85-01-1", "2025-01-10", "2025-01-25"],
+        ["Ana Costa", "12345678", "R. Principal, 1, Vila Feliz", "Os Maias", "Eça de Queirós", "978-972-1", "2025-01-15", "2025-01-30"],
+        ["João Silva", "87654321", "Av. Heróis, 5, Vila Feliz", "Dom Casmurro", "Machado de Assis", "978-85-01-1", "2025-02-01", "2025-02-15"],
+      ]
+    ),
+    ...fasesAll({ scaffold: scaffoldCaso1 }),
+  ],
+};
+
+const guiado2Scaffold = {
+  filename: "worksheet-guiado-2-licenciamento-scaffold.docx",
+  headerTitle: "Caso Guiado 2 (com apoio) — Licenciamento de Obras Particulares",
+  sections: [
+    H1("Caso Guiado 2 — Licenciamento de Obras Particulares"),
+    ...scaffoldIntro(),
+    ...contextoSection(
+      ["O Gabinete de Urbanismo da Câmara Municipal de Vila Feliz recebe pedidos de licenciamento de obras particulares (construção, ampliação, demolição). Cada pedido é analisado por técnicos que emitem pareceres. Actualmente, o registo é feito em processos físicos e numa folha Excel com dados do requerente, obra e pareceres todos juntos."],
+      ["Requerente", "NIF", "Morada", "NumProc.", "TipoObra", "Localização", "Técnico", "Especialidade", "Parecer", "DataParecer"],
+      [
+        ["Manuel Ferreira", "123456789", "R. Nova, 3, Vila Feliz", "P-2025/001", "Construção", "Lote 15, Z. Industrial", "Carlos Mendes", "Arquitectura", "Favorável", "2025-03-10"],
+        ["Manuel Ferreira", "123456789", "R. Nova, 3, Vila Feliz", "P-2025/001", "Construção", "Lote 15, Z. Industrial", "Rita Sousa", "Eng. Civil", "Favorável c/ cond.", "2025-03-12"],
+        ["Sofia Lopes", "987654321", "Av. Mar, 8, Vila Feliz", "P-2025/002", "Ampliação", "R. Oliveira, 22, Vila Feliz", "Carlos Mendes", "Arquitectura", "Desfavorável", "2025-03-15"],
+      ]
+    ),
+    ...fasesAll({ scaffold: scaffoldCaso2 }),
+  ],
+};
+
+const guiado3Scaffold = {
+  filename: "worksheet-guiado-3-refeicoes-scaffold.docx",
+  headerTitle: "Caso Guiado 3 (com apoio) — Refeições Sociais IPSS",
+  sections: [
+    H1("Caso Guiado 3 — Refeições Sociais IPSS"),
+    ...scaffoldIntro(),
+    ...contextoSection(
+      ["Uma IPSS (Instituição Particular de Solidariedade Social) de Vila Feliz distribui refeições ao domicílio a idosos e pessoas com mobilidade reduzida. Os voluntários entregam as refeições seguindo rotas pré-definidas. Cada utente pode ter restrições alimentares. O registo actual é feito em papel e num quadro na cozinha.",
+       "Os voluntários têm turnos rotativos e cada rota cobre uma zona diferente da vila."],
+      null, null
+    ),
+    ...fasesAll({ scaffold: scaffoldCaso3 }),
+  ],
+};
+
+const guiado4Scaffold = {
+  filename: "worksheet-guiado-4-viaturas-scaffold.docx",
+  headerTitle: "Caso Guiado 4 (com apoio) — Viaturas e Motoristas da Câmara",
+  sections: [
+    H1("Caso Guiado 4 — Viaturas e Motoristas da Câmara"),
+    ...scaffoldIntro(),
+    ...contextoSection(
+      ["A Câmara Municipal de Vila Feliz gere um pool de viaturas partilhadas entre serviços. Os motoristas são funcionários que podem conduzir diferentes viaturas. Cada viatura tem manutenções periódicas registadas. As requisições são feitas por departamentos para datas específicas. Actualmente, o controlo é feito em folhas Excel separadas — uma para viaturas, outra para motoristas, outra para requisições — sem ligação entre elas."],
+      null, null
+    ),
+    ...fasesAll({ numRelations: 4, scaffold: scaffoldCaso4 }),
   ],
 };
 
@@ -775,6 +944,7 @@ const docs = [
   templateDoc,
   trainingDoc,
   guiado1, guiado2, guiado3, guiado4,
+  guiado1Scaffold, guiado2Scaffold, guiado3Scaffold, guiado4Scaffold,
   auto1, auto2, auto3, auto4,
 ];
 

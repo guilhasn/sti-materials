@@ -18,13 +18,18 @@ Quatro exercícios guiados passo-a-passo para construir diagramas Entidade-Relac
     8. **Fase 8** — Definir tabelas finais (esquema relacional)
     9. **Fase 9** — Definir domínio dos atributos (entidade principal)
 
-!!! tip "Worksheets Word para preencher"
-    Cada caso tem um **worksheet em Word** com as 9 fases em branco — para preencher enquanto acompanha a resolução. Descarregar:
+!!! tip "Worksheets Word para preencher — duas versões por caso"
+    Cada caso tem **duas versões** do worksheet em Word. Escolha a que melhor se adequa ao seu ritmo:
 
-    - [Caso 1 — Biblioteca Municipal](worksheets/worksheet-guiado-1-biblioteca.docx)
-    - [Caso 2 — Licenciamento de Obras](worksheets/worksheet-guiado-2-licenciamento.docx)
-    - [Caso 3 — Refeições Sociais IPSS](worksheets/worksheet-guiado-3-refeicoes.docx)
-    - [Caso 4 — Viaturas e Motoristas](worksheets/worksheet-guiado-4-viaturas.docx)
+    | Caso | Versão em branco (autónoma) | Versão com apoio (scaffold) |
+    |------|---|---|
+    | 1 — Biblioteca Municipal | [worksheet-guiado-1-biblioteca.docx](worksheets/worksheet-guiado-1-biblioteca.docx) | [...-scaffold.docx](worksheets/worksheet-guiado-1-biblioteca-scaffold.docx) |
+    | 2 — Licenciamento de Obras | [worksheet-guiado-2-licenciamento.docx](worksheets/worksheet-guiado-2-licenciamento.docx) | [...-scaffold.docx](worksheets/worksheet-guiado-2-licenciamento-scaffold.docx) |
+    | 3 — Refeições Sociais IPSS | [worksheet-guiado-3-refeicoes.docx](worksheets/worksheet-guiado-3-refeicoes.docx) | [...-scaffold.docx](worksheets/worksheet-guiado-3-refeicoes-scaffold.docx) |
+    | 4 — Viaturas e Motoristas | [worksheet-guiado-4-viaturas.docx](worksheets/worksheet-guiado-4-viaturas.docx) | [...-scaffold.docx](worksheets/worksheet-guiado-4-viaturas-scaffold.docx) |
+
+    - **Versão em branco**: tudo por preencher — maximiza a aprendizagem. Recomendada.
+    - **Versão com apoio**: nomes de entidades e tabelas já listados (continuidade entre fases). Os passos de raciocínio — cardinalidades, Tentativas da Fase 5, chaves primárias, justificações — continuam em branco. Útil para começar com segurança ou quando o tempo em aula é curto.
 
     Existe ainda um [**template genérico**](worksheets/template-er.docx) para aplicar a qualquer cenário.
 
