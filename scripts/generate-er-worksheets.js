@@ -66,26 +66,27 @@ function H3(text) {
   });
 }
 
-function headerCell(text, width) {
+function headerCell(text, width, fontSize = 20) {
   return new TableCell({
     borders: borders(),
     width: { size: width, type: WidthType.DXA },
     shading: { fill: DARK_BLUE, type: ShadingType.CLEAR },
     margins: cellMargins,
     children: [new Paragraph({
-      children: [new TextRun({ text, bold: true, color: "FFFFFF", size: 20 })],
+      children: [new TextRun({ text, bold: true, color: "FFFFFF", size: fontSize })],
     })],
   });
 }
 function cell(text, width, opts = {}) {
+  const sz = opts.size ?? 20;
   const paras = String(text ?? "").split("\n").map(line =>
-    new Paragraph({ children: [new TextRun({ text: line, size: 20, bold: opts.bold })] })
+    new Paragraph({ children: [new TextRun({ text: line, size: sz, bold: opts.bold })] })
   );
   return new TableCell({
     borders: borders(),
     width: { size: width, type: WidthType.DXA },
     shading: opts.fill ? { fill: opts.fill, type: ShadingType.CLEAR } : undefined,
-    margins: cellMargins,
+    margins: opts.tight ? { top: 40, bottom: 40, left: 80, right: 80 } : cellMargins,
     children: paras,
   });
 }
@@ -98,15 +99,18 @@ function emptyCell(width, height = 300) {
   });
 }
 
-function makeTable(headers, widths, dataRows = [], blankRows = 0) {
+function makeTable(headers, widths, dataRows = [], blankRows = 0, opts = {}) {
+  const hdrSize = opts.headerSize ?? 20;
+  const cellSize = opts.cellSize ?? 20;
+  const tight = !!opts.tight;
   const rows = [];
   rows.push(new TableRow({
     tableHeader: true,
-    children: headers.map((h, i) => headerCell(h, widths[i])),
+    children: headers.map((h, i) => headerCell(h, widths[i], hdrSize)),
   }));
   dataRows.forEach(r => {
     rows.push(new TableRow({
-      children: r.map((v, i) => cell(v, widths[i])),
+      children: r.map((v, i) => cell(v, widths[i], { size: cellSize, tight })),
     }));
   });
   for (let i = 0; i < blankRows; i++) {
@@ -333,16 +337,22 @@ function fase9() {
   ];
 }
 
-function contextoSection(contextoHtml, dadosHeaders, dadosRows) {
+function contextoSection(contextoHtml, dadosHeaders, dadosRows, opts = {}) {
   const out = [H2("Contexto")];
   contextoHtml.forEach(p => out.push(P(p, { italic: true })));
   if (dadosHeaders) {
     out.push(H3("Dados actuais (exemplo)"));
-    const widths = dadosHeaders.map(() => Math.floor(CW / dadosHeaders.length));
-    // ajuste para soma exacta
+    const n = dadosHeaders.length;
+    // Fonte automaticamente menor para tabelas com muitas colunas
+    const compact = n > 6;
+    const widths = dadosHeaders.map(() => Math.floor(CW / n));
     const diff = CW - widths.reduce((a,b) => a+b, 0);
     widths[0] += diff;
-    out.push(makeTable(dadosHeaders, widths, dadosRows));
+    out.push(makeTable(dadosHeaders, widths, dadosRows, 0, {
+      headerSize: compact ? 14 : 20,
+      cellSize: compact ? 14 : 20,
+      tight: compact,
+    }));
     out.push(space());
   }
   return out;
@@ -387,11 +397,11 @@ const guiado1 = {
     H1("Caso Guiado 1 — Biblioteca Municipal de Vila Feliz"),
     ...contextoSection(
       ["A Biblioteca Municipal de Vila Feliz gere um acervo de mais de 15.000 volumes e serve centenas de leitores registados. Actualmente, os empréstimos são registados numa folha Excel com todos os dados misturados: nome do leitor, morada, título do livro, autor, data do empréstimo — tudo na mesma linha."],
-      ["Leitor", "BI", "Livro", "Autor", "DataEmpr."],
+      ["Leitor", "BI", "Morada", "Livro", "Autor", "ISBN", "DataEmpr.", "DataDev."],
       [
-        ["Ana Costa", "12345678", "Dom Casmurro", "Machado de Assis", "2025-01-10"],
-        ["Ana Costa", "12345678", "Os Maias", "Eça de Queirós", "2025-01-15"],
-        ["João Silva", "87654321", "Dom Casmurro", "Machado de Assis", "2025-02-01"],
+        ["Ana Costa", "12345678", "R. Principal, 1, Vila Feliz", "Dom Casmurro", "Machado de Assis", "978-85-01-1", "2025-01-10", "2025-01-25"],
+        ["Ana Costa", "12345678", "R. Principal, 1, Vila Feliz", "Os Maias", "Eça de Queirós", "978-972-1", "2025-01-15", "2025-01-30"],
+        ["João Silva", "87654321", "Av. Heróis, 5, Vila Feliz", "Dom Casmurro", "Machado de Assis", "978-85-01-1", "2025-02-01", "2025-02-15"],
       ]
     ),
     ...fasesAll(),
@@ -405,11 +415,11 @@ const guiado2 = {
     H1("Caso Guiado 2 — Licenciamento de Obras Particulares"),
     ...contextoSection(
       ["O Gabinete de Urbanismo da Câmara Municipal de Vila Feliz recebe pedidos de licenciamento de obras particulares (construção, ampliação, demolição). Cada pedido é analisado por técnicos que emitem pareceres. Actualmente, o registo é feito em processos físicos e numa folha Excel com dados do requerente, obra e pareceres todos juntos."],
-      ["Requerente", "NumProcesso", "TipoObra", "Técnico", "Parecer"],
+      ["Requerente", "NIF", "Morada", "NumProc.", "TipoObra", "Localização", "Técnico", "Especialidade", "Parecer", "DataParecer"],
       [
-        ["Manuel Ferreira", "P-2025/001", "Construção", "Carlos Mendes", "Favorável"],
-        ["Manuel Ferreira", "P-2025/001", "Construção", "Rita Sousa", "Favorável c/ cond."],
-        ["Sofia Lopes", "P-2025/002", "Ampliação", "Carlos Mendes", "Desfavorável"],
+        ["Manuel Ferreira", "123456789", "R. Nova, 3, Vila Feliz", "P-2025/001", "Construção", "Lote 15, Z. Industrial", "Carlos Mendes", "Arquitectura", "Favorável", "2025-03-10"],
+        ["Manuel Ferreira", "123456789", "R. Nova, 3, Vila Feliz", "P-2025/001", "Construção", "Lote 15, Z. Industrial", "Rita Sousa", "Eng. Civil", "Favorável c/ cond.", "2025-03-12"],
+        ["Sofia Lopes", "987654321", "Av. Mar, 8, Vila Feliz", "P-2025/002", "Ampliação", "R. Oliveira, 22, Vila Feliz", "Carlos Mendes", "Arquitectura", "Desfavorável", "2025-03-15"],
       ]
     ),
     ...fasesAll(),
@@ -452,11 +462,11 @@ const auto1 = {
     H1("Exercício Autónomo 1 — Obras e Empreitadas"),
     ...contextoSection(
       ["A Câmara Municipal de Vila Feliz gere actualmente mais de 30 obras públicas em simultâneo — estradas, escolas, equipamentos desportivos, espaços verdes. Cada obra é adjudicada a um empreiteiro através de concurso público. Um fiscal da câmara acompanha a execução. Actualmente, os dados estão em pastas físicas e folhas Excel separadas por ano."],
-      ["Obra", "Empreiteiro", "NIFEmpr.", "Fiscal", "Valor"],
+      ["Obra", "Local", "Empreiteiro", "NIFEmpr.", "Contacto", "Fiscal", "DataInício", "DataFim", "Valor", "Estado"],
       [
-        ["Requal. EN8", "Construções Silva", "501234567", "Eng. Ana Costa", "850 000€"],
-        ["Pavilhão Escolar", "Construções Silva", "501234567", "Eng. Pedro Lopes", "320 000€"],
-        ["Parque Urbano", "Jardins & Co", "509876543", "Eng. Ana Costa", "175 000€"],
+        ["Requal. EN8", "Km 45-52", "Construções Silva", "501234567", "J. Silva / 918...", "Eng. Ana Costa", "2024-09-01", "2025-03-30", "850 000€", "Em curso"],
+        ["Pavilhão Escolar", "EB Vila Feliz", "Construções Silva", "501234567", "J. Silva / 918...", "Eng. Pedro Lopes", "2024-11-15", "2025-06-30", "320 000€", "Em curso"],
+        ["Parque Urbano", "Zona Norte", "Jardins & Co", "509876543", "M. Jardim / 926...", "Eng. Ana Costa", "2025-01-10", "2025-08-30", "175 000€", "Adjudicada"],
       ]
     ),
     ...fasesAll(),
@@ -470,12 +480,12 @@ const auto2 = {
     H1("Exercício Autónomo 2 — IPSS: Utentes e Valências"),
     ...contextoSection(
       ["O Centro Social e Paroquial de Vila Feliz oferece várias valências: lar de idosos, centro de dia, apoio domiciliário, creche e ATL. Cada utente pode estar inscrito em uma ou mais valências. A cada utente é atribuído um técnico responsável (assistente social, enfermeiro, educador). Os familiares são contactados em caso de emergência. A gestão é feita em fichas de papel e num Excel por valência."],
-      ["Utente", "Valência", "Técnico", "Familiar", "Parentesco"],
+      ["Utente", "DataNasc", "Valência", "Mensal.", "Técnico", "FunçãoTec.", "Familiar", "TelFam.", "Parent.", "DataInscr.", "Estado"],
       [
-        ["Maria Santos", "Lar", "Dr. João Alves", "Ana Santos", "Filha"],
-        ["Maria Santos", "Centro de Dia", "Dr. João Alves", "Ana Santos", "Filha"],
-        ["António Ferreira", "Lar", "Enf. Rosa Lima", "Pedro Ferreira", "Filho"],
-        ["Sofia Mendes", "Creche", "Ed. Clara Dias", "Joana Mendes", "Mãe"],
+        ["Maria Santos", "1942-03-15", "Lar", "850€", "Dr. João Alves", "Assist. Social", "Ana Santos", "912345678", "Filha", "2023-06-01", "Activo"],
+        ["Maria Santos", "1942-03-15", "Centro de Dia", "320€", "Dr. João Alves", "Assist. Social", "Ana Santos", "912345678", "Filha", "2024-01-10", "Activo"],
+        ["António Ferreira", "1938-11-22", "Lar", "950€", "Enf. Rosa Lima", "Enfermeira", "Pedro Ferreira", "926789012", "Filho", "2022-09-15", "Activo"],
+        ["Sofia Mendes", "2020-07-08", "Creche", "280€", "Ed. Clara Dias", "Educadora", "Joana Mendes", "918456789", "Mãe", "2024-09-01", "Activo"],
       ]
     ),
     ...fasesAll(),
@@ -489,11 +499,12 @@ const auto3 = {
     H1("Exercício Autónomo 3 — ESTG-IPL: Estágios Curriculares"),
     ...contextoSection(
       ["A ESTG-IPL gere estágios curriculares para todos os cursos de licenciatura. Cada aluno é colocado numa empresa da região, com um orientador da escola e um supervisor da empresa. O processo actual é gerido por email entre coordenadores, alunos e empresas. Não existe base de dados centralizada — cada coordenador tem o seu Excel."],
-      ["Aluno", "Curso", "Empresa", "Supervisor", "Orientador"],
+      ["Aluno", "NumAluno", "Curso", "Empresa", "NIFEmp.", "Supervisor", "OrientESTG", "Tema", "DataIni", "DataFim", "Nota"],
       [
-        ["João Silva", "EI", "TechLeiria", "Dr. Rui Costa", "Prof. Ana Matos"],
-        ["Maria Costa", "EI", "TechLeiria", "Dr. Rui Costa", "Prof. Ana Matos"],
-        ["Pedro Santos", "GAP", "CM Leiria", "Dra. Sofia Lima", "Prof. Carlos Dias"],
+        ["João Silva", "2100123", "EI", "TechLeiria", "501111222", "Dr. Rui Costa", "Prof. Ana Matos", "App Mobile", "2025-02-01", "2025-06-30", "—"],
+        ["Maria Costa", "2100456", "EI", "TechLeiria", "501111222", "Dr. Rui Costa", "Prof. Ana Matos", "Chatbot IA", "2025-02-01", "2025-06-30", "—"],
+        ["Pedro Santos", "2100789", "GAP", "CM Leiria", "500222333", "Dra. Sofia Lima", "Prof. Carlos Dias", "Gestão RH", "2025-03-01", "2025-07-31", "—"],
+        ["Ana Ferreira", "2100234", "CTESP-TI", "WebSoft", "509444555", "Eng. Tiago Lopes", "Prof. Ana Matos", "E-commerce", "2025-02-15", "2025-05-15", "—"],
       ]
     ),
     ...fasesAll(),
