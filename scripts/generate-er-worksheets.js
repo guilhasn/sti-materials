@@ -221,7 +221,8 @@ function fase2(rows = []) {
     space(),
   ];
 }
-function fase3(examples = []) {
+function fase3(examples = [], opts = {}) {
+  const isSolution = !!opts.solution;
   const out = [
     H2("Fase 3 — Definir pressupostos"),
     P("Um pressuposto é uma regra de negócio explícita que justifica as cardinalidades. Escreva frases claras do tipo «Cada X tem um Y» ou «Um Z pode ter vários W»."),
@@ -232,16 +233,23 @@ function fase3(examples = []) {
     out.push(new Paragraph({
       spacing: { after: 120 },
       border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: "AAAAAA", space: 1 } },
-      children: [new TextRun({ text: `${i + 1}. ${ex}`, italics: true, size: 22, color: "555555" })],
+      children: [new TextRun({
+        text: `${i + 1}. ${ex}`,
+        italics: !isSolution,
+        size: 22,
+        color: isSolution ? "000000" : "555555",
+      })],
     }));
   });
-  const blanks = Math.max(1, 7 - examples.length);
-  for (let i = 0; i < blanks; i++) {
-    out.push(new Paragraph({
-      spacing: { after: 120 },
-      border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: "AAAAAA", space: 1 } },
-      children: [new TextRun({ text: `${examples.length + i + 1}.`, size: 22 })],
-    }));
+  if (!isSolution) {
+    const blanks = Math.max(1, 7 - examples.length);
+    for (let i = 0; i < blanks; i++) {
+      out.push(new Paragraph({
+        spacing: { after: 120 },
+        border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: "AAAAAA", space: 1 } },
+        children: [new TextRun({ text: `${examples.length + i + 1}.`, size: 22 })],
+      }));
+    }
   }
   out.push(space());
   return out;
@@ -307,6 +315,59 @@ function fase5(numRelations = 3) {
     ...blocks,
   ];
 }
+
+// Bloco de Fase 5 com solução completa (usado em worksheets "com solução")
+function fase5SolBlock(s) {
+  return [
+    new Paragraph({
+      spacing: { before: 200, after: 80 },
+      shading: { fill: LIGHT_BLUE, type: ShadingType.CLEAR },
+      children: [new TextRun({ text: `  Relação: ${s.nome}`, bold: true, size: 22, color: DARK_BLUE })],
+    }),
+    new Paragraph({
+      spacing: { after: 80 },
+      children: [
+        new TextRun({ text: "Passo A — Tentativa: ", bold: true, size: 20 }),
+        new TextRun({ text: s.tentativa, size: 20 }),
+      ],
+    }),
+    makeTable(s.headers, [2410, 2410, 2409, 2409], s.rows, 0),
+    space(80),
+    new Paragraph({
+      spacing: { after: 60 },
+      children: [
+        new TextRun({ text: "Passo B — Observação: ", bold: true, size: 20 }),
+        new TextRun({ text: (s.temNull ? "☑" : "☐") + "  Há NULLs?     ", size: 20 }),
+        new TextRun({ text: (s.temRep ? "☑" : "☐") + "  Há repetições?", size: 20 }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 60 },
+      children: [
+        new TextRun({ text: "Passo C — Decisão: ", bold: true, size: 20 }),
+        new TextRun({ text: (!s.decisao3 ? "☑" : "☐") + "  Fica assim (2 tabelas)     ", size: 20 }),
+        new TextRun({ text: (s.decisao3 ? "☑" : "☐") + `  Criar tabela associativa: ${s.assoc || "—"} (3 tabelas)`, size: 20 }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 200 },
+      children: [
+        new TextRun({ text: "Passo D — Regra aplicada: ", bold: true, size: 20 }),
+        new TextRun({ text: `Regra ${s.regra}`, bold: true, size: 20, color: DARK_BLUE }),
+        ...(s.nota ? [new TextRun({ text: `  (${s.nota})`, italics: true, size: 20 })] : []),
+      ],
+    }),
+  ];
+}
+
+function fase5Sol(scenarios) {
+  return [
+    H2("Fase 5 — Determinar tabelas (abordagem intuitiva)"),
+    P("Solução passo-a-passo para cada relação, seguindo o método: (A) tentativa com dados; (B) observação; (C) decisão; (D) nome da regra."),
+    space(120),
+    ...scenarios.flatMap(s => fase5SolBlock(s)),
+  ];
+}
 function fase6(rows = []) {
   return [
     H2("Fase 6 — Determinar chaves candidatas"),
@@ -327,15 +388,25 @@ function fase7(rows = []) {
     space(),
   ];
 }
-function fase8() {
-  return [
+function fase8(schema = []) {
+  const out = [
     H2("Fase 8 — Definir tabelas finais (esquema relacional)"),
     P("Escreva o esquema relacional final na notação TABELA(pk, atributo, #fk). Sublinhe a chave primária e prefixe as chaves estrangeiras com #."),
     hint("Uma linha por tabela. As FKs apontam para as PKs das tabelas referenciadas."),
     space(120),
-    ...blankLines(10),
-    space(),
   ];
+  if (schema.length) {
+    schema.forEach(line => {
+      out.push(new Paragraph({
+        spacing: { after: 80 },
+        children: [new TextRun({ text: line, font: "Consolas", size: 22, color: DARK_BLUE })],
+      }));
+    });
+  } else {
+    out.push(...blankLines(10));
+  }
+  out.push(space());
+  return out;
 }
 function fase9(rows = [], entidade = "") {
   const heading = entidade
@@ -380,15 +451,16 @@ function contextoSection(contextoHtml, dadosHeaders, dadosRows, opts = {}) {
 
 const fasesAll = (opts = {}) => {
   const s = opts.scaffold || {};
+  const isSol = !!opts.solution;
   return [
     ...fase1(s.f1),
     ...fase2(s.f2),
-    ...fase3(s.f3),
+    ...fase3(s.f3, { solution: isSol }),
     ...fase4(s.f4),
-    ...fase5(opts.numRelations ?? 3),
+    ...(isSol && s.f5 ? fase5Sol(s.f5) : fase5(opts.numRelations ?? 3)),
     ...fase6(s.f6),
     ...fase7(s.f7),
-    ...fase8(),
+    ...fase8(isSol ? (s.f8 || []) : []),
     ...fase9(s.f9, s.f9entidade),
   ];
 };
@@ -465,6 +537,365 @@ const scaffoldCaso4 = {
   f9: [["matricula", "", "", ""], ["marca", "", "", ""], ["modelo", "", "", ""],
        ["ano", "", "", ""], ["combustivel", "", "", ""], ["quilometragem", "", "", ""],
        ["estado", "", "", ""], ["codDepartamento (FK)", "", "", ""]],
+};
+
+// --- DADOS DE SOLUÇÃO COMPLETA (todos os pontos pré-preenchidos) ---
+
+const solucaoCaso1 = {
+  f1: [
+    ["Leitor", "Pessoa registada na biblioteca"],
+    ["Livro", "Obra do acervo"],
+    ["Autor", "Quem escreveu a obra"],
+  ],
+  f2: [
+    ["requisita", "Leitor", "Livro"],
+    ["escreve", "Autor", "Livro"],
+  ],
+  f3: [
+    "Cada leitor tem um código único e pode requisitar vários livros ao longo do tempo.",
+    "Um livro pode ser requisitado por vários leitores (em datas diferentes).",
+    "Um livro tem pelo menos um autor; pode ter vários co-autores.",
+    "Um autor pode escrever vários livros.",
+    "Nem todo leitor tem empréstimo activo; nem todo livro está emprestado.",
+    "O mesmo leitor pode requisitar o mesmo livro em datas diferentes.",
+  ],
+  f4: [
+    ["Leitor", "codLeitor, nome, BI, morada, telefone, email", "codLeitor", "requisita Livro (M:N)"],
+    ["Livro", "ISBN, titulo, anoPublicacao, editora, numExemplares", "ISBN", "requisitado (M:N); escrito (M:N)"],
+    ["Autor", "codAutor, nome, nacionalidade", "codAutor", "escreve Livro (M:N)"],
+  ],
+  f5: [
+    {
+      nome: "Leitor ↔ Livro (M:N)",
+      tentativa: "Colocar ISBN na tabela LEITOR:",
+      headers: ["codLeitor", "nome", "BI", "ISBN"],
+      rows: [
+        ["1", "Ana Costa", "12345678", "978-85-01-1"],
+        ["1", "Ana Costa", "12345678", "978-972-1"],
+        ["2", "João Silva", "87654321", "978-85-01-1"],
+      ],
+      temNull: false, temRep: true,
+      decisao3: true, assoc: "Empréstimo", regra: 6,
+      nota: "M:N exige sempre tabela associativa",
+    },
+    {
+      nome: "Autor ↔ Livro (M:N)",
+      tentativa: "Colocar codAutor na tabela LIVRO:",
+      headers: ["ISBN", "titulo", "ano", "codAutor"],
+      rows: [
+        ["978-85-01-1", "Dom Casmurro", "1899", "10"],
+        ["978-99-01", "Obra Conjunta", "2020", "10"],
+        ["978-99-01", "Obra Conjunta", "2020", "11"],
+      ],
+      temNull: false, temRep: true,
+      decisao3: true, assoc: "Autoria", regra: 6,
+    },
+  ],
+  f6: [
+    ["Leitor", "codLeitor; BI"],
+    ["Livro", "ISBN"],
+    ["Autor", "codAutor"],
+    ["Empréstimo", "(codLeitor, ISBN, dataEmprestimo)"],
+    ["Autoria", "(codAutor, ISBN)"],
+  ],
+  f7: [
+    ["Leitor", "codLeitor", "Código interno estável; BI pode mudar (CC novo)"],
+    ["Livro", "ISBN", "Identificador internacional único"],
+    ["Autor", "codAutor", "Código interno; nomes podem repetir-se"],
+    ["Empréstimo", "(codLeitor, ISBN, dataEmprestimo)", "Mesmo leitor pode requisitar mesmo livro em datas distintas"],
+    ["Autoria", "(codAutor, ISBN)", "Um autor só co-assina uma vez o mesmo livro"],
+  ],
+  f8: [
+    "Leitor(codLeitor, nome, BI, morada, telefone, email)",
+    "Livro(ISBN, titulo, anoPublicacao, editora, numExemplares)",
+    "Autor(codAutor, nome, nacionalidade)",
+    "Empréstimo(#codLeitor, #ISBN, dataEmprestimo, dataDevolucao, devolvido)",
+    "Autoria(#codAutor, #ISBN)",
+  ],
+  f9entidade: "Leitor",
+  f9: [
+    ["codLeitor", "INTEGER", "Sim", "PK, auto-incremento"],
+    ["nome", "VARCHAR(100)", "Sim", "—"],
+    ["BI", "VARCHAR(15)", "Sim", "Único"],
+    ["morada", "VARCHAR(200)", "Sim", "—"],
+    ["telefone", "VARCHAR(15)", "Não", "Formato nacional"],
+    ["email", "VARCHAR(100)", "Não", "Formato email válido"],
+  ],
+};
+
+const solucaoCaso2 = {
+  f1: [
+    ["Requerente", "Pessoa/entidade que pede licenciamento"],
+    ["Processo", "Pedido de licenciamento"],
+    ["Técnico", "Funcionário que analisa"],
+  ],
+  f2: [
+    ["submete", "Requerente", "Processo"],
+    ["analisa", "Técnico", "Processo"],
+  ],
+  f3: [
+    "Cada processo pertence a exactamente um requerente.",
+    "Um requerente pode ter vários processos ao longo do tempo.",
+    "Um processo é analisado por vários técnicos de especialidades distintas.",
+    "Um técnico analisa vários processos.",
+    "Cada parecer resulta da combinação (técnico, processo) e tem data, resultado e observações.",
+    "Todo processo tem um requerente; nem todo requerente tem processo activo.",
+  ],
+  f4: [
+    ["Requerente", "codRequerente, nome, NIF, morada, telefone", "codRequerente", "submete Processo (1:N)"],
+    ["Processo", "numProcesso, tipoObra, descricao, localizacao, dataEntrada, estado", "numProcesso", "submetido (N:1); analisado (M:N)"],
+    ["Técnico", "codTecnico, nome, especialidade, email", "codTecnico", "analisa Processo (M:N)"],
+  ],
+  f5: [
+    {
+      nome: "Requerente → Processo (1:N, obrigatória lado N)",
+      tentativa: "Colocar codRequerente na tabela PROCESSO:",
+      headers: ["numProcesso", "tipoObra", "localizacao", "codRequerente"],
+      rows: [
+        ["P-2025/001", "Construção", "Zona Industrial", "101"],
+        ["P-2025/002", "Ampliação", "Av. Central", "102"],
+        ["P-2025/003", "Demolição", "R. Nova", "101"],
+      ],
+      temNull: false, temRep: false,
+      decisao3: false, assoc: "", regra: 4,
+    },
+    {
+      nome: "Técnico ↔ Processo (M:N)",
+      tentativa: "Colocar codTecnico na tabela PROCESSO:",
+      headers: ["numProcesso", "tipoObra", "codTecnico", "dataParecer"],
+      rows: [
+        ["P-2025/001", "Construção", "10", "2025-03-10"],
+        ["P-2025/001", "Construção", "11", "2025-03-12"],
+        ["P-2025/002", "Ampliação", "10", "2025-03-15"],
+      ],
+      temNull: false, temRep: true,
+      decisao3: true, assoc: "Parecer", regra: 6,
+      nota: "A tabela Parecer tem atributos próprios (data, resultado, observações)",
+    },
+  ],
+  f6: [
+    ["Requerente", "codRequerente; NIF"],
+    ["Processo", "numProcesso"],
+    ["Técnico", "codTecnico; email"],
+    ["Parecer", "(numProcesso, codTecnico)"],
+  ],
+  f7: [
+    ["Requerente", "codRequerente", "Código interno estável"],
+    ["Processo", "numProcesso", "Identificador oficial já usado na Câmara"],
+    ["Técnico", "codTecnico", "Código interno; email pode mudar"],
+    ["Parecer", "(numProcesso, codTecnico)", "Um técnico dá um parecer a um processo"],
+  ],
+  f8: [
+    "Requerente(codRequerente, nome, NIF, morada, telefone)",
+    "Processo(numProcesso, tipoObra, descricao, localizacao, dataEntrada, estado, #codRequerente)",
+    "Tecnico(codTecnico, nome, especialidade, email)",
+    "Parecer(#numProcesso, #codTecnico, dataParecer, resultado, observacoes)",
+  ],
+  f9entidade: "Processo",
+  f9: [
+    ["numProcesso", "VARCHAR(15)", "Sim", "PK, formato P-AAAA/NNN"],
+    ["tipoObra", "VARCHAR(30)", "Sim", "{Construção, Ampliação, Demolição, Alteração}"],
+    ["descricao", "TEXT", "Sim", "—"],
+    ["localizacao", "VARCHAR(200)", "Sim", "—"],
+    ["dataEntrada", "DATE", "Sim", "≤ data actual"],
+    ["estado", "VARCHAR(20)", "Sim", "{Pendente, Em análise, Aprovado, Rejeitado}"],
+    ["codRequerente", "INTEGER", "Sim", "FK → Requerente"],
+  ],
+};
+
+const solucaoCaso3 = {
+  f1: [
+    ["Utente", "Pessoa que recebe refeições"],
+    ["Refeição", "Almoço/jantar de um dado dia (ementa)"],
+    ["Voluntário", "Quem entrega"],
+    ["Rota", "Percurso de distribuição numa zona"],
+  ],
+  f2: [
+    ["recebe", "Utente", "Refeição"],
+    ["percorre", "Voluntário", "Rota"],
+  ],
+  f3: [
+    "Cada utente pode receber várias refeições (uma ou duas por dia).",
+    "A mesma refeição (ementa do dia) é entregue a vários utentes.",
+    "Cada rota é percorrida por um voluntário por turno.",
+    "O mesmo voluntário pode percorrer várias rotas ao longo do tempo.",
+    "Todo utente registado recebe refeições.",
+    "Cada utente pode ter restrições alimentares próprias.",
+  ],
+  f4: [
+    ["Utente", "codUtente, nome, morada, telefone, contactoEmergencia, restricoes", "codUtente", "recebe Refeição (M:N)"],
+    ["Refeição", "codRefeicao, data, tipo, ementa, calorias", "codRefeicao", "recebida por Utente (M:N)"],
+    ["Voluntário", "codVoluntario, nome, telefone, cartaConducao, disponibilidade", "codVoluntario", "percorre Rota (1:N)"],
+    ["Rota", "codRota, nome, zona, distanciaKm", "codRota", "percorrida por Voluntário (N:1)"],
+  ],
+  f5: [
+    {
+      nome: "Utente ↔ Refeição (M:N)",
+      tentativa: "Colocar codUtente na tabela REFEIÇÃO:",
+      headers: ["codRefeicao", "data", "tipo", "codUtente"],
+      rows: [
+        ["R-001", "2025-04-15", "Almoço", "50"],
+        ["R-001", "2025-04-15", "Almoço", "51"],
+        ["R-001", "2025-04-15", "Almoço", "52"],
+      ],
+      temNull: false, temRep: true,
+      decisao3: true, assoc: "Entrega", regra: 6,
+    },
+    {
+      nome: "Voluntário → Rota (1:N)",
+      tentativa: "Colocar codVoluntario na tabela ROTA:",
+      headers: ["codRota", "nome", "zona", "codVoluntario"],
+      rows: [
+        ["R01", "Centro", "Centro da vila", "7"],
+        ["R02", "Norte", "Zona norte", "7"],
+        ["R03", "Sul", "Zona sul", "9"],
+      ],
+      temNull: false, temRep: false,
+      decisao3: false, assoc: "", regra: 4,
+    },
+  ],
+  f6: [
+    ["Utente", "codUtente"],
+    ["Refeição", "codRefeicao; (data, tipo)"],
+    ["Voluntário", "codVoluntario"],
+    ["Rota", "codRota"],
+    ["Entrega", "(codUtente, codRefeicao)"],
+  ],
+  f7: [
+    ["Utente", "codUtente", "Código interno estável"],
+    ["Refeição", "codRefeicao", "Simples; preferível a chave composta (data, tipo)"],
+    ["Voluntário", "codVoluntario", "Código interno"],
+    ["Rota", "codRota", "Código interno"],
+    ["Entrega", "(codUtente, codRefeicao)", "Uma entrega por utente/refeição"],
+  ],
+  f8: [
+    "Utente(codUtente, nome, morada, telefone, contactoEmergencia, restricoes)",
+    "Refeicao(codRefeicao, data, tipo, ementa, calorias)",
+    "Voluntario(codVoluntario, nome, telefone, cartaConducao, disponibilidade)",
+    "Rota(codRota, nome, zona, distanciaKm, #codVoluntario)",
+    "Entrega(#codUtente, #codRefeicao, horaEntrega, observacoes)",
+  ],
+  f9entidade: "Utente",
+  f9: [
+    ["codUtente", "INTEGER", "Sim", "PK, auto-incremento"],
+    ["nome", "VARCHAR(100)", "Sim", "—"],
+    ["morada", "VARCHAR(200)", "Sim", "Zona de cobertura da IPSS"],
+    ["telefone", "VARCHAR(15)", "Não", "—"],
+    ["contactoEmergencia", "VARCHAR(100)", "Sim", "Nome + telefone"],
+    ["restricoes", "TEXT", "Não", "Ex.: diabético, sem glúten"],
+  ],
+};
+
+const solucaoCaso4 = {
+  f1: [
+    ["Viatura", "Veículo do pool municipal"],
+    ["Motorista", "Funcionário habilitado a conduzir"],
+    ["Departamento", "Serviço municipal"],
+    ["Manutenção", "Intervenção técnica sobre uma viatura"],
+  ],
+  f2: [
+    ["pertence_v", "Viatura", "Departamento"],
+    ["pertence_m", "Motorista", "Departamento"],
+    ["requisita", "Viatura", "Motorista"],
+    ["tem_manutencao", "Viatura", "Manutenção"],
+  ],
+  f3: [
+    "Cada viatura está atribuída a um departamento.",
+    "Cada motorista pertence a um departamento.",
+    "Um motorista pode conduzir várias viaturas (em momentos diferentes).",
+    "Uma viatura pode ser conduzida por vários motoristas ao longo do tempo.",
+    "Cada manutenção refere-se a uma única viatura.",
+    "Uma viatura pode ter várias manutenções ao longo da sua vida útil.",
+  ],
+  f4: [
+    ["Viatura", "matricula, marca, modelo, ano, combustivel, quilometragem, estado", "matricula", "Dep. (N:1); Mot. (M:N); Manut. (1:N)"],
+    ["Motorista", "codMotorista, nome, numCartaConducao, categorias, telefone", "codMotorista", "Dep. (N:1); Viatura (M:N)"],
+    ["Departamento", "codDepartamento, nome, responsavel", "codDepartamento", "tem Viaturas e Motoristas (1:N)"],
+    ["Manutenção", "codManutencao, data, tipo, descricao, custo, oficina", "codManutencao", "refere-se a Viatura (N:1)"],
+  ],
+  f5: [
+    {
+      nome: "Viatura → Departamento (N:1, obrigatória)",
+      tentativa: "Colocar codDepartamento na tabela VIATURA:",
+      headers: ["matricula", "marca", "modelo", "codDep"],
+      rows: [
+        ["12-AB-34", "Renault", "Clio", "3"],
+        ["34-CD-56", "Ford", "Transit", "3"],
+        ["56-EF-78", "Peugeot", "3008", "5"],
+      ],
+      temNull: false, temRep: false,
+      decisao3: false, assoc: "", regra: 4,
+    },
+    {
+      nome: "Motorista → Departamento (N:1, obrigatória)",
+      tentativa: "Colocar codDepartamento na tabela MOTORISTA (análise simétrica):",
+      headers: ["codMot", "nome", "carta", "codDep"],
+      rows: [
+        ["M-01", "João Silva", "B", "3"],
+        ["M-02", "Ana Costa", "B", "5"],
+        ["M-03", "Pedro Lima", "C", "3"],
+      ],
+      temNull: false, temRep: false,
+      decisao3: false, assoc: "", regra: 4,
+    },
+    {
+      nome: "Viatura ↔ Motorista (M:N)",
+      tentativa: "Colocar codMotorista na tabela VIATURA:",
+      headers: ["matricula", "marca", "codMot", "data"],
+      rows: [
+        ["12-AB-34", "Renault Clio", "M-01", "2025-03-01"],
+        ["12-AB-34", "Renault Clio", "M-02", "2025-03-15"],
+        ["34-CD-56", "Ford Transit", "M-01", "2025-03-10"],
+      ],
+      temNull: false, temRep: true,
+      decisao3: true, assoc: "Requisição", regra: 6,
+      nota: "Atributos próprios (datas, destino, km) justificam PK simples codRequisicao",
+    },
+    {
+      nome: "Viatura → Manutenção (1:N, obrigatória lado N)",
+      tentativa: "Colocar matricula na tabela MANUTENÇÃO:",
+      headers: ["codManut", "data", "tipo", "matricula"],
+      rows: [
+        ["MAN-001", "2025-01-15", "Revisão", "12-AB-34"],
+        ["MAN-002", "2025-02-03", "Pneus", "12-AB-34"],
+        ["MAN-003", "2025-02-20", "Óleo", "34-CD-56"],
+      ],
+      temNull: false, temRep: false,
+      decisao3: false, assoc: "", regra: 4,
+    },
+  ],
+  f6: [
+    ["Viatura", "matricula"],
+    ["Motorista", "codMotorista; numCartaConducao"],
+    ["Departamento", "codDepartamento; nome"],
+    ["Manutenção", "codManutencao"],
+    ["Requisição", "codRequisicao; (matricula, codMotorista, dataInicio)"],
+  ],
+  f7: [
+    ["Viatura", "matricula", "Identificador oficial único"],
+    ["Motorista", "codMotorista", "Código interno estável"],
+    ["Departamento", "codDepartamento", "Código interno"],
+    ["Manutenção", "codManutencao", "Código interno sequencial"],
+    ["Requisição", "codRequisicao", "Chave simples evita composta longa"],
+  ],
+  f8: [
+    "Viatura(matricula, marca, modelo, ano, combustivel, quilometragem, estado, #codDepartamento)",
+    "Motorista(codMotorista, nome, numCartaConducao, categorias, telefone, #codDepartamento)",
+    "Departamento(codDepartamento, nome, responsavel)",
+    "Requisicao(codRequisicao, #matricula, #codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado)",
+    "Manutencao(codManutencao, #matricula, data, tipo, descricao, custo, oficina)",
+  ],
+  f9entidade: "Viatura",
+  f9: [
+    ["matricula", "VARCHAR(10)", "Sim", "PK, formato NN-NN-NN"],
+    ["marca", "VARCHAR(30)", "Sim", "—"],
+    ["modelo", "VARCHAR(30)", "Sim", "—"],
+    ["ano", "INTEGER", "Sim", "1980 ≤ ano ≤ ano actual"],
+    ["combustivel", "VARCHAR(15)", "Sim", "{Gasolina, Gasóleo, Eléctrico, Híbrido}"],
+    ["quilometragem", "INTEGER", "Sim", "≥ 0"],
+    ["estado", "VARCHAR(20)", "Sim", "{Disponível, Requisitada, Manutenção, Abatida}"],
+    ["codDepartamento", "INTEGER", "Sim", "FK → Departamento"],
+  ],
 };
 
 // --- GUIADOS (reaproveitam o contexto de casos-guiados.md) ---
@@ -619,6 +1050,94 @@ const guiado4Scaffold = {
       null, null
     ),
     ...fasesAll({ numRelations: 4, scaffold: scaffoldCaso4 }),
+  ],
+};
+
+// --- VERSÕES "COM SOLUÇÃO" (tudo pré-preenchido) ---
+
+function solucaoIntro() {
+  return [
+    new Paragraph({
+      spacing: { before: 80, after: 120 },
+      shading: { fill: "E8F4E8", type: ShadingType.CLEAR },
+      border: {
+        top: { style: BorderStyle.SINGLE, size: 4, color: "2E7D32" },
+        bottom: { style: BorderStyle.SINGLE, size: 4, color: "2E7D32" },
+        left: { style: BorderStyle.SINGLE, size: 4, color: "2E7D32" },
+        right: { style: BorderStyle.SINGLE, size: 4, color: "2E7D32" },
+      },
+      children: [new TextRun({
+        text: "Versão com solução — todos os campos estão pré-preenchidos. Use para conferência após ter resolvido autonomamente, ou para consulta quando bloquear. Para maximizar a aprendizagem, tente primeiro a versão em branco.",
+        italics: true, size: 20, color: "1B5E20",
+      })],
+    }),
+  ];
+}
+
+const guiado1Solucao = {
+  filename: "worksheet-guiado-1-biblioteca-solucao.docx",
+  headerTitle: "Caso Guiado 1 (solução) — Biblioteca Municipal de Vila Feliz",
+  sections: [
+    H1("Caso Guiado 1 — Biblioteca Municipal de Vila Feliz"),
+    ...solucaoIntro(),
+    ...contextoSection(
+      ["A Biblioteca Municipal de Vila Feliz gere um acervo de mais de 15.000 volumes e serve centenas de leitores registados. Actualmente, os empréstimos são registados numa folha Excel com todos os dados misturados: nome do leitor, morada, título do livro, autor, data do empréstimo — tudo na mesma linha."],
+      ["Leitor", "BI", "Morada", "Livro", "Autor", "ISBN", "DataEmpr.", "DataDev."],
+      [
+        ["Ana Costa", "12345678", "R. Principal, 1, Vila Feliz", "Dom Casmurro", "Machado de Assis", "978-85-01-1", "2025-01-10", "2025-01-25"],
+        ["Ana Costa", "12345678", "R. Principal, 1, Vila Feliz", "Os Maias", "Eça de Queirós", "978-972-1", "2025-01-15", "2025-01-30"],
+        ["João Silva", "87654321", "Av. Heróis, 5, Vila Feliz", "Dom Casmurro", "Machado de Assis", "978-85-01-1", "2025-02-01", "2025-02-15"],
+      ]
+    ),
+    ...fasesAll({ scaffold: solucaoCaso1, solution: true }),
+  ],
+};
+
+const guiado2Solucao = {
+  filename: "worksheet-guiado-2-licenciamento-solucao.docx",
+  headerTitle: "Caso Guiado 2 (solução) — Licenciamento de Obras Particulares",
+  sections: [
+    H1("Caso Guiado 2 — Licenciamento de Obras Particulares"),
+    ...solucaoIntro(),
+    ...contextoSection(
+      ["O Gabinete de Urbanismo da Câmara Municipal de Vila Feliz recebe pedidos de licenciamento de obras particulares (construção, ampliação, demolição). Cada pedido é analisado por técnicos que emitem pareceres. Actualmente, o registo é feito em processos físicos e numa folha Excel com dados do requerente, obra e pareceres todos juntos."],
+      ["Requerente", "NIF", "Morada", "NumProc.", "TipoObra", "Localização", "Técnico", "Especialidade", "Parecer", "DataParecer"],
+      [
+        ["Manuel Ferreira", "123456789", "R. Nova, 3, Vila Feliz", "P-2025/001", "Construção", "Lote 15, Z. Industrial", "Carlos Mendes", "Arquitectura", "Favorável", "2025-03-10"],
+        ["Manuel Ferreira", "123456789", "R. Nova, 3, Vila Feliz", "P-2025/001", "Construção", "Lote 15, Z. Industrial", "Rita Sousa", "Eng. Civil", "Favorável c/ cond.", "2025-03-12"],
+        ["Sofia Lopes", "987654321", "Av. Mar, 8, Vila Feliz", "P-2025/002", "Ampliação", "R. Oliveira, 22, Vila Feliz", "Carlos Mendes", "Arquitectura", "Desfavorável", "2025-03-15"],
+      ]
+    ),
+    ...fasesAll({ scaffold: solucaoCaso2, solution: true }),
+  ],
+};
+
+const guiado3Solucao = {
+  filename: "worksheet-guiado-3-refeicoes-solucao.docx",
+  headerTitle: "Caso Guiado 3 (solução) — Refeições Sociais IPSS",
+  sections: [
+    H1("Caso Guiado 3 — Refeições Sociais IPSS"),
+    ...solucaoIntro(),
+    ...contextoSection(
+      ["Uma IPSS (Instituição Particular de Solidariedade Social) de Vila Feliz distribui refeições ao domicílio a idosos e pessoas com mobilidade reduzida. Os voluntários entregam as refeições seguindo rotas pré-definidas. Cada utente pode ter restrições alimentares. O registo actual é feito em papel e num quadro na cozinha.",
+       "Os voluntários têm turnos rotativos e cada rota cobre uma zona diferente da vila."],
+      null, null
+    ),
+    ...fasesAll({ scaffold: solucaoCaso3, solution: true }),
+  ],
+};
+
+const guiado4Solucao = {
+  filename: "worksheet-guiado-4-viaturas-solucao.docx",
+  headerTitle: "Caso Guiado 4 (solução) — Viaturas e Motoristas da Câmara",
+  sections: [
+    H1("Caso Guiado 4 — Viaturas e Motoristas da Câmara"),
+    ...solucaoIntro(),
+    ...contextoSection(
+      ["A Câmara Municipal de Vila Feliz gere um pool de viaturas partilhadas entre serviços. Os motoristas são funcionários que podem conduzir diferentes viaturas. Cada viatura tem manutenções periódicas registadas. As requisições são feitas por departamentos para datas específicas. Actualmente, o controlo é feito em folhas Excel separadas — uma para viaturas, outra para motoristas, outra para requisições — sem ligação entre elas."],
+      null, null
+    ),
+    ...fasesAll({ numRelations: 4, scaffold: solucaoCaso4, solution: true }),
   ],
 };
 
@@ -945,6 +1464,7 @@ const docs = [
   trainingDoc,
   guiado1, guiado2, guiado3, guiado4,
   guiado1Scaffold, guiado2Scaffold, guiado3Scaffold, guiado4Scaffold,
+  guiado1Solucao, guiado2Solucao, guiado3Solucao, guiado4Solucao,
   auto1, auto2, auto3, auto4,
 ];
 

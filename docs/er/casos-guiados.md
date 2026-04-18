@@ -18,18 +18,19 @@ Quatro exercícios guiados passo-a-passo para construir diagramas Entidade-Relac
     8. **Fase 8** — Definir tabelas finais (esquema relacional)
     9. **Fase 9** — Definir domínio dos atributos (entidade principal)
 
-!!! tip "Worksheets Word para preencher — duas versões por caso"
-    Cada caso tem **duas versões** do worksheet em Word. Escolha a que melhor se adequa ao seu ritmo:
+!!! tip "Worksheets Word para preencher — três versões por caso"
+    Cada caso tem **três versões** em Word. Escolha consoante o seu nível de confiança:
 
-    | Caso | Versão em branco (autónoma) | Versão com apoio (scaffold) |
-    |------|---|---|
-    | 1 — Biblioteca Municipal | [worksheet-guiado-1-biblioteca.docx](worksheets/worksheet-guiado-1-biblioteca.docx) | [...-scaffold.docx](worksheets/worksheet-guiado-1-biblioteca-scaffold.docx) |
-    | 2 — Licenciamento de Obras | [worksheet-guiado-2-licenciamento.docx](worksheets/worksheet-guiado-2-licenciamento.docx) | [...-scaffold.docx](worksheets/worksheet-guiado-2-licenciamento-scaffold.docx) |
-    | 3 — Refeições Sociais IPSS | [worksheet-guiado-3-refeicoes.docx](worksheets/worksheet-guiado-3-refeicoes.docx) | [...-scaffold.docx](worksheets/worksheet-guiado-3-refeicoes-scaffold.docx) |
-    | 4 — Viaturas e Motoristas | [worksheet-guiado-4-viaturas.docx](worksheets/worksheet-guiado-4-viaturas.docx) | [...-scaffold.docx](worksheets/worksheet-guiado-4-viaturas-scaffold.docx) |
+    | Caso | :material-file-document-outline: Em branco | :material-file-document-edit-outline: Com apoio | :material-file-document-check-outline: Com solução |
+    |------|:---:|:---:|:---:|
+    | 1 — Biblioteca Municipal | [descarregar](worksheets/worksheet-guiado-1-biblioteca.docx) | [descarregar](worksheets/worksheet-guiado-1-biblioteca-scaffold.docx) | [descarregar](worksheets/worksheet-guiado-1-biblioteca-solucao.docx) |
+    | 2 — Licenciamento de Obras | [descarregar](worksheets/worksheet-guiado-2-licenciamento.docx) | [descarregar](worksheets/worksheet-guiado-2-licenciamento-scaffold.docx) | [descarregar](worksheets/worksheet-guiado-2-licenciamento-solucao.docx) |
+    | 3 — Refeições Sociais IPSS | [descarregar](worksheets/worksheet-guiado-3-refeicoes.docx) | [descarregar](worksheets/worksheet-guiado-3-refeicoes-scaffold.docx) | [descarregar](worksheets/worksheet-guiado-3-refeicoes-solucao.docx) |
+    | 4 — Viaturas e Motoristas | [descarregar](worksheets/worksheet-guiado-4-viaturas.docx) | [descarregar](worksheets/worksheet-guiado-4-viaturas-scaffold.docx) | [descarregar](worksheets/worksheet-guiado-4-viaturas-solucao.docx) |
 
-    - **Versão em branco**: tudo por preencher — maximiza a aprendizagem. Recomendada.
-    - **Versão com apoio**: nomes de entidades e tabelas já listados (continuidade entre fases). Os passos de raciocínio — cardinalidades, Tentativas da Fase 5, chaves primárias, justificações — continuam em branco. Útil para começar com segurança ou quando o tempo em aula é curto.
+    - **:material-file-document-outline: Em branco**: tudo por preencher. Maximiza a aprendizagem. **Recomendada**.
+    - **:material-file-document-edit-outline: Com apoio**: nomes de entidades e tabelas já listados entre fases. O raciocínio (cardinalidades, Fase 5, chaves primárias, justificações) continua em branco.
+    - **:material-file-document-check-outline: Com solução**: todos os campos pré-preenchidos. Para **conferência** após resolver, ou quando bloquear. Para maximizar aprendizagem, tente primeiro a versão em branco.
 
     Existe ainda um [**template genérico**](worksheets/template-er.docx) para aplicar a qualquer cenário.
 
