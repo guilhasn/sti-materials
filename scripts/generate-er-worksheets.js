@@ -532,51 +532,121 @@ const trainingScenarios = [
     titulo: "Município e Funcionários",
     descr: "Cada Funcionário pertence a um Município (obrigatório). Um Município tem vários funcionários.",
     atrib: "Funcionário(codFunc, nome, cargo)   |   Município(codMun, nome, distrito)",
+    tentativa: "Colocámos codMun na tabela FUNCIONÁRIO:",
+    headers: ["codFunc", "nome", "cargo", "codMun"],
+    rows: [
+      ["101", "Ana Silva", "Jurista", "3"],
+      ["102", "João Pinto", "Contabilista", "3"],
+      ["103", "Rita Costa", "Arquitecta", "5"],
+    ],
   },
   {
     titulo: "Projecto e Departamentos",
     descr: "Um Projecto envolve vários Departamentos. Um Departamento participa em vários projectos ao longo do ano.",
     atrib: "Projecto(codProj, nome, orcamento)   |   Departamento(codDep, nome, responsavel)",
+    tentativa: "Colocámos codDep na tabela PROJECTO:",
+    headers: ["codProj", "nome", "orcamento", "codDep"],
+    rows: [
+      ["P01", "Modernização IT", "50.000€", "2"],
+      ["P01", "Modernização IT", "50.000€", "5"],
+      ["P02", "Sede Nova", "200.000€", "2"],
+    ],
   },
   {
     titulo: "Cidadão e Advogado",
     descr: "Um Cidadão pode ter um Advogado associado ao seu processo (opcional). Um Advogado representa vários cidadãos.",
     atrib: "Cidadao(NIF, nome, morada)   |   Advogado(cedula, nome, especialidade)",
+    tentativa: "Colocámos cedulaAdv na tabela CIDADÃO (já que o advogado é opcional):",
+    headers: ["NIF", "nome", "morada", "cedulaAdv"],
+    rows: [
+      ["100111222", "João Silva", "R. X, Vila Feliz", "A-234"],
+      ["200222333", "Maria Costa", "Av. Y, Vila Feliz", "(vazio)"],
+      ["300333444", "Pedro Lima", "R. Z, Vila Feliz", "(vazio)"],
+    ],
   },
   {
     titulo: "Fornecedor e Facturas",
     descr: "Cada Factura é emitida por um único Fornecedor. Um Fornecedor emite várias facturas.",
     atrib: "Fornecedor(NIF, nome, contacto)   |   Factura(numFact, data, valor)",
+    tentativa: "Colocámos NIFForn na tabela FACTURA:",
+    headers: ["numFact", "data", "valor", "NIFForn"],
+    rows: [
+      ["F-001", "2025-01-10", "1.200€", "500111222"],
+      ["F-002", "2025-01-15", "850€", "500111222"],
+      ["F-003", "2025-02-03", "2.400€", "509333444"],
+    ],
   },
   {
     titulo: "Aluno e Unidade Curricular",
     descr: "Um Aluno inscreve-se em várias UCs. Uma UC tem vários alunos inscritos. Cada inscrição tem data e nota final.",
     atrib: "Aluno(numAluno, nome, curso)   |   UC(codUC, nome, ECTS)",
+    tentativa: "Colocámos codUC na tabela ALUNO:",
+    headers: ["numAluno", "nome", "curso", "codUC"],
+    rows: [
+      ["2100123", "João Silva", "GAP", "UC001"],
+      ["2100123", "João Silva", "GAP", "UC002"],
+      ["2100456", "Maria Costa", "GAP", "UC001"],
+    ],
   },
   {
     titulo: "Receita e Medicamentos",
     descr: "Uma Receita contém vários Medicamentos. Um Medicamento pode constar em várias receitas, com dose prescrita.",
     atrib: "Receita(numReceita, data, medico)   |   Medicamento(codMed, nome, dosagem)",
+    tentativa: "Colocámos codMed na tabela RECEITA:",
+    headers: ["numReceita", "data", "medico", "codMed"],
+    rows: [
+      ["R-100", "2025-03-01", "Dr. Silva", "M-11"],
+      ["R-100", "2025-03-01", "Dr. Silva", "M-23"],
+      ["R-101", "2025-03-02", "Dr. Costa", "M-11"],
+    ],
   },
   {
     titulo: "Sala e Edifício",
     descr: "Cada Sala pertence a um Edifício. Um Edifício tem várias salas.",
     atrib: "Sala(codSala, piso, capacidade)   |   Edificio(codEdif, nome, morada)",
+    tentativa: "Colocámos codEdif na tabela SALA:",
+    headers: ["codSala", "piso", "capacidade", "codEdif"],
+    rows: [
+      ["S-101", "1", "30", "E-01"],
+      ["S-102", "1", "25", "E-01"],
+      ["S-201", "2", "40", "E-02"],
+    ],
   },
   {
     titulo: "Ocorrência e Coordenador",
     descr: "Cada Ocorrência tem um Coordenador atribuído (obrigatório). Um Coordenador gere várias ocorrências ao longo do turno.",
     atrib: "Ocorrencia(numOcor, tipo, data)   |   Coordenador(codCoord, nome, turno)",
+    tentativa: "Colocámos codCoord na tabela OCORRÊNCIA:",
+    headers: ["numOcor", "tipo", "data", "codCoord"],
+    rows: [
+      ["O-001", "Inundação", "2025-01-15", "C-11"],
+      ["O-002", "Árvore caída", "2025-02-03", "C-11"],
+      ["O-003", "Incêndio", "2025-02-20", "C-22"],
+    ],
   },
   {
     titulo: "Motorista e Viatura",
     descr: "Um Motorista conduz várias Viaturas ao longo do tempo. Uma Viatura é conduzida por vários motoristas, com data de início e fim.",
     atrib: "Motorista(codMot, nome, carta)   |   Viatura(matricula, marca, modelo)",
+    tentativa: "Colocámos matricula na tabela MOTORISTA:",
+    headers: ["codMot", "nome", "carta", "matricula"],
+    rows: [
+      ["M-01", "João Silva", "B", "12-AB-34"],
+      ["M-01", "João Silva", "B", "56-CD-78"],
+      ["M-02", "Ana Costa", "B", "12-AB-34"],
+    ],
   },
   {
     titulo: "Livro e Editora",
     descr: "Cada Livro é publicado por uma Editora. Uma Editora publica vários livros.",
     atrib: "Livro(ISBN, titulo, ano)   |   Editora(codEd, nome, pais)",
+    tentativa: "Colocámos codEd na tabela LIVRO:",
+    headers: ["ISBN", "titulo", "ano", "codEd"],
+    rows: [
+      ["978-85-01-1", "Os Maias", "1888", "10"],
+      ["978-85-02-2", "A Cidade e as Serras", "1901", "10"],
+      ["978-85-03-3", "Memorial do Convento", "1982", "15"],
+    ],
   },
 ];
 
@@ -589,28 +659,39 @@ function trainingScenarioBlock(n, s) {
     }),
     P(s.descr, { italic: true }),
     new Paragraph({
-      spacing: { after: 100 },
+      spacing: { after: 80 },
       children: [
         new TextRun({ text: "Atributos: ", bold: true, size: 20 }),
         new TextRun({ text: s.atrib, size: 20 }),
       ],
     }),
-    P("Passo A — Tentativa: escreva 3 linhas de dados com a FK no lado que lhe parece natural.", { bold: true, size: 20 }),
-    makeTable(["", "", "", ""], [2410, 2410, 2409, 2409], [], 3),
+    new Paragraph({
+      spacing: { after: 80 },
+      children: [
+        new TextRun({ text: "Passo A — Tentativa já feita. ", bold: true, size: 20 }),
+        new TextRun({ text: s.tentativa, size: 20 }),
+      ],
+    }),
+    makeTable(s.headers, [2410, 2410, 2409, 2409], s.rows, 0),
     space(80),
     new Paragraph({
       spacing: { after: 60 },
       children: [
-        new TextRun({ text: "Passo B: ", bold: true, size: 20 }),
-        new TextRun({ text: "☐  NULLs?     ☐  Repetições?            ", size: 20 }),
-        new TextRun({ text: "Passo C: ", bold: true, size: 20 }),
-        new TextRun({ text: "☐  2 tabelas     ☐  3 tabelas (assoc: ____________)", size: 20 }),
+        new TextRun({ text: "Passo B — Observe: ", bold: true, size: 20 }),
+        new TextRun({ text: "☐  Há NULLs?     ☐  Há repetições?            ", size: 20 }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 60 },
+      children: [
+        new TextRun({ text: "Passo C — Decisão: ", bold: true, size: 20 }),
+        new TextRun({ text: "☐  Fica assim (2 tabelas)     ☐  Criar tabela associativa: _______________ (3 tabelas)", size: 20 }),
       ],
     }),
     new Paragraph({
       spacing: { after: 200 },
       children: [
-        new TextRun({ text: "Passo D — Regra: _____", bold: true, size: 20 }),
+        new TextRun({ text: "Passo D — Regra aplicada: Regra _____", bold: true, size: 20 }),
       ],
     }),
   ];
@@ -621,7 +702,7 @@ const trainingDoc = {
   headerTitle: "Treino de Fase 5 — 10 Cenários",
   sections: [
     H1("Treino de Fase 5 — 10 Cenários"),
-    P("Este worksheet isola apenas a Fase 5 da modelação E-R: decidir se uma relação se converte em 2 tabelas (FK do lado natural) ou em 3 tabelas (com tabela associativa). Faça os 10 cenários de seguida para ganhar automatismo no raciocínio."),
+    P("Este worksheet isola apenas a Fase 5 da modelação E-R: decidir se uma relação se converte em 2 tabelas (FK do lado natural) ou em 3 tabelas (com tabela associativa). Em cada cenário, a Tentativa (Passo A) já foi feita por si — a sua tarefa é observar a tabela pré-preenchida, detectar o problema (se houver) e decidir. Faça os 10 cenários de seguida para ganhar automatismo."),
     space(120),
     new Paragraph({
       spacing: { after: 120 },
@@ -633,7 +714,7 @@ const trainingDoc = {
     }),
     PMulti([
       new TextRun({ text: "A. ", bold: true, size: 20 }),
-      new TextRun({ text: "Desenhe 3 linhas com a FK no lado natural.    ", size: 20 }),
+      new TextRun({ text: "(feito) Tabela-tentativa com a FK no lado natural.    ", size: 20 }),
       new TextRun({ text: "B. ", bold: true, size: 20 }),
       new TextRun({ text: "Observe: há NULLs? há repetições?", size: 20 }),
     ]),
