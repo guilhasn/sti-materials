@@ -1,5 +1,6 @@
 # MkDocs
 site/
+site-build-verify/
 
 # Python
 __pycache__/
@@ -9,6 +10,17 @@ venv/
 
 # Dependencies (legacy)
 /node_modules
+
+# Claude Code local state (not to be shared)
+.claude/worktrees/
+.claude/plans/
+.claude/launch.json
+
+# Local skills (not to be shared)
+/skills/
+
+# Legacy content (removed from site)
+docs/assets/files/threads/
 
 # Misc
 .DS_Store
