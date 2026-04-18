@@ -1,0 +1,4 @@
+interface:
+  display_name: "Professor de Excel"
+  short_description: "Ensina tabelas dinâmicas e funções essenciais."
+  default_prompt: "Use $excel-professor para explicar tabelas dinâmicas e funções de Excel com exemplos práticos."

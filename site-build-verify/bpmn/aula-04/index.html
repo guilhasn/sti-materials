@@ -1,0 +1,1708 @@
+<!DOCTYPE html><html lang="pt" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Materiais da UC Sistemas e Tecnologias de Informacao - Mestrado em Administracao Publica (ESTG-IPL)">
+      
+      
+        <meta name="author" content="Nuno Salvador">
+      
+      
+        <link rel="canonical" href="https://guilhasn.github.io/sti-materials/bpmn/aula-04/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../aula-05/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>Mapeamento AS-IS - STI | Sistemas e Tecnologias de Informacao</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/ipl.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mapeamento-as-is-com-bpmn" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="STI | Sistemas e Tecnologias de Informacao" class="md-header__button md-logo" aria-label="STI | Sistemas e Tecnologias de Informacao" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            STI | Sistemas e Tecnologias de Informacao
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Mapeamento AS-IS
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Pesquisar" placeholder="Pesquisar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            A inicializar a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/guilhasn/sti-materials" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    guilhasn/sti-materials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Separadores" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../excel/" class="md-tabs__link">
+          
+  
+  
+  Excel (Aulas 1-3)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  BPMN (Aulas 4-5)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../er/" class="md-tabs__link">
+          
+  
+  
+  Modelacao de Dados (Aulas 6-8)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../threads/" class="md-tabs__link">
+          
+  
+  
+  Threads (Ficha 3)
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="STI | Sistemas e Tecnologias de Informacao" class="md-nav__button md-logo" aria-label="STI | Sistemas e Tecnologias de Informacao" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    STI | Sistemas e Tecnologias de Informacao
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/guilhasn/sti-materials" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    guilhasn/sti-materials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Excel (Aulas 1-3)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Excel (Aulas 1-3)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel/aula-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tabelas Dinamicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel/aula-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Funcoes Condicionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel/aula-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Caso Integrador
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BPMN (Aulas 4-5)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BPMN (Aulas 4-5)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mapeamento AS-IS
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mapeamento AS-IS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#objectivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectivos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conceitos-chave" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conceitos-chave
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conceitos-chave">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elementos-fundamentais-do-bpmn-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elementos fundamentais do BPMN 2.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cenario-atendimento-pos-tempestade-kristin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cenário — Atendimento pós-Tempestade Kristin
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cenário — Atendimento pós-Tempestade Kristin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#descricao-do-processo-actual-as-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Descrição do processo actual (AS-IS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problemas-identificados" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problemas identificados
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercicio-mapear-o-processo-as-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercício — Mapear o processo AS-IS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercício — Mapear o processo AS-IS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Preparação
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tarefas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tarefas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpretacao-para-decisao-publica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpretação para decisão pública
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aula-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redesenho TO-BE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../casos-guiados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios Guiados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exercicios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelacao de Dados (Aulas 6-8)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modelacao de Dados (Aulas 6-8)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../er/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../er/aula-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelacao Conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../er/aula-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Do Processo ao Modelo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../er/aula-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelo Completo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../er/casos-guiados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios Guiados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../er/exercicios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../er/avaliacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto-avaliacao
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Threads (Ficha 3)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Threads (Ficha 3)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../threads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../threads/ficha-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guia da Ficha 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="mapeamento-as-is-com-bpmn">Mapeamento AS-IS com BPMN<a class="headerlink" href="#mapeamento-as-is-com-bpmn" title="Permanent link">¶</a></h1>
+<h2 id="objectivos">Objectivos<a class="headerlink" href="#objectivos" title="Permanent link">¶</a></h2>
+<ul>
+<li>[ ] Compreender a finalidade e os elementos fundamentais da notação BPMN 2.0.</li>
+<li>[ ] Mapear o processo actual (AS-IS) de tratamento de pedidos de intervenção numa câmara municipal.</li>
+<li>[ ] Identificar estrangulamentos, redundâncias e pontos de falha no processo existente.</li>
+<li>[ ] Utilizar o bpmn.io para criar o diagrama AS-IS.</li>
+</ul>
+<hr>
+<h2 id="conceitos-chave">Conceitos-chave<a class="headerlink" href="#conceitos-chave" title="Permanent link">¶</a></h2>
+<h3 id="elementos-fundamentais-do-bpmn-20">Elementos fundamentais do BPMN 2.0<a class="headerlink" href="#elementos-fundamentais-do-bpmn-20" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>Símbolo</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Evento de início</strong></td>
+<td>Círculo fino verde</td>
+<td>Marca o ponto onde o processo começa</td>
+</tr>
+<tr>
+<td><strong>Evento de fim</strong></td>
+<td>Círculo grosso vermelho</td>
+<td>Marca o ponto onde o processo termina</td>
+</tr>
+<tr>
+<td><strong>Tarefa (Task)</strong></td>
+<td>Rectângulo arredondado</td>
+<td>Uma actividade executada por alguém ou por um sistema</td>
+</tr>
+<tr>
+<td><strong>Gateway exclusivo (XOR)</strong></td>
+<td>Losango com X</td>
+<td>Decisão — só um caminho segue</td>
+</tr>
+<tr>
+<td><strong>Gateway paralelo (AND)</strong></td>
+<td>Losango com +</td>
+<td>Todas as ramificações seguem em simultâneo</td>
+</tr>
+<tr>
+<td><strong>Fluxo de sequência</strong></td>
+<td>Seta sólida</td>
+<td>Liga elementos pela ordem de execução</td>
+</tr>
+<tr>
+<td><strong>Pool / Lane</strong></td>
+<td>Faixa horizontal</td>
+<td>Representa um actor ou departamento</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">BPMN não é fluxograma</p>
+<p>Ao contrário de fluxogramas informais, o BPMN 2.0 segue uma especificação internacional (OMG). Cada símbolo tem um significado preciso e universalmente reconhecido.</p>
+</div>
+<hr>
+<h2 id="cenario-atendimento-pos-tempestade-kristin">Cenário — Atendimento pós-Tempestade Kristin<a class="headerlink" href="#cenario-atendimento-pos-tempestade-kristin" title="Permanent link">¶</a></h2>
+<div class="admonition abstract">
+<p class="admonition-title">Contexto</p>
+<p>Após a Tempestade Kristin, a Câmara Municipal recebe diariamente dezenas de pedidos de intervenção — estradas danificadas, telhados destruídos, inundações em caves. O processo actual de tratamento destes pedidos nunca foi formalmente documentado.</p>
+</div>
+<h3 id="descricao-do-processo-actual-as-is">Descrição do processo actual (AS-IS)<a class="headerlink" href="#descricao-do-processo-actual-as-is" title="Permanent link">¶</a></h3>
+<p>O processo actual de tratamento de pedidos de intervenção funciona assim:</p>
+<ol>
+<li>O <strong>cidadão</strong> dirige-se ao balcão presencial ou telefona para a câmara.</li>
+<li>O <strong>técnico de atendimento</strong> regista o pedido em papel ou numa folha Excel local (sem modelo padrão).</li>
+<li>O técnico tenta identificar o <strong>serviço responsável</strong> (obras, protecção civil, ambiente, habitação) — muitas vezes com dúvidas.</li>
+<li>O pedido é encaminhado por <strong>email ou nota interna</strong> ao chefe de divisão competente.</li>
+<li>O <strong>chefe de divisão</strong> analisa e decide se aceita ou reencaminha.</li>
+<li>Se aceita, <strong>atribui a um técnico de campo</strong>.</li>
+<li>O técnico de campo realiza <strong>visita ao local</strong> e elabora relatório.</li>
+<li>O relatório é devolvido ao chefe de divisão que <strong>decide a intervenção</strong>.</li>
+<li>O cidadão <strong>não recebe qualquer notificação</strong> sobre o estado do pedido, a menos que volte a contactar a câmara.</li>
+<li>O <strong>encerramento</strong> do pedido é informal — não há registo sistemático de conclusão.</li>
+</ol>
+<h3 id="problemas-identificados">Problemas identificados<a class="headerlink" href="#problemas-identificados" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th>Impacto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Registo em papel / Excel local</td>
+<td>Impossível cruzar dados ou medir tempos</td>
+</tr>
+<tr>
+<td>Sem modelo padrão de pedido</td>
+<td>Informação incompleta, necessidade de recontacto</td>
+</tr>
+<tr>
+<td>Encaminhamento por email</td>
+<td>Pedidos perdidos, sem rastreabilidade</td>
+</tr>
+<tr>
+<td>Cidadão sem notificação</td>
+<td>Reclamações, repetição de contactos</td>
+</tr>
+<tr>
+<td>Encerramento informal</td>
+<td>Impossível calcular taxa de resolução</td>
+</tr>
+<tr>
+<td>Duplicação de pedidos</td>
+<td>Mesmo dano reportado múltiplas vezes sem detecção</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="exercicio-mapear-o-processo-as-is">Exercício — Mapear o processo AS-IS<a class="headerlink" href="#exercicio-mapear-o-processo-as-is" title="Permanent link">¶</a></h2>
+<h3 id="preparacao">Preparação<a class="headerlink" href="#preparacao" title="Permanent link">¶</a></h3>
+<ol>
+<li>Abrir o <a href="https://bpmn.io">bpmn.io</a> no navegador.</li>
+<li>Criar um novo diagrama em branco.</li>
+<li>Consultar a <a href="../">Notação BPMN 2.0</a> para referência dos símbolos.</li>
+</ol>
+<h3 id="tarefas">Tarefas<a class="headerlink" href="#tarefas" title="Permanent link">¶</a></h3>
+<p><strong>Tarefa 1 — Estrutura base</strong></p>
+<p>Criar <strong>1 pool</strong> (Câmara Municipal de Vila Feliz) com <strong>4 lanes</strong> — cada lane representa um actor diferente no processo:</p>
+<table>
+<thead>
+<tr>
+<th>Lane</th>
+<th>Quem é</th>
+<th>O que faz neste processo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cidadão</td>
+<td>Munícipe afectado pela tempestade</td>
+<td>Inicia o pedido de intervenção</td>
+</tr>
+<tr>
+<td>Técnico de Atendimento</td>
+<td>Funcionário do balcão</td>
+<td>Regista o pedido e encaminha</td>
+</tr>
+<tr>
+<td>Chefe de Divisão</td>
+<td>Responsável pelo serviço técnico</td>
+<td>Analisa o pedido e decide a intervenção</td>
+</tr>
+<tr>
+<td>Técnico de Campo</td>
+<td>Técnico operacional</td>
+<td>Realiza visita ao local e elabora relatório</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">No bpmn.io</p>
+<p>Criar o pool → clicar com botão direito dentro do pool → <strong>Add Lane</strong> para adicionar lanes. Nomear cada lane com o nome do actor.</p>
+</div>
+<p><strong>Tarefa 2 — Modelar o fluxo principal</strong></p>
+<p>Representar os seguintes elementos, colocando cada um na lane do actor correcto:</p>
+<ol>
+<li><span class="twemoji icon-green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span> <strong>Evento de início</strong> (lane Cidadão) → "Contactar a câmara"<ul>
+<li>O cidadão dirige-se ao balcão presencial ou telefona para a câmara para reportar um dano causado pela tempestade.</li>
+</ul>
+</li>
+<li><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 3h8c2.76 0 5 2.24 5 5v8c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5V8c0-2.76 2.24-5 5-5"></path></svg></span> <strong>Tarefa</strong> (lane Técnico de Atendimento) → "Registar pedido em papel/Excel"<ul>
+<li>O técnico regista o pedido em papel ou numa folha Excel local. Não existe modelo padrão — cada técnico regista à sua maneira.</li>
+</ul>
+</li>
+<li><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 3h8c2.76 0 5 2.24 5 5v8c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5V8c0-2.76 2.24-5 5-5"></path></svg></span> <strong>Tarefa</strong> (lane Técnico de Atendimento) → "Encaminhar pedido por email"<ul>
+<li>O técnico tenta identificar o serviço responsável (obras, protecção civil, ambiente, habitação) e encaminha o pedido por email ou nota interna ao chefe de divisão competente. Muitas vezes tem dúvidas sobre qual o serviço correcto.</li>
+</ul>
+</li>
+<li><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 3h8c2.76 0 5 2.24 5 5v8c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5V8c0-2.76 2.24-5 5-5"></path></svg></span> <strong>Tarefa</strong> (lane Chefe de Divisão) → "Analisar pedido"<ul>
+<li>O chefe de divisão recebe o email e analisa se o pedido é da sua competência.</li>
+</ul>
+</li>
+<li><span class="twemoji icon-orange"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2c-.5 0-1 .19-1.41.59l-8 8c-.79.78-.79 2.04 0 2.82l8 8c.78.79 2.04.79 2.82 0l8-8c.79-.78.79-2.04 0-2.82l-8-8C13 2.19 12.5 2 12 2"></path></svg></span> <strong>Gateway exclusivo</strong> (lane Chefe de Divisão) → "Aceita o pedido?"<ul>
+<li><strong>Não</strong> → <span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 3h8c2.76 0 5 2.24 5 5v8c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5V8c0-2.76 2.24-5 5-5"></path></svg></span> <strong>Tarefa</strong> (lane Chefe de Divisão) → "Reencaminhar a outro serviço" → <span class="twemoji icon-red"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span> <strong>Evento de fim</strong> — o pedido sai deste fluxo e pode perder-se na transição.</li>
+<li><strong>Sim</strong> → segue para o passo 6.</li>
+</ul>
+</li>
+<li><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 3h8c2.76 0 5 2.24 5 5v8c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5V8c0-2.76 2.24-5 5-5"></path></svg></span> <strong>Tarefa</strong> (lane Chefe de Divisão) → "Atribuir a técnico de campo"<ul>
+<li>O chefe de divisão escolhe um técnico de campo disponível e comunica-lhe a tarefa (verbalmente ou por email).</li>
+</ul>
+</li>
+<li><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 3h8c2.76 0 5 2.24 5 5v8c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5V8c0-2.76 2.24-5 5-5"></path></svg></span> <strong>Tarefa</strong> (lane Técnico de Campo) → "Realizar visita ao local"<ul>
+<li>O técnico desloca-se ao local do dano para avaliar a situação. Não há prazo definido para esta visita.</li>
+</ul>
+</li>
+<li><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 3h8c2.76 0 5 2.24 5 5v8c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5V8c0-2.76 2.24-5 5-5"></path></svg></span> <strong>Tarefa</strong> (lane Técnico de Campo) → "Elaborar relatório"<ul>
+<li>O técnico redige um relatório com o que observou e devolve-o ao chefe de divisão.</li>
+</ul>
+</li>
+<li><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 3h8c2.76 0 5 2.24 5 5v8c0 2.76-2.24 5-5 5H8c-2.76 0-5-2.24-5-5V8c0-2.76 2.24-5 5-5"></path></svg></span> <strong>Tarefa</strong> (lane Chefe de Divisão) → "Decidir intervenção"<ul>
+<li>O chefe de divisão analisa o relatório e decide que tipo de intervenção é necessária. O cidadão não recebe qualquer notificação sobre o estado do pedido.</li>
+</ul>
+</li>
+<li><span class="twemoji icon-red"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span> <strong>Evento de fim</strong> (lane Chefe de Divisão) → "Pedido encerrado informalmente"<ul>
+<li>O encerramento é informal — não há registo sistemático de conclusão nem confirmação ao cidadão.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Tarefa 3 — Anotar problemas</strong></p>
+<p>Usar <strong>anotações de texto</strong> (text annotations) no diagrama para marcar os problemas identificados. Ligar cada anotação ao elemento correspondente com uma <strong>associação</strong> (linha tracejada):</p>
+<table>
+<thead>
+<tr>
+<th>Junto ao passo</th>
+<th>Anotação sugerida</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 — "Registar pedido"</td>
+<td>⚠ Registo em papel/Excel sem modelo padrão — dados incompletos</td>
+</tr>
+<tr>
+<td>3 — "Encaminhar por email"</td>
+<td>⚠ Email sem rastreabilidade — pedidos perdidos</td>
+</tr>
+<tr>
+<td>5 — Gateway "Aceita?" (caminho Não)</td>
+<td>⚠ Reencaminhamento sem notificação ao cidadão</td>
+</tr>
+<tr>
+<td>7 — "Realizar visita ao local"</td>
+<td>⚠ Sem prazo definido — visita pode demorar semanas</td>
+</tr>
+<tr>
+<td>10 — Evento de fim</td>
+<td>⚠ Encerramento informal — sem registo de conclusão</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">No bpmn.io</p>
+<p>Para criar uma anotação: seleccionar o elemento → no menu de contexto clicar em <strong>T</strong> (Text Annotation). A associação (linha tracejada) é criada automaticamente.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Atenção</p>
+<p>O mapeamento AS-IS documenta <strong>o que acontece na realidade</strong>, não o que deveria acontecer. Resistir à tentação de "melhorar" o processo nesta fase.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Erro crítico</p>
+<p>Criar um diagrama AS-IS idealizado (como o processo deveria funcionar) em vez de representar a realidade. O valor do AS-IS está precisamente em expor os problemas.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Dica</p>
+<p>Começar pelo caminho principal (happy path) e só depois adicionar as excepções e desvios. Tentar modelar tudo de uma vez gera diagramas confusos.</p>
+</div>
+<hr>
+<h2 id="interpretacao-para-decisao-publica">Interpretação para decisão pública<a class="headerlink" href="#interpretacao-para-decisao-publica" title="Permanent link">¶</a></h2>
+<p>O mapeamento AS-IS é o primeiro passo para qualquer projecto de transformação digital na AP. Sem documentar o que existe, qualquer investimento em tecnologia corre o risco de automatizar ineficiências em vez de as eliminar. O diagrama AS-IS torna-se o <strong>ponto de partida objectivo</strong> para a discussão com decisores — deixa de ser opinião e passa a ser evidência visual.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé">
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Visao Geral">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Visao Geral
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../aula-05/" class="md-footer__link md-footer__link--next" aria-label="Seguinte: Redesenho TO-BE">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Seguinte
+              </span>
+              <div class="md-ellipsis">
+                Redesenho TO-BE
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2025-2026 STI MAP | ESTG-IPL, Leiria
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/guilhasn/sti-materials" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "toc.integrate", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para a \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para a \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Escreva para iniciar a pesquisa", "search.result.term.missing": "Ausente", "select.version": "Seleccionar vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../assets/extra.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

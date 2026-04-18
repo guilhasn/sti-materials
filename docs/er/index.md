@@ -176,6 +176,9 @@ Tento meter `codPatrocinador` dentro de `EVENTO`:
 | **Células vazias** (NULLs) | Cria **3ª tabela** para esconder os vazios | Regra 5 |
 | **Linhas repetidas** | Cria **3ª tabela** para esconder as repetições | Regra 6 |
 
+!!! tip "Treino específico"
+    Disponível um [**worksheet com 10 cenários curtos para praticar apenas este raciocínio**](worksheets/worksheet-fase5-treino.docx) — isola a Fase 5 e aplica o método dos 4 passos (tentativa → observação → decisão → regra).
+
 ---
 
 ## Nomenclatura

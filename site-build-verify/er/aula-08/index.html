@@ -1,0 +1,1992 @@
+<!DOCTYPE html><html lang="pt" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Materiais da UC Sistemas e Tecnologias de Informacao - Mestrado em Administracao Publica (ESTG-IPL)">
+      
+      
+        <meta name="author" content="Nuno Salvador">
+      
+      
+        <link rel="canonical" href="https://guilhasn.github.io/sti-materials/er/aula-08/">
+      
+      
+        <link rel="prev" href="../aula-07/">
+      
+      
+        <link rel="next" href="../casos-guiados/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>Modelo Completo - STI | Sistemas e Tecnologias de Informacao</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/ipl.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#modelo-completo-e-normalizacao-pratica" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="STI | Sistemas e Tecnologias de Informacao" class="md-header__button md-logo" aria-label="STI | Sistemas e Tecnologias de Informacao" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            STI | Sistemas e Tecnologias de Informacao
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Modelo Completo
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Pesquisar" placeholder="Pesquisar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            A inicializar a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/guilhasn/sti-materials" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    guilhasn/sti-materials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Separadores" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../excel/" class="md-tabs__link">
+          
+  
+  
+  Excel (Aulas 1-3)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../bpmn/" class="md-tabs__link">
+          
+  
+  
+  BPMN (Aulas 4-5)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Modelacao de Dados (Aulas 6-8)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../threads/" class="md-tabs__link">
+          
+  
+  
+  Threads (Ficha 3)
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="STI | Sistemas e Tecnologias de Informacao" class="md-nav__button md-logo" aria-label="STI | Sistemas e Tecnologias de Informacao" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    STI | Sistemas e Tecnologias de Informacao
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/guilhasn/sti-materials" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    guilhasn/sti-materials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Excel (Aulas 1-3)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Excel (Aulas 1-3)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel/aula-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tabelas Dinamicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel/aula-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Funcoes Condicionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../excel/aula-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Caso Integrador
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BPMN (Aulas 4-5)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BPMN (Aulas 4-5)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bpmn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bpmn/aula-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mapeamento AS-IS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bpmn/aula-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redesenho TO-BE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bpmn/casos-guiados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios Guiados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../bpmn/exercicios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelacao de Dados (Aulas 6-8)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modelacao de Dados (Aulas 6-8)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aula-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelacao Conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aula-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Do Processo ao Modelo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelo Completo
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelo Completo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#objectivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Objectivos
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conceitos-chave-normalizacao-pratica-3-regras-simples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conceitos-chave — Normalização prática (3 regras simples)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cenario-revisao-do-modelo-e-r-de-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cenário — Revisão do modelo E-R de eventos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cenário — Revisão do modelo E-R de eventos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-com-problemas-versao-do-estagiario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modelo com problemas — "versão do estagiário"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercicio-sistema-de-gestao-de-formacoes-internas-9-fases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercício — Sistema de Gestão de Formações Internas (9 fases)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercício — Sistema de Gestão de Formações Internas (9 fases)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fase-1-determinar-entidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 1 — Determinar entidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-2-desenhar-der-simplificado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 2 — Desenhar DER simplificado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-3-definir-pressupostos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 3 — Definir pressupostos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-4-desenhar-der-completo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 4 — Desenhar DER completo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-5-determinar-tabelas-aplicar-regras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 5 — Determinar tabelas (aplicar regras)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-6-chaves-candidatas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 6 — Chaves candidatas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-7-chaves-primarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 7 — Chaves primárias
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-8-tabelas-finais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 8 — Tabelas finais
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fase-9-dominio-dos-atributos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fase 9 — Domínio dos atributos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tarefa-final-preparar-para-a-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tarefa final — Preparar para a app
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../casos-guiados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios Guiados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exercicios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../avaliacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto-avaliacao
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Threads (Ficha 3)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Threads (Ficha 3)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../threads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../threads/ficha-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guia da Ficha 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="modelo-completo-e-normalizacao-pratica">Modelo Completo e Normalização Prática<a class="headerlink" href="#modelo-completo-e-normalizacao-pratica" title="Permanent link">¶</a></h1>
+<h2 id="objectivos">Objectivos<a class="headerlink" href="#objectivos" title="Permanent link">¶</a></h2>
+<ul>
+<li>[ ] Identificar e eliminar redundância de dados num modelo E-R</li>
+<li>[ ] Aplicar regras práticas de normalização</li>
+<li>[ ] Converter um diagrama E-R completo em esquema relacional</li>
+<li>[ ] Definir domínios de atributos para implementação</li>
+<li>[ ] Preparar o modelo de dados para desenvolvimento de aplicação</li>
+</ul>
+<hr>
+<h2 id="conceitos-chave-normalizacao-pratica-3-regras-simples">Conceitos-chave — Normalização prática (3 regras simples)<a class="headerlink" href="#conceitos-chave-normalizacao-pratica-3-regras-simples" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Regra</th>
+<th>Pergunta-guia</th>
+<th>Acção</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sem repetição</strong></td>
+<td>"Este dado aparece copiado em várias linhas?"</td>
+<td>Separar numa nova entidade</td>
+<td>Nome do espaço repetido em cada evento → Entidade Espaço</td>
+</tr>
+<tr>
+<td><strong>Cada facto no seu lugar</strong></td>
+<td>"Este atributo depende da chave ou de outro atributo?"</td>
+<td>Mover para a entidade correcta</td>
+<td>Morada do patrocinador na tabela Patrocínio → mover para Patrocinador</td>
+</tr>
+<tr>
+<td><strong>Sem listas numa célula</strong></td>
+<td>"Este campo contém vários valores separados por vírgulas?"</td>
+<td>Criar relação M:N</td>
+<td>"Jazz, Fado, Rock" num campo género → tabela Artista ↔ Género</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Normalização sem formalismo</p>
+<p>Na sebenta e na literatura, a normalização é apresentada com as formas normais (1FN, 2FN, 3FN). Nesta aula usamos 3 regras práticas equivalentes que são mais fáceis de aplicar no contexto da AP. O resultado final é o mesmo: tabelas sem redundância.</p>
+</div>
+<hr>
+<h2 id="cenario-revisao-do-modelo-e-r-de-eventos">Cenário — Revisão do modelo E-R de eventos<a class="headerlink" href="#cenario-revisao-do-modelo-e-r-de-eventos" title="Permanent link">¶</a></h2>
+<div class="admonition abstract">
+<p class="admonition-title">Contexto</p>
+<p>A Câmara Municipal de Óbidos quer avançar com a implementação da base de dados para gestão de eventos. A equipa de SI já tem o modelo E-R das aulas anteriores. Agora precisa de:</p>
+<ol>
+<li>Refinar o modelo — garantir que não há redundância</li>
+<li>Converter em tabelas relacionais finais</li>
+<li>Definir domínios dos atributos</li>
+<li>Preparar a especificação para o fornecedor de software</li>
+</ol>
+</div>
+<h3 id="modelo-com-problemas-versao-do-estagiario">Modelo com problemas — "versão do estagiário"<a class="headerlink" href="#modelo-com-problemas-versao-do-estagiario" title="Permanent link">¶</a></h3>
+<p>Antes de avançar para o exercício principal, vamos analisar uma primeira versão do modelo E-R que um estagiário preparou. Esta versão contém <strong>erros e redundâncias propositados</strong> que devem ser identificados e corrigidos.</p>
+<p><strong>Problemas a detectar:</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Problema</th>
+<th>Regra violada</th>
+<th>Correcção</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Atributo <code>nomeEspaco</code> dentro da entidade Evento</td>
+<td>Sem repetição — o nome do espaço repete-se em cada evento que lá decorre</td>
+<td>Criar entidade Espaço e relacionar com Evento</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Campo <code>artistas</code> como texto livre dentro de Evento ("João Silva, Maria Santos")</td>
+<td>Sem listas numa célula — vários valores num só campo</td>
+<td>Criar relação M:N entre Evento e Artista</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Atributo <code>idade</code> armazenado na entidade Artista</td>
+<td>Cada facto no seu lugar — a idade é derivável de <code>dataNascimento</code></td>
+<td>Remover <code>idade</code> e calcular a partir de <code>dataNascimento</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Relação Evento ↔ Patrocinador sem tabela associativa (M:N tratada como 1:N)</td>
+<td>Sem repetição — um evento pode ter vários patrocinadores e vice-versa</td>
+<td>Criar tabela associativa Patrocínio</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Campo <code>totalPatrocinios</code> armazenado na entidade Evento</td>
+<td>Cada facto no seu lugar — valor calculável a partir dos registos de Patrocínio</td>
+<td>Remover o campo e calcular quando necessário</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="exercicio-sistema-de-gestao-de-formacoes-internas-9-fases">Exercício — Sistema de Gestão de Formações Internas (9 fases)<a class="headerlink" href="#exercicio-sistema-de-gestao-de-formacoes-internas-9-fases" title="Permanent link">¶</a></h2>
+<div class="admonition abstract">
+<p class="admonition-title">Cenário</p>
+<p>A Câmara Municipal de Óbidos organiza formações internas para os seus funcionários — segurança no trabalho, atendimento ao público, ferramentas digitais, primeiros socorros, entre outras. Actualmente:</p>
+<ul>
+<li>As inscrições são feitas por email ao departamento de RH</li>
+<li>Os certificados são emitidos manualmente em Word</li>
+<li>Não existe registo centralizado de quem frequentou o quê</li>
+<li>Os formadores podem ser internos (funcionários) ou externos (empresas de formação)</li>
+<li>Cada formação tem uma sala atribuída, datas, horários e número máximo de participantes</li>
+<li>No final, cada participante avalia a formação (1 a 5 estrelas + comentário)</li>
+</ul>
+</div>
+<h3 id="fase-1-determinar-entidades">Fase 1 — Determinar entidades<a class="headerlink" href="#fase-1-determinar-entidades" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Entidade</th>
+<th>Descrição</th>
+<th>Exemplos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Funcionário</td>
+<td>Pessoa que trabalha na câmara</td>
+<td>Ana Silva (Técnica Superior, Dept. Cultura)</td>
+</tr>
+<tr>
+<td>Departamento</td>
+<td>Unidade orgânica</td>
+<td>Cultura, Obras, Recursos Humanos</td>
+</tr>
+<tr>
+<td>Formação</td>
+<td>Acção de formação oferecida</td>
+<td>"Segurança no Trabalho 2025"</td>
+</tr>
+<tr>
+<td>Formador</td>
+<td>Pessoa/empresa que dá a formação</td>
+<td>Dr. Pedro Costa (interno) / SafetyPro, Ldª (externo)</td>
+</tr>
+<tr>
+<td>Sala</td>
+<td>Espaço onde decorre a formação</td>
+<td>Sala 1 (30 lugares, projector)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fase-2-desenhar-der-simplificado">Fase 2 — Desenhar DER simplificado<a class="headerlink" href="#fase-2-desenhar-der-simplificado" title="Permanent link">¶</a></h3>
+<p>Representar as seguintes relações no ERDPlus:</p>
+<ul>
+<li><strong>Funcionário</strong> — inscreve → <strong>Formação</strong></li>
+<li><strong>Departamento</strong> — tem → <strong>Funcionário</strong></li>
+<li><strong>Formação</strong> — é dada por → <strong>Formador</strong></li>
+<li><strong>Formação</strong> — decorre em → <strong>Sala</strong></li>
+</ul>
+<h3 id="fase-3-definir-pressupostos">Fase 3 — Definir pressupostos<a class="headerlink" href="#fase-3-definir-pressupostos" title="Permanent link">¶</a></h3>
+<p>Regras de negócio a documentar:</p>
+<ol>
+<li>Cada funcionário pertence a um departamento; cada departamento tem vários funcionários.</li>
+<li>Cada funcionário pode inscrever-se em várias formações; cada formação pode ter vários inscritos.</li>
+<li>Cada formação é dada por um formador; cada formador pode dar várias formações.</li>
+<li>Cada formação decorre numa sala; cada sala pode acolher várias formações.</li>
+<li>Todos os funcionários pertencem a um departamento.</li>
+<li>Pode haver formadores sem formações atribuídas.</li>
+<li>Todas as formações têm sala e formador atribuídos.</li>
+<li>Nem todos os funcionários se inscrevem em formações.</li>
+</ol>
+<h3 id="fase-4-desenhar-der-completo">Fase 4 — Desenhar DER completo<a class="headerlink" href="#fase-4-desenhar-der-completo" title="Permanent link">¶</a></h3>
+<p>Definir cardinalidades e participações:</p>
+<table>
+<thead>
+<tr>
+<th>Relação</th>
+<th>Cardinalidade</th>
+<th>Participação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Departamento → Funcionário</td>
+<td>1:N</td>
+<td>Obrigatória lado N</td>
+</tr>
+<tr>
+<td>Funcionário ↔ Formação</td>
+<td>M:N</td>
+<td>Não obrigatória em ambos os lados</td>
+</tr>
+<tr>
+<td>Formador → Formação</td>
+<td>1:N</td>
+<td>Obrigatória lado N, não obrigatória lado 1</td>
+</tr>
+<tr>
+<td>Sala → Formação</td>
+<td>1:N</td>
+<td>Obrigatória lado N</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fase-5-determinar-tabelas-aplicar-regras">Fase 5 — Determinar tabelas (aplicar regras)<a class="headerlink" href="#fase-5-determinar-tabelas-aplicar-regras" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Relação</th>
+<th>Card.</th>
+<th>Partic.</th>
+<th>Regra</th>
+<th>Nº Tabelas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dept → Funcionário</td>
+<td>1:N</td>
+<td>Obrig. lado N</td>
+<td>Regra 4</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Func. ↔ Formação</td>
+<td>M:N</td>
+<td>—</td>
+<td>Regra 6</td>
+<td>3 (inclui Inscrição)</td>
+</tr>
+<tr>
+<td>Formador → Formação</td>
+<td>1:N</td>
+<td>Obrig. lado N, não obrig. lado 1</td>
+<td>Regra 4</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Sala → Formação</td>
+<td>1:N</td>
+<td>Obrig. lado N</td>
+<td>Regra 4</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total de tabelas distintas: 6</strong> — Departamento, Funcionário, Formação, Formador, Sala, Inscrição</p>
+<h3 id="fase-6-chaves-candidatas">Fase 6 — Chaves candidatas<a class="headerlink" href="#fase-6-chaves-candidatas" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tabela</th>
+<th>Chaves candidatas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Funcionário</td>
+<td>numFuncionario / NIF / BI</td>
+</tr>
+<tr>
+<td>Departamento</td>
+<td>codDepartamento / sigla</td>
+</tr>
+<tr>
+<td>Formação</td>
+<td>codFormacao</td>
+</tr>
+<tr>
+<td>Formador</td>
+<td>codFormador / NIF</td>
+</tr>
+<tr>
+<td>Sala</td>
+<td>codSala / nome+piso</td>
+</tr>
+<tr>
+<td>Inscrição</td>
+<td>numFuncionario + codFormacao</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fase-7-chaves-primarias">Fase 7 — Chaves primárias<a class="headerlink" href="#fase-7-chaves-primarias" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tabela</th>
+<th>PK escolhida</th>
+<th>Justificação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Funcionário</td>
+<td>numFuncionario</td>
+<td>Numérico, já usado internamente</td>
+</tr>
+<tr>
+<td>Departamento</td>
+<td>codDepartamento</td>
+<td>Numérico sequencial</td>
+</tr>
+<tr>
+<td>Formação</td>
+<td>codFormacao</td>
+<td>Numérico sequencial</td>
+</tr>
+<tr>
+<td>Formador</td>
+<td>codFormador</td>
+<td>Numérico sequencial</td>
+</tr>
+<tr>
+<td>Sala</td>
+<td>codSala</td>
+<td>Numérico sequencial</td>
+</tr>
+<tr>
+<td>Inscrição</td>
+<td>numFuncionario + codFormacao</td>
+<td>Chave composta (identifica inscrição)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Preferir chaves numéricas</p>
+<p>Chaves numéricas são mais eficientes, ocupam menos espaço e evitam problemas com caracteres especiais. O NIF pode ser chave candidata, mas usar um código sequencial como PK é mais robusto.</p>
+</div>
+<h3 id="fase-8-tabelas-finais">Fase 8 — Tabelas finais<a class="headerlink" href="#fase-8-tabelas-finais" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Departamento(codDepartamento, nome, sigla, localizacao)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Funcionario(numFuncionario, nome, email, telefone, cargo, codDepartamento)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Formacao(codFormacao, titulo, descricao, dataInicio, dataFim, horaInicio, horaFim, maxParticipantes, codFormador, codSala)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Formador(codFormador, nome, tipo, NIF, email, telefone, empresa)
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Sala(codSala, nome, piso, capacidade, equipamento)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Inscricao(numFuncionario, codFormacao, dataInscricao, presenca, avaliacao, comentario)
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Notação</p>
+<p>PKs sublinhadas. FKs a itálico. Exemplo: Funcionario(<strong>numFuncionario</strong>, nome, ..., <em>codDepartamento</em>)</p>
+</div>
+<h3 id="fase-9-dominio-dos-atributos">Fase 9 — Domínio dos atributos<a class="headerlink" href="#fase-9-dominio-dos-atributos" title="Permanent link">¶</a></h3>
+<p><strong>Formação:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo de dados</th>
+<th>Características</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>codFormacao</td>
+<td>Número inteiro</td>
+<td>Chave primária, auto-incremento</td>
+</tr>
+<tr>
+<td>titulo</td>
+<td>Texto (100)</td>
+<td>Obrigatório</td>
+</tr>
+<tr>
+<td>descricao</td>
+<td>Texto (500)</td>
+<td>Opcional</td>
+</tr>
+<tr>
+<td>dataInicio</td>
+<td>Data</td>
+<td>Obrigatório, ≥ data actual</td>
+</tr>
+<tr>
+<td>dataFim</td>
+<td>Data</td>
+<td>Obrigatório, ≥ dataInicio</td>
+</tr>
+<tr>
+<td>horaInicio</td>
+<td>Hora</td>
+<td>Formato HH:MM</td>
+</tr>
+<tr>
+<td>horaFim</td>
+<td>Hora</td>
+<td>&gt; horaInicio</td>
+</tr>
+<tr>
+<td>maxParticipantes</td>
+<td>Número inteiro</td>
+<td>Obrigatório, entre 5 e 50</td>
+</tr>
+<tr>
+<td>codFormador</td>
+<td>Número inteiro</td>
+<td>FK → Formador, obrigatório</td>
+</tr>
+<tr>
+<td>codSala</td>
+<td>Número inteiro</td>
+<td>FK → Sala, obrigatório</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Inscrição:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Campo</th>
+<th>Tipo de dados</th>
+<th>Características</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>numFuncionario</td>
+<td>Número inteiro</td>
+<td>PK (parte 1), FK → Funcionário</td>
+</tr>
+<tr>
+<td>codFormacao</td>
+<td>Número inteiro</td>
+<td>PK (parte 2), FK → Formação</td>
+</tr>
+<tr>
+<td>dataInscricao</td>
+<td>Data</td>
+<td>Obrigatório, valor pré-definido: data actual</td>
+</tr>
+<tr>
+<td>presenca</td>
+<td>Sim/Não</td>
+<td>Valor pré-definido: Não</td>
+</tr>
+<tr>
+<td>avaliacao</td>
+<td>Número inteiro</td>
+<td>Opcional, entre 1 e 5</td>
+</tr>
+<tr>
+<td>comentario</td>
+<td>Texto (250)</td>
+<td>Opcional</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="tarefa-final-preparar-para-a-app">Tarefa final — Preparar para a app<a class="headerlink" href="#tarefa-final-preparar-para-a-app" title="Permanent link">¶</a></h2>
+<div class="admonition abstract">
+<p class="admonition-title">Reflexão</p>
+<p>Que funcionalidades pode a aplicação oferecer com base neste modelo de dados?</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Funcionalidade da app</th>
+<th>Entidades envolvidas</th>
+<th>Dados necessários</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Catálogo de formações</td>
+<td>Formação, Formador, Sala</td>
+<td>Título, datas, formador, sala, vagas</td>
+</tr>
+<tr>
+<td>Inscrição online</td>
+<td>Funcionário, Formação, Inscrição</td>
+<td>Verificar vagas, registar inscrição</td>
+</tr>
+<tr>
+<td>Registo de presenças</td>
+<td>Inscrição</td>
+<td>Actualizar presença (tablet na sala)</td>
+</tr>
+<tr>
+<td>Certificado automático</td>
+<td>Funcionário, Formação, Inscrição</td>
+<td>Gerar PDF com nome, formação, data, horas</td>
+</tr>
+<tr>
+<td>Painel de gestão (dashboard)</td>
+<td>Todas</td>
+<td>Formações por departamento, taxa de presença, avaliações</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Ponte para a Aula 9</p>
+<p>Na próxima aula, vamos usar este modelo de dados como base para criar uma aplicação com IA. Um bom modelo de dados é a fundação de qualquer sistema de informação.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé">
+        
+          
+          <a href="../aula-07/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Do Processo ao Modelo">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Do Processo ao Modelo
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../casos-guiados/" class="md-footer__link md-footer__link--next" aria-label="Seguinte: Exercicios Guiados">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Seguinte
+              </span>
+              <div class="md-ellipsis">
+                Exercicios Guiados
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2025-2026 STI MAP | ESTG-IPL, Leiria
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/guilhasn/sti-materials" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "toc.integrate", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para a \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para a \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Escreva para iniciar a pesquisa", "search.result.term.missing": "Ausente", "select.version": "Seleccionar vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../assets/extra.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

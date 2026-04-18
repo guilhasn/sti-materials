@@ -1,0 +1,2101 @@
+<!DOCTYPE html><html lang="pt" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Materiais da UC Sistemas e Tecnologias de Informacao - Mestrado em Administracao Publica (ESTG-IPL)">
+      
+      
+        <meta name="author" content="Nuno Salvador">
+      
+      
+        <link rel="canonical" href="https://guilhasn.github.io/sti-materials/bpmn/">
+      
+      
+        <link rel="prev" href="../excel/aula-03/">
+      
+      
+        <link rel="next" href="aula-04/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>Visao Geral - STI | Sistemas e Tecnologias de Informacao</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/ipl.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#notacao-bpmn-20-processos-na-administracao-publica" class="md-skip">
+          Ir para o conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href=".." title="STI | Sistemas e Tecnologias de Informacao" class="md-header__button md-logo" aria-label="STI | Sistemas e Tecnologias de Informacao" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            STI | Sistemas e Tecnologias de Informacao
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Visao Geral
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Pesquisar" placeholder="Pesquisar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            A inicializar a pesquisa
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/guilhasn/sti-materials" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    guilhasn/sti-materials
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Separadores" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../excel/" class="md-tabs__link">
+          
+  
+  
+  Excel (Aulas 1-3)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  BPMN (Aulas 4-5)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../er/" class="md-tabs__link">
+          
+  
+  
+  Modelacao de Dados (Aulas 6-8)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../threads/" class="md-tabs__link">
+          
+  
+  
+  Threads (Ficha 3)
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="STI | Sistemas e Tecnologias de Informacao" class="md-nav__button md-logo" aria-label="STI | Sistemas e Tecnologias de Informacao" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    STI | Sistemas e Tecnologias de Informacao
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/guilhasn/sti-materials" title="Ir ao repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    guilhasn/sti-materials
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Excel (Aulas 1-3)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Excel (Aulas 1-3)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel/aula-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tabelas Dinamicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel/aula-02/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Funcoes Condicionais
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../excel/aula-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Caso Integrador
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BPMN (Aulas 4-5)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BPMN (Aulas 4-5)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#porque-bpmn-na-administracao-publica" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Porquê BPMN na Administração Pública?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elementos-fundamentais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Elementos fundamentais
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Elementos fundamentais">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eventos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#actividades-tarefas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actividades / Tarefas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gateways-decisoes-e-ramificacoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateways — Decisões e ramificações
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fluxos-como-ligar-os-elementos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fluxos — Como ligar os elementos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pools-e-lanes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pools e Lanes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#artefactos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Artefactos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#erros-frequentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Erros frequentes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ferramenta-bpmnio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ferramenta — bpmn.io
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ferramenta — bpmn.io">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interface-do-editor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface do editor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criar-um-novo-diagrama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criar um novo diagrama
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adicionar-elementos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adicionar elementos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#como-criar-cada-tipo-de-elemento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Como criar cada tipo de elemento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criar-pools-e-lanes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Criar pools e lanes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ligar-elementos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ligar elementos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adicionar-anotacoes-de-texto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adicionar anotações de texto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#editar-nomes-e-propriedades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Editar nomes e propriedades
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guardar-e-exportar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Guardar e exportar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atalhos-uteis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Atalhos úteis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolucao-de-problemas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resolução de problemas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="aula-04/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mapeamento AS-IS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="aula-05/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redesenho TO-BE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="casos-guiados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios Guiados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="exercicios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelacao de Dados (Aulas 6-8)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modelacao de Dados (Aulas 6-8)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../er/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../er/aula-06/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelacao Conceptual
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../er/aula-07/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Do Processo ao Modelo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../er/aula-08/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modelo Completo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../er/casos-guiados/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios Guiados
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../er/exercicios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exercicios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../er/avaliacao/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auto-avaliacao
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Threads (Ficha 3)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Threads (Ficha 3)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../threads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visao Geral
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../threads/ficha-03/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guia da Ficha 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="notacao-bpmn-20-processos-na-administracao-publica">Notação BPMN 2.0 — Processos na Administração Pública<a class="headerlink" href="#notacao-bpmn-20-processos-na-administracao-publica" title="Permanent link">¶</a></h1>
+<p>Este módulo introduz a notação <strong>BPMN 2.0</strong> como ferramenta de mapeamento e redesenho de processos em contexto de administração pública.</p>
+<div class="admonition info">
+<p class="admonition-title">Pré-requisitos</p>
+<ul>
+<li>Navegador web actualizado (Chrome, Firefox ou Edge)</li>
+<li>Acesso à internet para usar o <a href="https://bpmn.io">bpmn.io</a></li>
+<li>Não é necessário instalar software</li>
+<li>Recomendado: segundo ecrã para ter o diagrama e o enunciado lado a lado</li>
+</ul>
+</div>
+<hr>
+<h2 id="porque-bpmn-na-administracao-publica">Porquê BPMN na Administração Pública?<a class="headerlink" href="#porque-bpmn-na-administracao-publica" title="Permanent link">¶</a></h2>
+<p>Os serviços públicos assentam em processos — licenciamentos, atendimento, contratação, resposta a emergências. Quando esses processos não estão documentados:</p>
+<ul>
+<li>Ninguém sabe exactamente quem faz o quê</li>
+<li>Não é possível medir tempos de resposta</li>
+<li>Cada funcionário resolve à sua maneira</li>
+<li>Melhorias são tentadas sem diagnóstico</li>
+</ul>
+<p>O <strong>BPMN</strong> (Business Process Model and Notation) é uma notação visual normalizada (<strong>ISO/IEC 19510</strong>) que permite representar processos de forma clara, mensurável e partilhável entre técnicos, dirigentes e fornecedores de tecnologia.</p>
+<div class="admonition note">
+<p class="admonition-title">BPMN não é um fluxograma</p>
+<p>Ao contrário dos fluxogramas informais, o BPMN 2.0 segue uma especificação internacional mantida pela OMG (Object Management Group). Cada símbolo tem um significado preciso e universalmente reconhecido. Um diagrama BPMN feito em Portugal é legível por qualquer analista de processos no mundo.</p>
+</div>
+<hr>
+<h2 id="elementos-fundamentais">Elementos fundamentais<a class="headerlink" href="#elementos-fundamentais" title="Permanent link">¶</a></h2>
+<h3 id="eventos">Eventos<a class="headerlink" href="#eventos" title="Permanent link">¶</a></h3>
+<p>Os eventos marcam o que <strong>acontece</strong> durante o processo — início, fim, ou algo intermédio.</p>
+<table>
+<thead>
+<tr>
+<th>Evento</th>
+<th>Símbolo</th>
+<th>Quando usar</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Início simples</strong></td>
+<td><span class="twemoji icon-green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span> círculo fino</td>
+<td>Ponto de partida do processo</td>
+<td>Cidadão apresenta pedido</td>
+</tr>
+<tr>
+<td><strong>Início por mensagem</strong></td>
+<td><span class="twemoji icon-green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0-8 5-8-5zm0 12H4V8l8 5 8-5z"></path></svg></span> círculo fino com envelope</td>
+<td>Processo inicia ao receber comunicação</td>
+<td>Email recebido com reclamação</td>
+</tr>
+<tr>
+<td><strong>Fim simples</strong></td>
+<td><span class="twemoji icon-red"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"></path></svg></span> círculo grosso</td>
+<td>Processo termina</td>
+<td>Certidão emitida</td>
+</tr>
+<tr>
+<td><strong>Fim por mensagem</strong></td>
+<td><span class="twemoji icon-red"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"></path></svg></span> círculo grosso com envelope</td>
+<td>Processo termina com envio de comunicação</td>
+<td>Notificação enviada ao cidadão</td>
+</tr>
+<tr>
+<td><strong>Intermédio de mensagem (envio)</strong></td>
+<td><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 19c0-.34.04-.67.09-1H4V8l8 5 8-5v5.09c.72.12 1.39.37 2 .72V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h9.09c-.05-.33-.09-.66-.09-1m7-13-8 5-8-5zm0 16v-2h-4v-2h4v-2l3 3z"></path></svg></span> círculo duplo com envelope</td>
+<td>Envio de notificação durante o processo</td>
+<td>SMS enviado ao requerente</td>
+</tr>
+<tr>
+<td><strong>Intermédio de mensagem (recepção)</strong></td>
+<td><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 19c0-.34.04-.67.09-1H4V8l8 5 8-5v5.09c.72.12 1.39.37 2 .72V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h9.09c-.05-.33-.09-.66-.09-1m7-13-8 5-8-5zm-2 10v2h4v2h-4v2l-3-3z"></path></svg></span> círculo duplo com envelope vazio</td>
+<td>Espera por recepção de informação</td>
+<td>Aguardar parecer do serviço jurídico</td>
+</tr>
+<tr>
+<td><strong>Intermédio de temporização</strong></td>
+<td><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"></path></svg></span> círculo duplo com relógio</td>
+<td>Espera por tempo definido</td>
+<td>Aguardar 5 dias úteis para resposta</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="actividades-tarefas">Actividades / Tarefas<a class="headerlink" href="#actividades-tarefas" title="Permanent link">¶</a></h3>
+<p>As actividades representam <strong>trabalho executado</strong> por alguém ou por um sistema.</p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Ícone</th>
+<th>Quando usar</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User Task</strong></td>
+<td><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"></path></svg></span> pessoa</td>
+<td>Tarefa executada por uma pessoa num ecrã</td>
+<td>Registar pedido no sistema</td>
+</tr>
+<tr>
+<td><strong>Service Task</strong></td>
+<td><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97s-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1s.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64z"></path></svg></span> engrenagem</td>
+<td>Tarefa automática do sistema, sem intervenção humana</td>
+<td>Enviar SMS ao cidadão</td>
+</tr>
+<tr>
+<td><strong>Manual Task</strong></td>
+<td><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 24c-3.26 0-6.19-2-7.4-5l-3.03-7.63a1 1 0 0 1 1.24-1.32l.79.26c.56.19 1.02.61 1.24 1.16L7.25 15H8V3.25a1.25 1.25 0 0 1 2.5 0V12h1V1.25a1.25 1.25 0 0 1 2.5 0V12h1V2.75a1.25 1.25 0 0 1 2.5 0V12h1V5.75a1.25 1.25 0 0 1 2.5 0V16c0 4.42-3.58 8-8 8"></path></svg></span> mão</td>
+<td>Tarefa física sem apoio de sistema de informação</td>
+<td>Inspeccionar infraestrutura no local</td>
+</tr>
+<tr>
+<td><strong>Send Task</strong></td>
+<td><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 19c0-3.31 2.69-6 6-6 1.1 0 2.12.3 3 .81V6a2 2 0 0 0-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h9.09c-.05-.33-.09-.66-.09-1M4 8V6l8 5 8-5v2l-8 5zm16 14v-2h-4v-2h4v-2l3 3z"></path></svg></span> envelope com seta</td>
+<td>Envio de mensagem ou documento</td>
+<td>Enviar parecer ao requerente</td>
+</tr>
+<tr>
+<td><strong>Receive Task</strong></td>
+<td><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 19c0-3.31 2.69-6 6-6 1.1 0 2.12.3 3 .81V6a2 2 0 0 0-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h9.09c-.05-.33-.09-.66-.09-1M4 8V6l8 5 8-5v2l-8 5zm14 8v2h4v2h-4v2l-3-3z"></path></svg></span> envelope</td>
+<td>Espera pela recepção de informação</td>
+<td>Receber documentação do cidadão</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Regra prática para escolher o tipo de tarefa</p>
+<ul>
+<li><strong>Computador desligado?</strong> → Manual Task</li>
+<li><strong>Precisa de ecrã?</strong> → User Task</li>
+<li><strong>Sem pessoa nenhuma?</strong> → Service Task</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Nomes das tarefas</p>
+<p>Usar sempre <strong>verbo + objecto</strong>: "Registar pedido", "Validar dados", "Notificar cidadão". Nomes vagos como "Processar" ou "Tratar" não descrevem nada — são processos inteiros, não tarefas.</p>
+</div>
+<hr>
+<h3 id="gateways-decisoes-e-ramificacoes">Gateways — Decisões e ramificações<a class="headerlink" href="#gateways-decisoes-e-ramificacoes" title="Permanent link">¶</a></h3>
+<p>Os gateways controlam a <strong>bifurcação e convergência</strong> do fluxo.</p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Símbolo</th>
+<th>Comportamento</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Exclusivo (XOR)</strong></td>
+<td>◇ com <strong>X</strong></td>
+<td>Apenas <strong>UM</strong> caminho segue</td>
+<td>Pedido classificado? Sim → encaminhar / Não → triagem</td>
+</tr>
+<tr>
+<td><strong>Paralelo (AND)</strong></td>
+<td>◇ com <strong>+</strong></td>
+<td><strong>TODOS</strong> os caminhos seguem em simultâneo</td>
+<td>Após registo → notificar cidadão <strong>E</strong> encaminhar ao serviço</td>
+</tr>
+<tr>
+<td><strong>Inclusivo (OR)</strong></td>
+<td>◇ com <strong>O</strong></td>
+<td><strong>UM ou MAIS</strong> caminhos seguem</td>
+<td>Dano afecta estrada <strong>E/OU</strong> habitação → accionar um ou ambos</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title">Regra obrigatória para gateway paralelo</p>
+<p>Um gateway paralelo (AND) que abre ramificações <strong>DEVE</strong> ser fechado por outro gateway paralelo antes de convergir. Esquecer o fecho é o erro mais frequente e invalida o diagrama.</p>
+</div>
+<p><strong>Exemplos práticos:</strong></p>
+<ul>
+<li><strong>Exclusivo:</strong> "O pedido foi classificado com confiança?" → Sim: encaminhamento automático / Não: triagem manual</li>
+<li><strong>Paralelo:</strong> "Após registo da ocorrência" → notificar cidadão <strong>E</strong> encaminhar ao serviço responsável (ambos em simultâneo)</li>
+<li><strong>Inclusivo:</strong> "Tipo de dano reportado?" → Estrada, Habitação, Infraestrutura pública (um ou mais podem ser verdadeiros)</li>
+</ul>
+<hr>
+<h3 id="fluxos-como-ligar-os-elementos">Fluxos — Como ligar os elementos<a class="headerlink" href="#fluxos-como-ligar-os-elementos" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Representação</th>
+<th>Quando usar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fluxo de sequência</strong></td>
+<td><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 15V9h8V4.16L19.84 12 12 19.84V15z"></path></svg></span> seta sólida com ponta preenchida</td>
+<td>Liga actividades <strong>dentro</strong> do mesmo pool, pela ordem de execução</td>
+</tr>
+<tr>
+<td><strong>Fluxo de mensagem</strong></td>
+<td><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 16.94v-4H5.08l-.03-2.01H14V6.94l5 5Z"></path></svg></span> seta tracejada com ponta aberta</td>
+<td>Liga elementos em <strong>pools diferentes</strong> — comunicação entre organizações</td>
+</tr>
+<tr>
+<td><strong>Associação</strong></td>
+<td><span class="twemoji icon-blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 12a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2m-6 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2m-6 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2"></path></svg></span> linha pontilhada</td>
+<td>Liga anotações de texto ou objectos de dados a elementos do processo</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Regra de ouro</p>
+<p>Fluxos de sequência (seta sólida) só existem <strong>dentro</strong> do mesmo pool. Entre pools diferentes, usar <strong>sempre</strong> fluxos de mensagem (seta tracejada). Se o bpmn.io criar automaticamente uma seta tracejada ao ligar entre pools, está correcto.</p>
+</div>
+<hr>
+<h3 id="pools-e-lanes">Pools e Lanes<a class="headerlink" href="#pools-e-lanes" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Elemento</th>
+<th>O que representa</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pool</strong></td>
+<td>Uma organização ou entidade autónoma</td>
+<td>Câmara Municipal de Vila Feliz</td>
+</tr>
+<tr>
+<td><strong>Lane</strong></td>
+<td>Um papel, departamento ou actor dentro da organização</td>
+<td>Técnico de Atendimento, Chefe de Divisão</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Boas práticas:</strong></p>
+<ul>
+<li>Cada lane corresponde a um <strong>papel real</strong> — "Técnico de Protecção Civil", não "Departamento" genérico</li>
+<li>Todos os elementos do processo devem estar <strong>dentro</strong> de um pool</li>
+<li>Elementos soltos fora de pools causam erros de validação BPMN</li>
+</ul>
+<hr>
+<h3 id="artefactos">Artefactos<a class="headerlink" href="#artefactos" title="Permanent link">¶</a></h3>
+<p>Os artefactos acrescentam informação ao diagrama <strong>sem alterar o fluxo</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Artefacto</th>
+<th>Quando usar</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Anotação de texto</strong></td>
+<td>Comentários, notas, explicações</td>
+<td>"⚠ Sem validação de dados — risco de registo incompleto"</td>
+</tr>
+<tr>
+<td><strong>Grupo</strong></td>
+<td>Agrupamento visual de actividades relacionadas (sem impacto no fluxo)</td>
+<td>Agrupar tarefas da "Fase de triagem"</td>
+</tr>
+<tr>
+<td><strong>Objecto de dados</strong></td>
+<td>Representa um documento, formulário ou ficheiro</td>
+<td>Formulário de pedido, Relatório de visita</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="erros-frequentes">Erros frequentes<a class="headerlink" href="#erros-frequentes" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Erro</th>
+<th>Correcção</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fluxo de sequência entre pools diferentes</td>
+<td>Usar fluxo de <strong>mensagem</strong> (tracejado) entre pools</td>
+</tr>
+<tr>
+<td>Gateway paralelo sem fecho</td>
+<td>Fechar <strong>sempre</strong> com outro gateway paralelo antes de convergir</td>
+</tr>
+<tr>
+<td>Actividade sem fluxo de entrada ou saída</td>
+<td>Todas as tarefas (excepto após início / antes de fim) precisam de ambos</td>
+</tr>
+<tr>
+<td>Evento de início na lane errada</td>
+<td>O início deve estar na lane do actor que <strong>despoleta</strong> o processo</td>
+</tr>
+<tr>
+<td>Processo sem evento de início ou fim</td>
+<td>Todo o diagrama precisa de ambos — sem eles não tem âmbito</td>
+</tr>
+<tr>
+<td>Tarefas genéricas ("Processar", "Tratar")</td>
+<td>Usar <strong>verbo + objecto</strong>: "Verificar identidade", "Emitir certidão"</td>
+</tr>
+<tr>
+<td>Gateway sem rótulo nas saídas</td>
+<td>Cada seta de saída precisa de condição: "Sim", "Não", ou descrição</td>
+</tr>
+<tr>
+<td>Misturar AS-IS com TO-BE no mesmo diagrama</td>
+<td>São <strong>sempre</strong> dois diagramas distintos</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="ferramenta-bpmnio">Ferramenta — bpmn.io<a class="headerlink" href="#ferramenta-bpmnio" title="Permanent link">¶</a></h2>
+<p>O <a href="https://bpmn.io">bpmn.io</a> é um editor <strong>gratuito e open-source</strong> de diagramas BPMN 2.0, mantido pela Camunda. Funciona directamente no navegador — sem instalação, sem registo, sem custo.</p>
+<div class="admonition info">
+<p class="admonition-title">Acesso</p>
+<p>Aceder em <a href="https://bpmn.io">https://bpmn.io</a> e clicar em <strong>"Try online"</strong> para abrir o editor web.</p>
+</div>
+<h3 id="interface-do-editor">Interface do editor<a class="headerlink" href="#interface-do-editor" title="Permanent link">¶</a></h3>
+<p>O editor online tem quatro zonas principais:</p>
+<table>
+<thead>
+<tr>
+<th>Zona</th>
+<th>Localização</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Canvas</strong></td>
+<td>Centro</td>
+<td>Área de desenho do diagrama</td>
+</tr>
+<tr>
+<td><strong>Palette</strong></td>
+<td>Esquerda</td>
+<td>Elementos BPMN disponíveis para arrastar</td>
+</tr>
+<tr>
+<td><strong>Properties Panel</strong></td>
+<td>Direita</td>
+<td>Propriedades do elemento seleccionado</td>
+</tr>
+<tr>
+<td><strong>Toolbar</strong></td>
+<td>Topo</td>
+<td>Guardar, abrir, desfazer, exportar</td>
+</tr>
+</tbody>
+</table>
+<h3 id="criar-um-novo-diagrama">Criar um novo diagrama<a class="headerlink" href="#criar-um-novo-diagrama" title="Permanent link">¶</a></h3>
+<ol>
+<li>Aceder a <a href="https://bpmn.io">bpmn.io</a> → clicar <strong>"Try online"</strong>.</li>
+<li>O editor abre com um diagrama em branco contendo um evento de início.</li>
+<li>Para começar do zero: seleccionar tudo (<code>Ctrl+A</code>) e apagar (<code>Delete</code>).</li>
+</ol>
+<h3 id="adicionar-elementos">Adicionar elementos<a class="headerlink" href="#adicionar-elementos" title="Permanent link">¶</a></h3>
+<p><strong>Método 1 — Arrastar da palette</strong></p>
+<ol>
+<li>Na palette à esquerda, clicar no elemento desejado.</li>
+<li>Arrastar para a posição no canvas.</li>
+</ol>
+<p><strong>Método 2 — Menu contextual (recomendado)</strong></p>
+<ol>
+<li>Clicar num elemento existente no canvas.</li>
+<li>Aparecem ícones à volta do elemento — são atalhos para criar o próximo elemento já ligado.</li>
+<li>Clicar no ícone do tipo de elemento desejado.</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Método mais rápido</p>
+<p>O menu contextual é muito mais rápido do que arrastar da palette, porque cria o elemento <strong>já ligado</strong> ao anterior com um fluxo de sequência.</p>
+</div>
+<h3 id="como-criar-cada-tipo-de-elemento">Como criar cada tipo de elemento<a class="headerlink" href="#como-criar-cada-tipo-de-elemento" title="Permanent link">¶</a></h3>
+<p><strong>Eventos:</strong></p>
+<ul>
+<li><strong>Evento de início</strong>: círculo fino (já aparece por defeito)</li>
+<li><strong>Evento de fim</strong>: clicar no evento de início → seleccionar círculo grosso no menu contextual</li>
+<li>Para mudar o tipo de evento: clicar no evento → clicar no ícone de <strong>chave inglesa</strong> → seleccionar o tipo</li>
+</ul>
+<p><strong>Tarefas:</strong></p>
+<ul>
+<li>Clicar num elemento → seleccionar o rectângulo arredondado no menu contextual</li>
+<li>Para mudar o tipo de tarefa: clicar na tarefa → <strong>chave inglesa</strong> → seleccionar User Task, Service Task, etc.</li>
+</ul>
+<p><strong>Gateways:</strong></p>
+<ul>
+<li>Clicar num elemento → seleccionar o losango no menu contextual</li>
+<li>Para mudar o tipo: clicar no gateway → <strong>chave inglesa</strong> → seleccionar Exclusive, Parallel, etc.</li>
+</ul>
+<h3 id="criar-pools-e-lanes">Criar pools e lanes<a class="headerlink" href="#criar-pools-e-lanes" title="Permanent link">¶</a></h3>
+<p><strong>Adicionar um pool:</strong></p>
+<ol>
+<li>Na palette esquerda, arrastar o elemento <strong>Participant</strong> (rectângulo grande) para o canvas.</li>
+<li>Dar duplo-clique no nome para editar.</li>
+</ol>
+<p><strong>Adicionar lanes dentro de um pool:</strong></p>
+<ol>
+<li>Clicar com o botão direito dentro do pool.</li>
+<li>Seleccionar <strong>"Add Lane"</strong>.</li>
+<li>Repetir para cada actor ou departamento.</li>
+<li>Dar duplo-clique no nome de cada lane para editar.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Atenção</p>
+<p>Todos os elementos do processo devem estar <strong>dentro</strong> de um pool. Elementos soltos fora de pools podem causar erros na validação BPMN.</p>
+</div>
+<h3 id="ligar-elementos">Ligar elementos<a class="headerlink" href="#ligar-elementos" title="Permanent link">¶</a></h3>
+<p><strong>Fluxo de sequência (seta sólida):</strong></p>
+<ol>
+<li>Passar o rato por cima de um elemento — aparece um ponto de ligação.</li>
+<li>Clicar e arrastar até ao elemento seguinte.</li>
+<li>Largar — a seta é criada automaticamente.</li>
+</ol>
+<p><strong>Fluxo de mensagem (seta tracejada):</strong></p>
+<ul>
+<li>Ligar elementos que estão em <strong>pools diferentes</strong>.</li>
+<li>O editor cria automaticamente um fluxo de mensagem (tracejado) quando se liga entre pools.</li>
+</ul>
+<h3 id="adicionar-anotacoes-de-texto">Adicionar anotações de texto<a class="headerlink" href="#adicionar-anotacoes-de-texto" title="Permanent link">¶</a></h3>
+<ol>
+<li>Na palette esquerda, seleccionar <strong>Text Annotation</strong> (ícone de nota).</li>
+<li>Arrastar para junto do elemento que se quer anotar.</li>
+<li>Ligar a anotação ao elemento com uma <strong>associação</strong> (linha pontilhada).</li>
+</ol>
+<h3 id="editar-nomes-e-propriedades">Editar nomes e propriedades<a class="headerlink" href="#editar-nomes-e-propriedades" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Duplo-clique</strong> em qualquer elemento para editar o nome.</li>
+<li>Manter nomes curtos e descritivos: "Registar pedido", "Validar dados", "Notificar cidadão".</li>
+<li>Evitar nomes vagos como "Processar" ou "Verificar".</li>
+</ul>
+<h3 id="guardar-e-exportar">Guardar e exportar<a class="headerlink" href="#guardar-e-exportar" title="Permanent link">¶</a></h3>
+<p><strong>Guardar o diagrama:</strong></p>
+<ul>
+<li><strong>Ctrl+S</strong> → descarrega o ficheiro <code>.bpmn</code> (formato XML padrão)</li>
+<li>Este ficheiro pode ser reaberto no bpmn.io a qualquer momento</li>
+</ul>
+<p><strong>Exportar como imagem:</strong></p>
+<ol>
+<li>Clicar no menu de exportação (ícone de download na toolbar).</li>
+<li>Seleccionar <strong>SVG</strong> (vectorial, recomendado) ou <strong>PNG</strong> (raster).</li>
+<li>O ficheiro é descarregado automaticamente.</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Formato de entrega</p>
+<p>Para as aulas desta UC, entregar sempre <strong>dois ficheiros</strong>:</p>
+<ol>
+<li>O ficheiro <code>.bpmn</code> (editável)</li>
+<li>Uma exportação em <code>.svg</code> ou <code>.png</code> (para visualização rápida)</li>
+</ol>
+</div>
+<p><strong>Abrir um diagrama existente:</strong></p>
+<ol>
+<li>Clicar em <strong>"Open"</strong> na toolbar (ou arrastar o ficheiro <code>.bpmn</code> para o canvas).</li>
+<li>O diagrama é carregado com todos os elementos, posições e propriedades.</li>
+</ol>
+<h3 id="atalhos-uteis">Atalhos úteis<a class="headerlink" href="#atalhos-uteis" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Atalho</th>
+<th>Acção</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl+Z</code></td>
+<td>Desfazer</td>
+</tr>
+<tr>
+<td><code>Ctrl+Y</code></td>
+<td>Refazer</td>
+</tr>
+<tr>
+<td><code>Ctrl+A</code></td>
+<td>Seleccionar tudo</td>
+</tr>
+<tr>
+<td><code>Delete</code></td>
+<td>Apagar elemento seleccionado</td>
+</tr>
+<tr>
+<td><code>Ctrl+S</code></td>
+<td>Guardar ficheiro .bpmn</td>
+</tr>
+<tr>
+<td><code>Space + arrastar</code></td>
+<td>Mover o canvas (pan)</td>
+</tr>
+<tr>
+<td><code>Scroll</code></td>
+<td>Zoom in/out</td>
+</tr>
+<tr>
+<td><code>E</code></td>
+<td>Activar ferramenta de ligação (connect)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="resolucao-de-problemas">Resolução de problemas<a class="headerlink" href="#resolucao-de-problemas" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Problema</th>
+<th>Solução</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Não consigo ligar dois elementos</td>
+<td>Verificar se ambos estão no mesmo pool (para fluxo de sequência)</td>
+</tr>
+<tr>
+<td>A seta fica tracejada quando deveria ser sólida</td>
+<td>Os elementos estão em pools diferentes — está correcto se for comunicação entre organizações</td>
+</tr>
+<tr>
+<td>O diagrama desapareceu</td>
+<td>Ctrl+Z para desfazer, ou verificar se está guardado localmente</td>
+</tr>
+<tr>
+<td>Não aparece a opção de lane</td>
+<td>Clicar com botão <strong>direito</strong> dentro do pool (não fora)</td>
+</tr>
+<tr>
+<td>O elemento não encaixa na lane</td>
+<td>Arrastar o elemento para dentro da lane correcta</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Voltar ao topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Rodapé">
+        
+          
+          <a href="../excel/aula-03/" class="md-footer__link md-footer__link--prev" aria-label="Anterior: Caso Integrador">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Anterior
+              </span>
+              <div class="md-ellipsis">
+                Caso Integrador
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="aula-04/" class="md-footer__link md-footer__link--next" aria-label="Seguinte: Mapeamento AS-IS">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Seguinte
+              </span>
+              <div class="md-ellipsis">
+                Mapeamento AS-IS
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2025-2026 STI MAP | ESTG-IPL, Leiria
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/guilhasn/sti-materials" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "toc.integrate", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para a \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para a \u00e1rea de transfer\u00eancia", "search.result.more.one": "Mais 1 nesta p\u00e1gina", "search.result.more.other": "Mais # nesta p\u00e1gina", "search.result.none": "Nenhum resultado encontrado", "search.result.one": "1 resultado encontrado", "search.result.other": "# resultados encontrados", "search.result.placeholder": "Escreva para iniciar a pesquisa", "search.result.term.missing": "Ausente", "select.version": "Seleccionar vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../assets/extra.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

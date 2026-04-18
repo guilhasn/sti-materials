@@ -28,6 +28,9 @@ Quatro exercícios guiados passo-a-passo para construir diagramas Entidade-Relac
 
     Existe ainda um [**template genérico**](worksheets/template-er.docx) para aplicar a qualquer cenário.
 
+!!! abstract "Treino específico da Fase 5"
+    A Fase 5 (determinar tabelas) é a mais difícil de interiorizar. Disponível um [**worksheet de treino com 10 cenários curtos**](worksheets/worksheet-fase5-treino.docx) que isola apenas esta fase — perfeito para ganhar automatismo no método dos 4 passos (tentativa → observação → decisão → regra).
+
 ---
 
 ## Caso 1 — Biblioteca Municipal de Vila Feliz
@@ -93,9 +96,37 @@ Participações:
 
 ### Fase 5 — Determinar tabelas (abordagem intuitiva)
 
-**Leitor ↔ Livro:** tentemos pôr a FK no lado natural. Se colocarmos codLivro no Leitor, um leitor com 5 empréstimos precisa de 5 linhas — repetição dos dados pessoais. Se colocarmos codLeitor no Livro, um livro requisitado por 3 leitores precisa de 3 linhas — repetição dos dados do livro. Mostrando 3 linhas mentalmente, aparece sempre repetição → **criar tabela associativa Empréstimo**. Esta é a abordagem conhecida tecnicamente como **Regra 6**.
+Para cada relação, aplicamos o método em 4 passos: (A) tentativa com 3 linhas de dados; (B) observação; (C) decisão; (D) nome da regra.
 
-**Autor ↔ Livro:** mesma análise — um livro com 2 autores, um autor com 10 livros. Qualquer lado origina repetição → **criar tabela associativa Autoria**. Também **Regra 6**.
+#### Relação Leitor ↔ Livro (M:N)
+
+**Passo A — Tentativa 1**: colocar `ISBN` dentro de `LEITOR`
+
+| codLeitor | nome | BI | ISBN |
+|---|---|---|---|
+| 1 | Ana Costa | 12345678 | 978-85-01-1 |
+| **1** | **Ana Costa** | **12345678** | 978-972-1 |
+| 2 | João Silva | 87654321 | 978-85-01-1 |
+
+**Passo B**: Ana Costa aparece 2 vezes (porque requisitou 2 livros) → ❌ **repetição dos dados pessoais**.
+
+**Tentativa 2**: colocar `codLeitor` dentro de `LIVRO`
+
+| ISBN | titulo | autor | codLeitor |
+|---|---|---|---|
+| 978-85-01-1 | Dom Casmurro | Machado | 1 |
+| **978-85-01-1** | **Dom Casmurro** | **Machado** | 2 |
+| 978-972-1 | Os Maias | Eça | 1 |
+
+Dom Casmurro aparece 2 vezes (foi requisitado por 2 leitores) → ❌ **repetição dos dados do livro**.
+
+**Passo C — Decisão**: criar tabela associativa `EMPRÉSTIMO`(codLeitor, ISBN, dataEmprestimo, dataDevolucao).
+
+**Passo D — Regra aplicada**: **Regra 6** — M:N exige sempre tabela associativa, não há alternativa.
+
+#### Relação Autor ↔ Livro (M:N)
+
+Mesma análise: se colocar `codAutor` no `LIVRO`, um livro com 2 autores aparece em 2 linhas — repetição. **Decisão**: criar `AUTORIA`(codAutor, ISBN). **Regra 6**.
 
 ### Fase 6 — Determinar chaves candidatas
 
@@ -200,12 +231,40 @@ Participações:
 
 ### Fase 5 — Determinar tabelas (abordagem intuitiva)
 
-**Requerente → Processo (1:N):** se pusermos a FK no Requerente (lado 1), um requerente com 3 processos daria 3 linhas → repetição dos dados pessoais. Se pusermos codRequerente no Processo (lado N), cada processo tem exactamente um valor → **sem repetição nem NULL**. Fica como está, FK no Processo. Tecnicamente: **Regra 4**.
+#### Relação Requerente → Processo (1:N, obrigatória lado N)
 
-**Técnico ↔ Processo (M:N):** qualquer lado gera repetição → **tabela associativa Parecer**, que já transporta atributos próprios (dataParecer, resultado, observacoes). Tecnicamente: **Regra 6**.
+**Passo A — Tentativa**: colocar `codRequerente` dentro de `PROCESSO`
 
-!!! note "Parecer como tabela associativa com atributos"
-    Muitas relações M:N transportam informação adicional. Aqui, a tabela Parecer não é artificial — é uma entidade natural do negócio.
+| numProcesso | tipoObra | localizacao | codRequerente |
+|---|---|---|---|
+| P-2025/001 | Construção | Zona Industrial | 101 |
+| P-2025/002 | Ampliação | Av. Central | 102 |
+| P-2025/003 | Demolição | R. Nova | 101 |
+
+**Passo B**: cada processo tem exactamente um requerente (sem vazios); cada linha é um processo diferente (sem repetições) → ✅ **tabela limpa**.
+
+**Passo C — Decisão**: fica como está, 2 tabelas (Requerente + Processo com FK).
+
+**Passo D — Regra aplicada**: **Regra 4**.
+
+#### Relação Técnico ↔ Processo (M:N)
+
+**Passo A — Tentativa**: colocar `codTecnico` dentro de `PROCESSO`
+
+| numProcesso | tipoObra | codTecnico |
+|---|---|---|
+| **P-2025/001** | **Construção** | 10 |
+| **P-2025/001** | **Construção** | 11 |
+| P-2025/002 | Ampliação | 10 |
+
+**Passo B**: P-2025/001 aparece 2 vezes (é analisado por 2 técnicos) → ❌ **repetição**.
+
+**Passo C — Decisão**: criar `PARECER`(numProcesso, codTecnico, dataParecer, resultado, observações).
+
+**Passo D — Regra aplicada**: **Regra 6**.
+
+!!! note "Parecer como tabela associativa com atributos próprios"
+    Muitas relações M:N transportam informação adicional. Aqui, a tabela Parecer não é artificial — é uma entidade natural do negócio (data, resultado e observações *são* atributos do parecer, não do processo nem do técnico).
 
 ### Fase 6 — Determinar chaves candidatas
 
@@ -302,9 +361,37 @@ Participações:
 
 ### Fase 5 — Determinar tabelas (abordagem intuitiva)
 
-**Utente ↔ Refeição (M:N):** qualquer lado gera repetição — um utente recebe refeições todos os dias, uma refeição é entregue a dezenas de utentes → **tabela associativa Entrega** (com horaEntrega e observacoes). Tecnicamente: **Regra 6**.
+#### Relação Utente ↔ Refeição (M:N)
 
-**Voluntário → Rota (1:N):** colocando codVoluntario na Rota, cada rota tem um valor único — **sem repetição nem NULL**. Fica como está. Tecnicamente: **Regra 4**.
+**Passo A — Tentativa**: colocar `codUtente` dentro de `REFEIÇÃO`
+
+| codRefeicao | data | tipo | codUtente |
+|---|---|---|---|
+| **R-001** | **2025-04-15** | **Almoço** | 50 |
+| **R-001** | **2025-04-15** | **Almoço** | 51 |
+| **R-001** | **2025-04-15** | **Almoço** | 52 |
+
+**Passo B**: a mesma refeição (R-001) aparece 3 vezes porque é entregue a 3 utentes → ❌ **repetição massiva**.
+
+**Passo C — Decisão**: criar `ENTREGA`(codUtente, codRefeicao, horaEntrega, observações).
+
+**Passo D — Regra aplicada**: **Regra 6**.
+
+#### Relação Voluntário → Rota (1:N)
+
+**Passo A — Tentativa**: colocar `codVoluntario` dentro de `ROTA`
+
+| codRota | nome | zona | codVoluntario |
+|---|---|---|---|
+| R01 | Centro | Centro da vila | 7 |
+| R02 | Norte | Zona norte | 7 |
+| R03 | Sul | Zona sul | 9 |
+
+**Passo B**: cada rota tem 1 voluntário (sem vazios); cada linha é uma rota única (sem repetições) → ✅ **tabela limpa**.
+
+**Passo C — Decisão**: fica como está, 2 tabelas (Voluntário + Rota com FK).
+
+**Passo D — Regra aplicada**: **Regra 4**.
 
 ### Fase 6 — Determinar chaves candidatas
 
@@ -401,13 +488,41 @@ Viatura ── tem_manutencao ── Manutenção
 
 ### Fase 5 — Determinar tabelas (abordagem intuitiva)
 
-**Viatura → Departamento (N:1):** FK codDepartamento na Viatura — cada viatura um departamento, sem repetição. **Regra 4**.
+#### Relação Viatura → Departamento (N:1, obrigatória)
 
-**Motorista → Departamento (N:1):** FK codDepartamento no Motorista — idem. **Regra 4**.
+**Passo A — Tentativa**: colocar `codDepartamento` dentro de `VIATURA`
 
-**Viatura ↔ Motorista (M:N):** um motorista conduz muitas viaturas, uma viatura é conduzida por muitos motoristas → qualquer lado gera repetição → **tabela associativa Requisição**, com atributos próprios (datas, destino, km). **Regra 6**.
+| matricula | marca | modelo | codDepartamento |
+|---|---|---|---|
+| 12-AB-34 | Renault | Clio | 3 |
+| 34-CD-56 | Ford | Transit | 3 |
+| 56-EF-78 | Peugeot | 3008 | 5 |
 
-**Viatura → Manutenção (1:N):** FK matricula na Manutenção — cada manutenção uma viatura, sem repetição. **Regra 4**.
+Cada viatura tem 1 departamento → sem vazios, sem repetições → ✅ **tabela limpa**. **Decisão**: fica como está. **Regra 4**.
+
+#### Relação Motorista → Departamento (N:1, obrigatória)
+
+Mesma análise: `codDepartamento` no `MOTORISTA` → sem problemas. **Regra 4**.
+
+#### Relação Viatura ↔ Motorista (M:N)
+
+**Passo A — Tentativa**: colocar `codMotorista` dentro de `VIATURA`
+
+| matricula | marca | codMotorista |
+|---|---|---|
+| **12-AB-34** | **Renault Clio** | 21 |
+| **12-AB-34** | **Renault Clio** | 22 |
+| 34-CD-56 | Ford Transit | 21 |
+
+**Passo B**: a viatura 12-AB-34 aparece 2 vezes (foi conduzida por 2 motoristas em momentos diferentes) → ❌ **repetição**.
+
+**Passo C — Decisão**: criar `REQUISIÇÃO`(codRequisicao, matricula, codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado).
+
+**Passo D — Regra aplicada**: **Regra 6**. Os atributos próprios (datas, destino, km) justificam uma PK simples (`codRequisicao`) em vez de uma chave composta longa.
+
+#### Relação Viatura → Manutenção (1:N, obrigatória lado N)
+
+`matricula` como FK na `MANUTENÇÃO` — cada manutenção pertence a uma viatura, sem repetição. **Regra 4**.
 
 ### Fase 6 — Determinar chaves candidatas
 

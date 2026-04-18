@@ -241,29 +241,51 @@ function fase4() {
     space(),
   ];
 }
-function fase5() {
+// Bloco estruturado para UMA relação dentro da Fase 5
+function fase5RelBlock(n) {
+  return [
+    new Paragraph({
+      spacing: { before: 200, after: 80 },
+      shading: { fill: LIGHT_BLUE, type: ShadingType.CLEAR },
+      children: [new TextRun({ text: `  Relação ${n}:  ________________________________________________________________`, bold: true, size: 22, color: DARK_BLUE })],
+    }),
+    P("Passo A — Tentativa: coloque a FK no lado mais natural e escreva 3 linhas com dados plausíveis.", { bold: true, size: 20 }),
+    makeTable(["", "", "", ""], [2410, 2410, 2409, 2409], [], 3),
+    space(80),
+    P("Passo B — Observe a tabela:", { bold: true, size: 20 }),
+    new Paragraph({
+      spacing: { after: 80 },
+      children: [new TextRun({ text: "☐  Há células vazias (NULLs)?          ☐  Há linhas repetidas?", size: 20 })],
+    }),
+    P("Passo C — Decisão:", { bold: true, size: 20 }),
+    new Paragraph({
+      spacing: { after: 80 },
+      children: [new TextRun({ text: "☐  Tudo limpo → ficam 2 tabelas          ☐  Criar tabela associativa: _______________________ → 3 tabelas", size: 20 })],
+    }),
+    P("Passo D — Regra aplicada: Regra _____", { bold: true, size: 20 }),
+    space(200),
+  ];
+}
+
+function fase5(numRelations = 3) {
+  const blocks = [];
+  for (let i = 1; i <= numRelations; i++) {
+    blocks.push(...fase5RelBlock(i));
+  }
   return [
     H2("Fase 5 — Determinar tabelas (abordagem intuitiva)"),
-    P("Para cada relação, tente mentalmente colocar a FK no lado natural e escrever 3 linhas com dados reais."),
+    P("Para cada relação, aplique o método em 4 passos: (A) tentativa com 3 linhas de dados reais; (B) observação de vazios ou repetições; (C) decisão; (D) nome da regra."),
     PMulti([
-      new TextRun({ text: "• Não aparecem NULLs nem repetições? ", size: 20 }),
-      new TextRun({ text: "→ Ficam 2 tabelas (Regra 4).", bold: true, size: 20, color: DARK_BLUE }),
-    ]),
-    PMulti([
-      new TextRun({ text: "• Aparecem células vazias? ", size: 20 }),
-      new TextRun({ text: "→ Criar 3ª tabela (Regra 5).", bold: true, size: 20, color: DARK_BLUE }),
-    ]),
-    PMulti([
-      new TextRun({ text: "• Aparecem linhas repetidas? ", size: 20 }),
-      new TextRun({ text: "→ Criar 3ª tabela associativa (Regra 6).", bold: true, size: 20, color: DARK_BLUE }),
+      new TextRun({ text: "Lembrete rápido: ", bold: true, size: 20 }),
+      new TextRun({ text: "tudo limpo → ", size: 20 }),
+      new TextRun({ text: "Regra 4 (2 tabelas)", bold: true, size: 20, color: DARK_BLUE }),
+      new TextRun({ text: "   |   NULLs → ", size: 20 }),
+      new TextRun({ text: "Regra 5 (3 tabelas)", bold: true, size: 20, color: DARK_BLUE }),
+      new TextRun({ text: "   |   repetições → ", size: 20 }),
+      new TextRun({ text: "Regra 6 (3 tabelas)", bold: true, size: 20, color: DARK_BLUE }),
     ]),
     space(120),
-    makeTable(
-      ["Relação", "O que acontece se colocar a FK?", "Decisão", "Regra"],
-      [2400, 3838, 1900, 1500],
-      [], 5
-    ),
-    space(),
+    ...blocks,
   ];
 }
 function fase6() {
@@ -328,7 +350,11 @@ function contextoSection(contextoHtml, dadosHeaders, dadosRows) {
 
 // ==== CONTEÚDOS ====
 
-const fasesAll = () => [...fase1(), ...fase2(), ...fase3(), ...fase4(), ...fase5(), ...fase6(), ...fase7(), ...fase8(), ...fase9()];
+const fasesAll = (opts = {}) => [
+  ...fase1(), ...fase2(), ...fase3(), ...fase4(),
+  ...fase5(opts.numRelations ?? 3),
+  ...fase6(), ...fase7(), ...fase8(), ...fase9(),
+];
 
 // --- TEMPLATE GENÉRICO ---
 const templateDoc = {
@@ -413,7 +439,7 @@ const guiado4 = {
       ["A Câmara Municipal de Vila Feliz gere um pool de viaturas partilhadas entre serviços. Os motoristas são funcionários que podem conduzir diferentes viaturas. Cada viatura tem manutenções periódicas registadas. As requisições são feitas por departamentos para datas específicas. Actualmente, o controlo é feito em folhas Excel separadas — uma para viaturas, outra para motoristas, outra para requisições — sem ligação entre elas."],
       null, null
     ),
-    ...fasesAll(),
+    ...fasesAll({ numRelations: 4 }),
   ],
 };
 
@@ -488,6 +514,139 @@ const auto4 = {
   ],
 };
 
+// --- WORKSHEET DE TREINO DA FASE 5 ---
+
+const trainingScenarios = [
+  {
+    titulo: "Município e Funcionários",
+    descr: "Cada Funcionário pertence a um Município (obrigatório). Um Município tem vários funcionários.",
+    atrib: "Funcionário(codFunc, nome, cargo)   |   Município(codMun, nome, distrito)",
+  },
+  {
+    titulo: "Projecto e Departamentos",
+    descr: "Um Projecto envolve vários Departamentos. Um Departamento participa em vários projectos ao longo do ano.",
+    atrib: "Projecto(codProj, nome, orcamento)   |   Departamento(codDep, nome, responsavel)",
+  },
+  {
+    titulo: "Cidadão e Advogado",
+    descr: "Um Cidadão pode ter um Advogado associado ao seu processo (opcional). Um Advogado representa vários cidadãos.",
+    atrib: "Cidadao(NIF, nome, morada)   |   Advogado(cedula, nome, especialidade)",
+  },
+  {
+    titulo: "Fornecedor e Facturas",
+    descr: "Cada Factura é emitida por um único Fornecedor. Um Fornecedor emite várias facturas.",
+    atrib: "Fornecedor(NIF, nome, contacto)   |   Factura(numFact, data, valor)",
+  },
+  {
+    titulo: "Aluno e Unidade Curricular",
+    descr: "Um Aluno inscreve-se em várias UCs. Uma UC tem vários alunos inscritos. Cada inscrição tem data e nota final.",
+    atrib: "Aluno(numAluno, nome, curso)   |   UC(codUC, nome, ECTS)",
+  },
+  {
+    titulo: "Receita e Medicamentos",
+    descr: "Uma Receita contém vários Medicamentos. Um Medicamento pode constar em várias receitas, com dose prescrita.",
+    atrib: "Receita(numReceita, data, medico)   |   Medicamento(codMed, nome, dosagem)",
+  },
+  {
+    titulo: "Sala e Edifício",
+    descr: "Cada Sala pertence a um Edifício. Um Edifício tem várias salas.",
+    atrib: "Sala(codSala, piso, capacidade)   |   Edificio(codEdif, nome, morada)",
+  },
+  {
+    titulo: "Ocorrência e Coordenador",
+    descr: "Cada Ocorrência tem um Coordenador atribuído (obrigatório). Um Coordenador gere várias ocorrências ao longo do turno.",
+    atrib: "Ocorrencia(numOcor, tipo, data)   |   Coordenador(codCoord, nome, turno)",
+  },
+  {
+    titulo: "Motorista e Viatura",
+    descr: "Um Motorista conduz várias Viaturas ao longo do tempo. Uma Viatura é conduzida por vários motoristas, com data de início e fim.",
+    atrib: "Motorista(codMot, nome, carta)   |   Viatura(matricula, marca, modelo)",
+  },
+  {
+    titulo: "Livro e Editora",
+    descr: "Cada Livro é publicado por uma Editora. Uma Editora publica vários livros.",
+    atrib: "Livro(ISBN, titulo, ano)   |   Editora(codEd, nome, pais)",
+  },
+];
+
+function trainingScenarioBlock(n, s) {
+  return [
+    new Paragraph({
+      spacing: { before: 240, after: 100 },
+      border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: DARK_BLUE, space: 2 } },
+      children: [new TextRun({ text: `Cenário ${n} — ${s.titulo}`, bold: true, size: 26, color: DARK_BLUE })],
+    }),
+    P(s.descr, { italic: true }),
+    new Paragraph({
+      spacing: { after: 100 },
+      children: [
+        new TextRun({ text: "Atributos: ", bold: true, size: 20 }),
+        new TextRun({ text: s.atrib, size: 20 }),
+      ],
+    }),
+    P("Passo A — Tentativa: escreva 3 linhas de dados com a FK no lado que lhe parece natural.", { bold: true, size: 20 }),
+    makeTable(["", "", "", ""], [2410, 2410, 2409, 2409], [], 3),
+    space(80),
+    new Paragraph({
+      spacing: { after: 60 },
+      children: [
+        new TextRun({ text: "Passo B: ", bold: true, size: 20 }),
+        new TextRun({ text: "☐  NULLs?     ☐  Repetições?            ", size: 20 }),
+        new TextRun({ text: "Passo C: ", bold: true, size: 20 }),
+        new TextRun({ text: "☐  2 tabelas     ☐  3 tabelas (assoc: ____________)", size: 20 }),
+      ],
+    }),
+    new Paragraph({
+      spacing: { after: 200 },
+      children: [
+        new TextRun({ text: "Passo D — Regra: _____", bold: true, size: 20 }),
+      ],
+    }),
+  ];
+}
+
+const trainingDoc = {
+  filename: "worksheet-fase5-treino.docx",
+  headerTitle: "Treino de Fase 5 — 10 Cenários",
+  sections: [
+    H1("Treino de Fase 5 — 10 Cenários"),
+    P("Este worksheet isola apenas a Fase 5 da modelação E-R: decidir se uma relação se converte em 2 tabelas (FK do lado natural) ou em 3 tabelas (com tabela associativa). Faça os 10 cenários de seguida para ganhar automatismo no raciocínio."),
+    space(120),
+    new Paragraph({
+      spacing: { after: 120 },
+      shading: { fill: LIGHT_GREY, type: ShadingType.CLEAR },
+      border: { top: border(), bottom: border(), left: border(), right: border() },
+      children: [
+        new TextRun({ text: "Método em 4 passos:", bold: true, size: 22, color: DARK_BLUE }),
+      ],
+    }),
+    PMulti([
+      new TextRun({ text: "A. ", bold: true, size: 20 }),
+      new TextRun({ text: "Desenhe 3 linhas com a FK no lado natural.    ", size: 20 }),
+      new TextRun({ text: "B. ", bold: true, size: 20 }),
+      new TextRun({ text: "Observe: há NULLs? há repetições?", size: 20 }),
+    ]),
+    PMulti([
+      new TextRun({ text: "C. ", bold: true, size: 20 }),
+      new TextRun({ text: "Decida: 2 tabelas (limpo) ou 3 tabelas (com assoc).    ", size: 20 }),
+      new TextRun({ text: "D. ", bold: true, size: 20 }),
+      new TextRun({ text: "Nomeie a regra (4 / 5 / 6).", size: 20 }),
+    ]),
+    space(),
+    makeTable(
+      ["Situação", "O que faz", "Regra"],
+      [3500, 4138, 2000],
+      [
+        ["Tudo limpo (sem NULLs nem repetições)", "Fica com 2 tabelas", "Regra 4"],
+        ["Aparecem células vazias (NULLs)", "Cria 3ª tabela associativa", "Regra 5"],
+        ["Aparecem linhas repetidas", "Cria 3ª tabela associativa", "Regra 6"],
+      ]
+    ),
+    space(),
+    ...trainingScenarios.flatMap((s, i) => trainingScenarioBlock(i + 1, s)),
+  ],
+};
+
 // ==== BUILD DE DOCUMENTO ====
 function buildDocument({ headerTitle, sections }) {
   return new Document({
@@ -522,6 +681,7 @@ function buildDocument({ headerTitle, sections }) {
 const OUT_DIR = path.join(__dirname, '..', 'docs', 'er', 'worksheets');
 const docs = [
   templateDoc,
+  trainingDoc,
   guiado1, guiado2, guiado3, guiado4,
   auto1, auto2, auto3, auto4,
 ];

@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  id="Definitions_Cafe"
+                  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <bpmn:collaboration id="Collaboration_Cafe">
+    <bpmn:participant id="Participant_Bar" name="Bar da ESTG — Pedir um Café" processRef="Process_Cafe" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_Cafe" isExecutable="false">
+
+    <!-- Lanes -->
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_Cliente" name="Cliente">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Chegar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Pedir</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Acucar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DizerAcucar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Pagar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Troco</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_DarTroco</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Receber</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Empregado" name="Empregado">
+        <bpmn:flowNodeRef>Task_Perguntar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Fazer</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Cobrar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_Servir</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <!-- Start -->
+    <bpmn:startEvent id="StartEvent_1" name="Cliente chega ao balcão">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <!-- Cliente: Chegar -->
+    <bpmn:task id="Task_Chegar" name="Dirigir-se ao balcão">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Cliente: Pedir -->
+    <bpmn:task id="Task_Pedir" name="Pedir um café">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Empregado: Perguntar -->
+    <bpmn:task id="Task_Perguntar" name="Perguntar: com ou sem açúcar?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Gateway: Açúcar -->
+    <bpmn:exclusiveGateway id="Gateway_Acucar" name="Com açúcar?">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5_Sim</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5_Nao</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <!-- Cliente: Dizer preferência -->
+    <bpmn:task id="Task_DizerAcucar" name="Indicar: com açúcar">
+      <bpmn:incoming>Flow_5_Sim</bpmn:incoming>
+      <bpmn:outgoing>Flow_6a</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Empregado: Fazer café -->
+    <bpmn:task id="Task_Fazer" name="Preparar o café">
+      <bpmn:incoming>Flow_6a</bpmn:incoming>
+      <bpmn:incoming>Flow_5_Nao</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Empregado: Cobrar -->
+    <bpmn:task id="Task_Cobrar" name="Informar preço: 0,70 €">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Cliente: Pagar -->
+    <bpmn:task id="Task_Pagar" name="Pagar">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Gateway: Troco -->
+    <bpmn:exclusiveGateway id="Gateway_Troco" name="Tem troco?">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10_Sim</bpmn:outgoing>
+      <bpmn:outgoing>Flow_10_Nao</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <!-- Empregado: Dar troco -->
+    <bpmn:task id="Task_DarTroco" name="Dar troco ao cliente">
+      <bpmn:incoming>Flow_10_Nao</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Empregado: Servir -->
+    <bpmn:task id="Task_Servir" name="Servir o café">
+      <bpmn:incoming>Flow_10_Sim</bpmn:incoming>
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- Cliente: Receber -->
+    <bpmn:task id="Task_Receber" name="Receber e beber o café">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:task>
+
+    <!-- End -->
+    <bpmn:endEvent id="EndEvent_1" name="Café consumido">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <!-- Sequence Flows -->
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_1" targetRef="Task_Chegar" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_Chegar" targetRef="Task_Pedir" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_Pedir" targetRef="Task_Perguntar" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="Task_Perguntar" targetRef="Gateway_Acucar" />
+    <bpmn:sequenceFlow id="Flow_5_Sim" name="Sim" sourceRef="Gateway_Acucar" targetRef="Task_DizerAcucar" />
+    <bpmn:sequenceFlow id="Flow_5_Nao" name="Não (sem açúcar)" sourceRef="Gateway_Acucar" targetRef="Task_Fazer" />
+    <bpmn:sequenceFlow id="Flow_6a" sourceRef="Task_DizerAcucar" targetRef="Task_Fazer" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="Task_Fazer" targetRef="Task_Cobrar" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="Task_Cobrar" targetRef="Task_Pagar" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="Task_Pagar" targetRef="Gateway_Troco" />
+    <bpmn:sequenceFlow id="Flow_10_Sim" name="Sim (valor certo)" sourceRef="Gateway_Troco" targetRef="Task_Servir" />
+    <bpmn:sequenceFlow id="Flow_10_Nao" name="Não (precisa de troco)" sourceRef="Gateway_Troco" targetRef="Task_DarTroco" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="Task_DarTroco" targetRef="Task_Servir" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="Task_Servir" targetRef="Task_Receber" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="Task_Receber" targetRef="EndEvent_1" />
+
+  </bpmn:process>
+
+  <!-- Diagram -->
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_Cafe">
+
+      <!-- Pool -->
+      <bpmndi:BPMNShape id="Shape_Pool" bpmnElement="Participant_Bar" isHorizontal="true">
+        <dc:Bounds x="160" y="60" width="1760" height="500" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Lane Cliente -->
+      <bpmndi:BPMNShape id="Shape_Lane_Cliente" bpmnElement="Lane_Cliente" isHorizontal="true">
+        <dc:Bounds x="190" y="60" width="1730" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Lane Empregado -->
+      <bpmndi:BPMNShape id="Shape_Lane_Empregado" bpmnElement="Lane_Empregado" isHorizontal="true">
+        <dc:Bounds x="190" y="310" width="1730" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Start Event -->
+      <bpmndi:BPMNShape id="Shape_Start" bpmnElement="StartEvent_1">
+        <dc:Bounds x="242" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="218" y="215" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <!-- Task: Chegar -->
+      <bpmndi:BPMNShape id="Shape_Chegar" bpmnElement="Task_Chegar">
+        <dc:Bounds x="320" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Task: Pedir -->
+      <bpmndi:BPMNShape id="Shape_Pedir" bpmnElement="Task_Pedir">
+        <dc:Bounds x="460" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Task: Perguntar (Empregado) -->
+      <bpmndi:BPMNShape id="Shape_Perguntar" bpmnElement="Task_Perguntar">
+        <dc:Bounds x="600" y="400" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Gateway: Açúcar (Cliente) -->
+      <bpmndi:BPMNShape id="Shape_GW_Acucar" bpmnElement="Gateway_Acucar" isMarkerVisible="true">
+        <dc:Bounds x="735" y="165" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="727" y="141" width="66" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <!-- Task: Dizer Açúcar (Cliente) -->
+      <bpmndi:BPMNShape id="Shape_DizerAcucar" bpmnElement="Task_DizerAcucar">
+        <dc:Bounds x="830" y="100" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Task: Fazer café (Empregado) -->
+      <bpmndi:BPMNShape id="Shape_Fazer" bpmnElement="Task_Fazer">
+        <dc:Bounds x="970" y="400" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Task: Cobrar (Empregado) -->
+      <bpmndi:BPMNShape id="Shape_Cobrar" bpmnElement="Task_Cobrar">
+        <dc:Bounds x="1110" y="400" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Task: Pagar (Cliente) -->
+      <bpmndi:BPMNShape id="Shape_Pagar" bpmnElement="Task_Pagar">
+        <dc:Bounds x="1110" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Gateway: Troco (Cliente) -->
+      <bpmndi:BPMNShape id="Shape_GW_Troco" bpmnElement="Gateway_Troco" isMarkerVisible="true">
+        <dc:Bounds x="1255" y="165" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1249" y="141" width="62" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <!-- Task: Dar troco (Cliente — mas done by empregado, shown in cliente for flow) -->
+      <bpmndi:BPMNShape id="Shape_DarTroco" bpmnElement="Task_DarTroco">
+        <dc:Bounds x="1350" y="100" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Task: Servir (Empregado) -->
+      <bpmndi:BPMNShape id="Shape_Servir" bpmnElement="Task_Servir">
+        <dc:Bounds x="1490" y="400" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- Task: Receber (Cliente) -->
+      <bpmndi:BPMNShape id="Shape_Receber" bpmnElement="Task_Receber">
+        <dc:Bounds x="1630" y="150" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+
+      <!-- End Event -->
+      <bpmndi:BPMNShape id="Shape_End" bpmnElement="EndEvent_1">
+        <dc:Bounds x="1772" y="172" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1752" y="215" width="76" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <!-- Edges -->
+      <bpmndi:BPMNEdge id="Edge_1" bpmnElement="Flow_1">
+        <di:waypoint x="278" y="190" />
+        <di:waypoint x="320" y="190" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_2" bpmnElement="Flow_2">
+        <di:waypoint x="420" y="190" />
+        <di:waypoint x="460" y="190" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_3" bpmnElement="Flow_3">
+        <di:waypoint x="510" y="230" />
+        <di:waypoint x="510" y="440" />
+        <di:waypoint x="600" y="440" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_4" bpmnElement="Flow_4">
+        <di:waypoint x="700" y="440" />
+        <di:waypoint x="760" y="440" />
+        <di:waypoint x="760" y="215" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_5_Sim" bpmnElement="Flow_5_Sim">
+        <di:waypoint x="785" y="190" />
+        <di:waypoint x="808" y="190" />
+        <di:waypoint x="808" y="140" />
+        <di:waypoint x="830" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="793" y="123" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_5_Nao" bpmnElement="Flow_5_Nao">
+        <di:waypoint x="760" y="215" />
+        <di:waypoint x="760" y="440" />
+        <di:waypoint x="970" y="440" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="770" y="270" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_6a" bpmnElement="Flow_6a">
+        <di:waypoint x="930" y="140" />
+        <di:waypoint x="950" y="140" />
+        <di:waypoint x="950" y="440" />
+        <di:waypoint x="970" y="440" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_7" bpmnElement="Flow_7">
+        <di:waypoint x="1070" y="440" />
+        <di:waypoint x="1110" y="440" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_8" bpmnElement="Flow_8">
+        <di:waypoint x="1160" y="400" />
+        <di:waypoint x="1160" y="230" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_9" bpmnElement="Flow_9">
+        <di:waypoint x="1210" y="190" />
+        <di:waypoint x="1255" y="190" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_10_Sim" bpmnElement="Flow_10_Sim">
+        <di:waypoint x="1280" y="215" />
+        <di:waypoint x="1280" y="440" />
+        <di:waypoint x="1490" y="440" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1290" y="270" width="80" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_10_Nao" bpmnElement="Flow_10_Nao">
+        <di:waypoint x="1305" y="190" />
+        <di:waypoint x="1328" y="190" />
+        <di:waypoint x="1328" y="140" />
+        <di:waypoint x="1350" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1300" y="123" width="110" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_11" bpmnElement="Flow_11">
+        <di:waypoint x="1450" y="140" />
+        <di:waypoint x="1470" y="140" />
+        <di:waypoint x="1470" y="440" />
+        <di:waypoint x="1490" y="440" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_12" bpmnElement="Flow_12">
+        <di:waypoint x="1590" y="440" />
+        <di:waypoint x="1610" y="440" />
+        <di:waypoint x="1610" y="190" />
+        <di:waypoint x="1630" y="190" />
+      </bpmndi:BPMNEdge>
+
+      <bpmndi:BPMNEdge id="Edge_13" bpmnElement="Flow_13">
+        <di:waypoint x="1730" y="190" />
+        <di:waypoint x="1772" y="190" />
+      </bpmndi:BPMNEdge>
+
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</bpmn:definitions>
