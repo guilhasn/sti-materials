@@ -8,6 +8,16 @@ Quatro exercícios para resolver autonomamente. Cada exercício apresenta um cen
     3. Esquema relacional final (tabelas com PKs e FKs)
     4. Identificação de pelo menos 3 redundâncias resolvidas pelo modelo
 
+!!! tip "Worksheets Word para preencher"
+    Cada exercício tem um **worksheet autónomo em Word** — só com o cenário e as 9 fases em branco, sem pistas de solução. Descarregar:
+
+    - [Ex. 1 — Obras e Empreitadas](worksheets/worksheet-autonomo-1-obras.docx)
+    - [Ex. 2 — IPSS: Utentes e Valências](worksheets/worksheet-autonomo-2-valencias.docx)
+    - [Ex. 3 — Estágios Curriculares ESTG-IPL](worksheets/worksheet-autonomo-3-estagios.docx)
+    - [Ex. 4 — Protecção Civil Municipal](worksheets/worksheet-autonomo-4-protecao-civil.docx)
+
+    Ou use o [**template genérico**](worksheets/template-er.docx) para qualquer cenário.
+
 ---
 
 ## Exercício 1 — Câmara Municipal: Gestão de Obras e Empreitadas

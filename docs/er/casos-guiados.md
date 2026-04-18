@@ -18,6 +18,16 @@ Quatro exercícios guiados passo-a-passo para construir diagramas Entidade-Relac
     8. **Fase 8** — Definir tabelas finais (esquema relacional)
     9. **Fase 9** — Definir domínio dos atributos (entidade principal)
 
+!!! tip "Worksheets Word para preencher"
+    Cada caso tem um **worksheet em Word** com as 9 fases em branco — para preencher enquanto acompanha a resolução. Descarregar:
+
+    - [Caso 1 — Biblioteca Municipal](worksheets/worksheet-guiado-1-biblioteca.docx)
+    - [Caso 2 — Licenciamento de Obras](worksheets/worksheet-guiado-2-licenciamento.docx)
+    - [Caso 3 — Refeições Sociais IPSS](worksheets/worksheet-guiado-3-refeicoes.docx)
+    - [Caso 4 — Viaturas e Motoristas](worksheets/worksheet-guiado-4-viaturas.docx)
+
+    Existe ainda um [**template genérico**](worksheets/template-er.docx) para aplicar a qualquer cenário.
+
 ---
 
 ## Caso 1 — Biblioteca Municipal de Vila Feliz
