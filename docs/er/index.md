@@ -9,6 +9,10 @@ Este módulo introduz o **Modelo Entidade-Relacionamento (E-R)** como ferramenta
     - Não é necessário instalar software
     - Recomendado: segundo ecrã para ter o diagrama e o enunciado lado a lado
 
+!!! tip "Recursos de consulta rápida"
+    - :material-file-document-outline: [**Ficha de Consulta Rápida**](cheat-sheet.md) — página A4 imprimível com notação, 7 regras, 9 fases e atalho mental
+    - :material-alert-outline: [**Erros Frequentes**](erros-frequentes.md) — catálogo de anti-padrões com exemplos e correcções
+
 ---
 
 ## Porquê Modelação de Dados na AP?
