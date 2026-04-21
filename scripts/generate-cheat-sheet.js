@@ -217,60 +217,49 @@ const colEsquerda = [
 // ==== COLUNA DIREITA: METODO FASE 5 + ATALHO + 7 REGRAS + TIPOS DADOS ====
 
 const colDireita = [
-  // --- METODO DA FASE 5 ---
-  SectionHeading("5. Fase 5 — Metodo dos 4 Passos", ACCENT_ORANGE),
+  // --- LEGENDA DOS SIMBOLOS ---
+  SectionHeading("5. Legenda dos Simbolos (diagramas das regras)", ACCENT_ORANGE),
+  compactTable(
+    ["Simbolo", "Significado"],
+    [1400, 4900],
+    [
+      ["?", "Com ou sem participacao obrigatoria (indiferente)"],
+      ["Chave preenchida", "Chave primaria (obrigatoria + exclusiva)"],
+      ["Chave a tracejado", "Chave estrangeira"],
+      ["★", "Obrigatoria"],
+      ["★★", "Obrigatoria + Exclusiva (unica)"],
+    ]
+  ),
+
+  new Paragraph({ spacing: { after: 80 }, children: [new TextRun("")] }),
+
+  // --- 6 REGRAS DE CONSTRUCAO ---
+  SectionHeading("6. As 6 Regras de Construcao de uma BD", ACCENT_ORANGE),
+  compactTable(
+    ["R", "Cardinalidade", "Participacao", "N.º Tab.", "Onde fica a FK"],
+    [300, 1200, 1900, 800, 2100],
+    [
+      ["1", "1:1", "Obrig. em AMBAS", "1", "PK de qualquer uma"],
+      ["2", "1:1", "Obrig. apenas numa", "2", "PK nao-obrig. → FK na obrig."],
+      ["3", "1:1", "Nenhuma obrigatoria", "3", "Tabela relacao c/ ambas PKs"],
+      ["4", "1:N", "Obrig. lado N", "2", "PK do lado 1 → FK no lado N"],
+      ["5", "1:N", "NAO obrig. lado N", "3", "Tabela relacao c/ ambas PKs"],
+      ["6", "N:M", "Indiferente", "3", "Tabela relacao c/ ambas PKs"],
+    ]
+  ),
+
   new Paragraph({
-    spacing: { after: 40 },
-    children: [new TextRun({ text: "Para cada relacao, faca este exercicio mental:", italics: true, size: 13 })],
+    spacing: { before: 60, after: 40 },
+    children: [new TextRun({
+      text: "Dica: 95% dos casos na AP sao Regra 4 (1:N obrig) ou Regra 6 (N:M).",
+      italics: true, size: 13, color: DARK_BLUE,
+    })],
   }),
-  compactTable(
-    ["Passo", "O que faz"],
-    [1000, 5300],
-    [
-      ["A — Tentativa", "Meta a FK no lado mais natural. Escreva 3 linhas com dados reais."],
-      ["B — Observacao", "Aparecem NULLs (celulas vazias)? Aparecem linhas repetidas?"],
-      ["C — Decisao", "Tudo limpo → 2 tabelas. Com problemas → criar tabela associativa (3 tabelas)."],
-      ["D — Regra", "Nomeie a regra aplicada (4, 5 ou 6)."],
-    ]
-  ),
-
-  new Paragraph({ spacing: { after: 80 }, children: [new TextRun("")] }),
-
-  // --- ATALHO MENTAL ---
-  SectionHeading("6. Atalho Mental (o mais importante!)", ACCENT_ORANGE),
-  compactTable(
-    ["O que ve na tentativa?", "O que faz?", "Regra"],
-    [2600, 2800, 900],
-    [
-      ["Tudo limpo (sem NULLs nem repeticoes)", "Fica com 2 tabelas", "Regra 4"],
-      ["Celulas vazias (NULLs)", "Cria 3a tabela associativa", "Regra 5"],
-      ["Linhas repetidas", "Cria 3a tabela associativa", "Regra 6"],
-    ],
-    { highlightLast: true }
-  ),
-
-  new Paragraph({ spacing: { after: 80 }, children: [new TextRun("")] }),
-
-  // --- 7 REGRAS ---
-  SectionHeading("7. Tabela Completa das 7 Regras"),
-  compactTable(
-    ["R", "Cardinalidade", "Participacao", "N.º Tabelas", "Onde fica a FK"],
-    [300, 1200, 1900, 900, 2000],
-    [
-      ["1", "1:1", "Obrig. ambas", "1", "PK qualquer"],
-      ["2", "1:1", "Obrig. numa", "2", "PK nao-obrig. → obrig."],
-      ["3", "1:1", "Nenhuma obrig.", "3", "Tabela de relacao"],
-      ["4", "1:N", "Obrig. lado N", "2", "PK do lado 1 → no N"],
-      ["5", "1:N", "Nao obrig. N", "3", "Tabela de relacao"],
-      ["6", "M:N", "Indiferente", "3", "Tabela assoc. com ambas"],
-      ["7", "Ternaria", "Indiferente", "4", "Tabela com todas PKs"],
-    ]
-  ),
 
   new Paragraph({ spacing: { after: 80 }, children: [new TextRun("")] }),
 
   // --- TIPOS DE DADOS ---
-  SectionHeading("8. Tipos de Dados Comuns (Fase 9)"),
+  SectionHeading("7. Tipos de Dados Comuns (Fase 9)"),
   compactTable(
     ["Tipo", "Uso tipico"],
     [2000, 4300],

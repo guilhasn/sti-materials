@@ -268,7 +268,7 @@ function fase4(rows = []) {
     space(),
   ];
 }
-// Bloco estruturado para UMA relação dentro da Fase 5
+// Bloco estruturado para UMA relação dentro da Fase 5 (em branco)
 function fase5RelBlock(n) {
   return [
     new Paragraph({
@@ -276,20 +276,14 @@ function fase5RelBlock(n) {
       shading: { fill: LIGHT_BLUE, type: ShadingType.CLEAR },
       children: [new TextRun({ text: `  Relação ${n}:  ________________________________________________________________`, bold: true, size: 22, color: DARK_BLUE })],
     }),
-    P("Passo A — Tentativa: coloque a FK no lado mais natural e escreva 3 linhas com dados plausíveis.", { bold: true, size: 20 }),
-    makeTable(["", "", "", ""], [2410, 2410, 2409, 2409], [], 3),
-    space(80),
-    P("Passo B — Observe a tabela:", { bold: true, size: 20 }),
-    new Paragraph({
-      spacing: { after: 80 },
-      children: [new TextRun({ text: "☐  Há células vazias (NULLs)?          ☐  Há linhas repetidas?", size: 20 })],
-    }),
-    P("Passo C — Decisão:", { bold: true, size: 20 }),
-    new Paragraph({
-      spacing: { after: 80 },
-      children: [new TextRun({ text: "☐  Tudo limpo → ficam 2 tabelas          ☐  Criar tabela associativa: _______________________ → 3 tabelas", size: 20 })],
-    }),
-    P("Passo D — Regra aplicada: Regra _____", { bold: true, size: 20 }),
+    makeTable(
+      ["Cardinalidade", "Participação", "Regra aplicável", "Nº tabelas", "Onde fica a FK"],
+      [1600, 2600, 1600, 1400, 2438],
+      [], 1
+    ),
+    space(120),
+    P("Aplicação (tabelas resultantes):", { bold: true, size: 20 }),
+    ...blankLines(3),
     space(200),
   ];
 }
@@ -300,17 +294,9 @@ function fase5(numRelations = 3) {
     blocks.push(...fase5RelBlock(i));
   }
   return [
-    H2("Fase 5 — Determinar tabelas (abordagem intuitiva)"),
-    P("Para cada relação, aplique o método em 4 passos: (A) tentativa com 3 linhas de dados reais; (B) observação de vazios ou repetições; (C) decisão; (D) nome da regra."),
-    PMulti([
-      new TextRun({ text: "Lembrete rápido: ", bold: true, size: 20 }),
-      new TextRun({ text: "tudo limpo → ", size: 20 }),
-      new TextRun({ text: "Regra 4 (2 tabelas)", bold: true, size: 20, color: DARK_BLUE }),
-      new TextRun({ text: "   |   NULLs → ", size: 20 }),
-      new TextRun({ text: "Regra 5 (3 tabelas)", bold: true, size: 20, color: DARK_BLUE }),
-      new TextRun({ text: "   |   repetições → ", size: 20 }),
-      new TextRun({ text: "Regra 6 (3 tabelas)", bold: true, size: 20, color: DARK_BLUE }),
-    ]),
+    H2("Fase 5 — Determinar tabelas (aplicar regras de construção)"),
+    P("Para cada relação, identifique a cardinalidade e a participação, escolha a regra aplicável (1 a 6) e indique o número de tabelas resultantes e onde fica a chave estrangeira."),
+    hint("Regra 1: 1:1 ambas obrig. → 1 tabela  |  Regra 2: 1:1 obrig. numa → 2  |  Regra 3: 1:1 nenhuma obrig. → 3  |  Regra 4: 1:N obrig. N → 2  |  Regra 5: 1:N não obrig. N → 3  |  Regra 6: N:M → 3"),
     space(120),
     ...blocks,
   ];
@@ -324,46 +310,33 @@ function fase5SolBlock(s) {
       shading: { fill: LIGHT_BLUE, type: ShadingType.CLEAR },
       children: [new TextRun({ text: `  Relação: ${s.nome}`, bold: true, size: 22, color: DARK_BLUE })],
     }),
+    makeTable(
+      ["Cardinalidade", "Participação", "Regra aplicável", "Nº tabelas", "Onde fica a FK"],
+      [1600, 2600, 1600, 1400, 2438],
+      [[s.cardinalidade, s.participacao, `Regra ${s.regra}`, String(s.numTabelas), s.fk]],
+      0
+    ),
+    space(120),
     new Paragraph({
       spacing: { after: 80 },
-      children: [
-        new TextRun({ text: "Passo A — Tentativa: ", bold: true, size: 20 }),
-        new TextRun({ text: s.tentativa, size: 20 }),
-      ],
+      children: [new TextRun({ text: "Aplicação (tabelas resultantes):", bold: true, size: 20 })],
     }),
-    makeTable(s.headers, [2410, 2410, 2409, 2409], s.rows, 0),
-    space(80),
-    new Paragraph({
+    ...(s.aplicacao || []).map(line => new Paragraph({
       spacing: { after: 60 },
-      children: [
-        new TextRun({ text: "Passo B — Observação: ", bold: true, size: 20 }),
-        new TextRun({ text: (s.temNull ? "☑" : "☐") + "  Há NULLs?     ", size: 20 }),
-        new TextRun({ text: (s.temRep ? "☑" : "☐") + "  Há repetições?", size: 20 }),
-      ],
-    }),
-    new Paragraph({
-      spacing: { after: 60 },
-      children: [
-        new TextRun({ text: "Passo C — Decisão: ", bold: true, size: 20 }),
-        new TextRun({ text: (!s.decisao3 ? "☑" : "☐") + "  Fica assim (2 tabelas)     ", size: 20 }),
-        new TextRun({ text: (s.decisao3 ? "☑" : "☐") + `  Criar tabela associativa: ${s.assoc || "—"} (3 tabelas)`, size: 20 }),
-      ],
-    }),
-    new Paragraph({
-      spacing: { after: 200 },
-      children: [
-        new TextRun({ text: "Passo D — Regra aplicada: ", bold: true, size: 20 }),
-        new TextRun({ text: `Regra ${s.regra}`, bold: true, size: 20, color: DARK_BLUE }),
-        ...(s.nota ? [new TextRun({ text: `  (${s.nota})`, italics: true, size: 20 })] : []),
-      ],
-    }),
+      children: [new TextRun({ text: line, font: "Consolas", size: 20, color: DARK_BLUE })],
+    })),
+    ...(s.nota ? [new Paragraph({
+      spacing: { after: 120 },
+      children: [new TextRun({ text: `Nota: ${s.nota}`, italics: true, size: 20 })],
+    })] : []),
+    space(120),
   ];
 }
 
 function fase5Sol(scenarios) {
   return [
-    H2("Fase 5 — Determinar tabelas (abordagem intuitiva)"),
-    P("Solução passo-a-passo para cada relação, seguindo o método: (A) tentativa com dados; (B) observação; (C) decisão; (D) nome da regra."),
+    H2("Fase 5 — Determinar tabelas (aplicar regras de construção)"),
+    P("Solução detalhada para cada relação, identificando a cardinalidade, a participação, a regra aplicável e as tabelas resultantes."),
     space(120),
     ...scenarios.flatMap(s => fase5SolBlock(s)),
   ];
@@ -566,29 +539,28 @@ const solucaoCaso1 = {
   ],
   f5: [
     {
-      nome: "Leitor ↔ Livro (M:N)",
-      tentativa: "Colocar ISBN na tabela LEITOR:",
-      headers: ["codLeitor", "nome", "BI", "ISBN"],
-      rows: [
-        ["1", "Ana Costa", "12345678", "978-85-01-1"],
-        ["1", "Ana Costa", "12345678", "978-972-1"],
-        ["2", "João Silva", "87654321", "978-85-01-1"],
+      nome: "Leitor ↔ Livro (N:M)",
+      cardinalidade: "N:M",
+      participacao: "Não obrigatória em ambas",
+      regra: 6, numTabelas: 3,
+      fk: "Tabela da relação com ambas as PKs",
+      aplicacao: [
+        "Leitor(codLeitor, nome, BI, morada, telefone, email)",
+        "Livro(ISBN, titulo, anoPublicacao, editora, numExemplares)",
+        "Empréstimo(#codLeitor, #ISBN, dataEmprestimo, dataDevolucao, devolvido)",
       ],
-      temNull: false, temRep: true,
-      decisao3: true, assoc: "Empréstimo", regra: 6,
-      nota: "M:N exige sempre tabela associativa",
+      nota: "N:M → Regra 6 sempre, sem excepção",
     },
     {
-      nome: "Autor ↔ Livro (M:N)",
-      tentativa: "Colocar codAutor na tabela LIVRO:",
-      headers: ["ISBN", "titulo", "ano", "codAutor"],
-      rows: [
-        ["978-85-01-1", "Dom Casmurro", "1899", "10"],
-        ["978-99-01", "Obra Conjunta", "2020", "10"],
-        ["978-99-01", "Obra Conjunta", "2020", "11"],
+      nome: "Autor ↔ Livro (N:M)",
+      cardinalidade: "N:M",
+      participacao: "Obrig. no Livro; não obrig. no Autor",
+      regra: 6, numTabelas: 3,
+      fk: "Tabela da relação com ambas as PKs",
+      aplicacao: [
+        "Autor(codAutor, nome, nacionalidade)",
+        "Autoria(#codAutor, #ISBN)",
       ],
-      temNull: false, temRep: true,
-      decisao3: true, assoc: "Autoria", regra: 6,
     },
   ],
   f6: [
@@ -648,28 +620,26 @@ const solucaoCaso2 = {
   ],
   f5: [
     {
-      nome: "Requerente → Processo (1:N, obrigatória lado N)",
-      tentativa: "Colocar codRequerente na tabela PROCESSO:",
-      headers: ["numProcesso", "tipoObra", "localizacao", "codRequerente"],
-      rows: [
-        ["P-2025/001", "Construção", "Zona Industrial", "101"],
-        ["P-2025/002", "Ampliação", "Av. Central", "102"],
-        ["P-2025/003", "Demolição", "R. Nova", "101"],
+      nome: "Requerente → Processo (1:N, obrig. lado N)",
+      cardinalidade: "1:N",
+      participacao: "Obrig. no Processo; não obrig. no Requerente",
+      regra: 4, numTabelas: 2,
+      fk: "PK codRequerente → FK no Processo",
+      aplicacao: [
+        "Requerente(codRequerente, nome, NIF, morada, telefone)",
+        "Processo(numProcesso, tipoObra, ..., #codRequerente)",
       ],
-      temNull: false, temRep: false,
-      decisao3: false, assoc: "", regra: 4,
     },
     {
-      nome: "Técnico ↔ Processo (M:N)",
-      tentativa: "Colocar codTecnico na tabela PROCESSO:",
-      headers: ["numProcesso", "tipoObra", "codTecnico", "dataParecer"],
-      rows: [
-        ["P-2025/001", "Construção", "10", "2025-03-10"],
-        ["P-2025/001", "Construção", "11", "2025-03-12"],
-        ["P-2025/002", "Ampliação", "10", "2025-03-15"],
+      nome: "Técnico ↔ Processo (N:M)",
+      cardinalidade: "N:M",
+      participacao: "Indiferente",
+      regra: 6, numTabelas: 3,
+      fk: "Tabela da relação com ambas as PKs",
+      aplicacao: [
+        "Tecnico(codTecnico, nome, especialidade, email)",
+        "Parecer(#numProcesso, #codTecnico, dataParecer, resultado, observacoes)",
       ],
-      temNull: false, temRep: true,
-      decisao3: true, assoc: "Parecer", regra: 6,
       nota: "A tabela Parecer tem atributos próprios (data, resultado, observações)",
     },
   ],
@@ -730,28 +700,27 @@ const solucaoCaso3 = {
   ],
   f5: [
     {
-      nome: "Utente ↔ Refeição (M:N)",
-      tentativa: "Colocar codUtente na tabela REFEIÇÃO:",
-      headers: ["codRefeicao", "data", "tipo", "codUtente"],
-      rows: [
-        ["R-001", "2025-04-15", "Almoço", "50"],
-        ["R-001", "2025-04-15", "Almoço", "51"],
-        ["R-001", "2025-04-15", "Almoço", "52"],
+      nome: "Utente ↔ Refeição (N:M)",
+      cardinalidade: "N:M",
+      participacao: "Obrig. no Utente; indiferente",
+      regra: 6, numTabelas: 3,
+      fk: "Tabela da relação com ambas as PKs",
+      aplicacao: [
+        "Utente(codUtente, nome, morada, ...)",
+        "Refeicao(codRefeicao, data, tipo, ementa, calorias)",
+        "Entrega(#codUtente, #codRefeicao, horaEntrega, observacoes)",
       ],
-      temNull: false, temRep: true,
-      decisao3: true, assoc: "Entrega", regra: 6,
     },
     {
-      nome: "Voluntário → Rota (1:N)",
-      tentativa: "Colocar codVoluntario na tabela ROTA:",
-      headers: ["codRota", "nome", "zona", "codVoluntario"],
-      rows: [
-        ["R01", "Centro", "Centro da vila", "7"],
-        ["R02", "Norte", "Zona norte", "7"],
-        ["R03", "Sul", "Zona sul", "9"],
+      nome: "Voluntário → Rota (1:N, obrig. lado N)",
+      cardinalidade: "1:N",
+      participacao: "Obrig. na Rota; não obrig. no Voluntário",
+      regra: 4, numTabelas: 2,
+      fk: "PK codVoluntario → FK na Rota",
+      aplicacao: [
+        "Voluntario(codVoluntario, nome, telefone, ...)",
+        "Rota(codRota, nome, zona, distanciaKm, #codVoluntario)",
       ],
-      temNull: false, temRep: false,
-      decisao3: false, assoc: "", regra: 4,
     },
   ],
   f6: [
@@ -815,53 +784,47 @@ const solucaoCaso4 = {
   ],
   f5: [
     {
-      nome: "Viatura → Departamento (N:1, obrigatória)",
-      tentativa: "Colocar codDepartamento na tabela VIATURA:",
-      headers: ["matricula", "marca", "modelo", "codDep"],
-      rows: [
-        ["12-AB-34", "Renault", "Clio", "3"],
-        ["34-CD-56", "Ford", "Transit", "3"],
-        ["56-EF-78", "Peugeot", "3008", "5"],
+      nome: "Viatura → Departamento (1:N, obrig. lado N)",
+      cardinalidade: "1:N",
+      participacao: "Obrig. na Viatura",
+      regra: 4, numTabelas: 2,
+      fk: "PK codDepartamento → FK na Viatura",
+      aplicacao: [
+        "Viatura(matricula, ..., #codDepartamento)",
+        "Departamento(codDepartamento, nome, responsavel)",
       ],
-      temNull: false, temRep: false,
-      decisao3: false, assoc: "", regra: 4,
     },
     {
-      nome: "Motorista → Departamento (N:1, obrigatória)",
-      tentativa: "Colocar codDepartamento na tabela MOTORISTA (análise simétrica):",
-      headers: ["codMot", "nome", "carta", "codDep"],
-      rows: [
-        ["M-01", "João Silva", "B", "3"],
-        ["M-02", "Ana Costa", "B", "5"],
-        ["M-03", "Pedro Lima", "C", "3"],
+      nome: "Motorista → Departamento (1:N, obrig. lado N)",
+      cardinalidade: "1:N",
+      participacao: "Obrig. no Motorista",
+      regra: 4, numTabelas: 2,
+      fk: "PK codDepartamento → FK no Motorista",
+      aplicacao: [
+        "Motorista(codMotorista, ..., #codDepartamento)",
       ],
-      temNull: false, temRep: false,
-      decisao3: false, assoc: "", regra: 4,
+      nota: "Análise simétrica à anterior",
     },
     {
-      nome: "Viatura ↔ Motorista (M:N)",
-      tentativa: "Colocar codMotorista na tabela VIATURA:",
-      headers: ["matricula", "marca", "codMot", "data"],
-      rows: [
-        ["12-AB-34", "Renault Clio", "M-01", "2025-03-01"],
-        ["12-AB-34", "Renault Clio", "M-02", "2025-03-15"],
-        ["34-CD-56", "Ford Transit", "M-01", "2025-03-10"],
+      nome: "Viatura ↔ Motorista (N:M)",
+      cardinalidade: "N:M",
+      participacao: "Indiferente",
+      regra: 6, numTabelas: 3,
+      fk: "Tabela da relação com ambas as PKs",
+      aplicacao: [
+        "Requisicao(codRequisicao, #matricula, #codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado)",
       ],
-      temNull: false, temRep: true,
-      decisao3: true, assoc: "Requisição", regra: 6,
       nota: "Atributos próprios (datas, destino, km) justificam PK simples codRequisicao",
     },
     {
-      nome: "Viatura → Manutenção (1:N, obrigatória lado N)",
-      tentativa: "Colocar matricula na tabela MANUTENÇÃO:",
-      headers: ["codManut", "data", "tipo", "matricula"],
-      rows: [
-        ["MAN-001", "2025-01-15", "Revisão", "12-AB-34"],
-        ["MAN-002", "2025-02-03", "Pneus", "12-AB-34"],
-        ["MAN-003", "2025-02-20", "Óleo", "34-CD-56"],
+      nome: "Viatura → Manutenção (1:N, obrig. lado N)",
+      cardinalidade: "1:N",
+      participacao: "Obrig. na Manutenção",
+      regra: 4, numTabelas: 2,
+      fk: "PK matricula → FK na Manutenção",
+      aplicacao: [
+        "Manutencao(codManutencao, #matricula, data, tipo, descricao, custo, oficina)",
       ],
-      temNull: false, temRep: false,
-      decisao3: false, assoc: "", regra: 4,
     },
   ],
   f6: [
@@ -1215,126 +1178,57 @@ const auto4 = {
 
 // --- WORKSHEET DE TREINO DA FASE 5 ---
 
+// Cenários de treino — 10 situações para identificar cardinalidade, participação e regra
 const trainingScenarios = [
   {
     titulo: "Município e Funcionários",
-    descr: "Cada Funcionário pertence a um Município (obrigatório). Um Município tem vários funcionários.",
+    descr: "Cada Funcionário pertence a um único Município (obrigatório). Um Município tem vários funcionários.",
     atrib: "Funcionário(codFunc, nome, cargo)   |   Município(codMun, nome, distrito)",
-    tentativa: "Colocámos codMun na tabela FUNCIONÁRIO:",
-    headers: ["codFunc", "nome", "cargo", "codMun"],
-    rows: [
-      ["101", "Ana Silva", "Jurista", "3"],
-      ["102", "João Pinto", "Contabilista", "3"],
-      ["103", "Rita Costa", "Arquitecta", "5"],
-    ],
   },
   {
     titulo: "Projecto e Departamentos",
     descr: "Um Projecto envolve vários Departamentos. Um Departamento participa em vários projectos ao longo do ano.",
     atrib: "Projecto(codProj, nome, orcamento)   |   Departamento(codDep, nome, responsavel)",
-    tentativa: "Colocámos codDep na tabela PROJECTO:",
-    headers: ["codProj", "nome", "orcamento", "codDep"],
-    rows: [
-      ["P01", "Modernização IT", "50.000€", "2"],
-      ["P01", "Modernização IT", "50.000€", "5"],
-      ["P02", "Sede Nova", "200.000€", "2"],
-    ],
   },
   {
     titulo: "Cidadão e Advogado",
-    descr: "Um Cidadão pode ter um Advogado associado ao seu processo (opcional). Um Advogado representa vários cidadãos.",
+    descr: "Um Cidadão pode ter um Advogado associado ao seu processo (opcional — nem todo cidadão tem advogado). Um Advogado representa vários cidadãos.",
     atrib: "Cidadao(NIF, nome, morada)   |   Advogado(cedula, nome, especialidade)",
-    tentativa: "Colocámos cedulaAdv na tabela CIDADÃO (já que o advogado é opcional):",
-    headers: ["NIF", "nome", "morada", "cedulaAdv"],
-    rows: [
-      ["100111222", "João Silva", "R. X, Vila Feliz", "A-234"],
-      ["200222333", "Maria Costa", "Av. Y, Vila Feliz", "(vazio)"],
-      ["300333444", "Pedro Lima", "R. Z, Vila Feliz", "(vazio)"],
-    ],
   },
   {
     titulo: "Fornecedor e Facturas",
-    descr: "Cada Factura é emitida por um único Fornecedor. Um Fornecedor emite várias facturas.",
+    descr: "Cada Factura é emitida por um único Fornecedor (obrigatório). Um Fornecedor emite várias facturas.",
     atrib: "Fornecedor(NIF, nome, contacto)   |   Factura(numFact, data, valor)",
-    tentativa: "Colocámos NIFForn na tabela FACTURA:",
-    headers: ["numFact", "data", "valor", "NIFForn"],
-    rows: [
-      ["F-001", "2025-01-10", "1.200€", "500111222"],
-      ["F-002", "2025-01-15", "850€", "500111222"],
-      ["F-003", "2025-02-03", "2.400€", "509333444"],
-    ],
   },
   {
     titulo: "Aluno e Unidade Curricular",
     descr: "Um Aluno inscreve-se em várias UCs. Uma UC tem vários alunos inscritos. Cada inscrição tem data e nota final.",
     atrib: "Aluno(numAluno, nome, curso)   |   UC(codUC, nome, ECTS)",
-    tentativa: "Colocámos codUC na tabela ALUNO:",
-    headers: ["numAluno", "nome", "curso", "codUC"],
-    rows: [
-      ["2100123", "João Silva", "GAP", "UC001"],
-      ["2100123", "João Silva", "GAP", "UC002"],
-      ["2100456", "Maria Costa", "GAP", "UC001"],
-    ],
   },
   {
     titulo: "Receita e Medicamentos",
-    descr: "Uma Receita contém vários Medicamentos. Um Medicamento pode constar em várias receitas, com dose prescrita.",
+    descr: "Uma Receita contém vários Medicamentos. Um Medicamento pode constar em várias receitas (com dose prescrita).",
     atrib: "Receita(numReceita, data, medico)   |   Medicamento(codMed, nome, dosagem)",
-    tentativa: "Colocámos codMed na tabela RECEITA:",
-    headers: ["numReceita", "data", "medico", "codMed"],
-    rows: [
-      ["R-100", "2025-03-01", "Dr. Silva", "M-11"],
-      ["R-100", "2025-03-01", "Dr. Silva", "M-23"],
-      ["R-101", "2025-03-02", "Dr. Costa", "M-11"],
-    ],
   },
   {
     titulo: "Sala e Edifício",
-    descr: "Cada Sala pertence a um Edifício. Um Edifício tem várias salas.",
+    descr: "Cada Sala pertence a um Edifício (obrigatório). Um Edifício tem várias salas.",
     atrib: "Sala(codSala, piso, capacidade)   |   Edificio(codEdif, nome, morada)",
-    tentativa: "Colocámos codEdif na tabela SALA:",
-    headers: ["codSala", "piso", "capacidade", "codEdif"],
-    rows: [
-      ["S-101", "1", "30", "E-01"],
-      ["S-102", "1", "25", "E-01"],
-      ["S-201", "2", "40", "E-02"],
-    ],
   },
   {
-    titulo: "Ocorrência e Coordenador",
-    descr: "Cada Ocorrência tem um Coordenador atribuído (obrigatório). Um Coordenador gere várias ocorrências ao longo do turno.",
-    atrib: "Ocorrencia(numOcor, tipo, data)   |   Coordenador(codCoord, nome, turno)",
-    tentativa: "Colocámos codCoord na tabela OCORRÊNCIA:",
-    headers: ["numOcor", "tipo", "data", "codCoord"],
-    rows: [
-      ["O-001", "Inundação", "2025-01-15", "C-11"],
-      ["O-002", "Árvore caída", "2025-02-03", "C-11"],
-      ["O-003", "Incêndio", "2025-02-20", "C-22"],
-    ],
+    titulo: "Edição de Festival e Cartaz Oficial",
+    descr: "Cada Edição de Festival tem um único Cartaz Oficial (obrigatório). Cada Cartaz Oficial refere-se a uma única Edição de Festival (obrigatório).",
+    atrib: "Edicao(codEdicao, ano, tema)   |   Cartaz(codCartaz, designer, dataPublicacao)",
   },
   {
     titulo: "Motorista e Viatura",
-    descr: "Um Motorista conduz várias Viaturas ao longo do tempo. Uma Viatura é conduzida por vários motoristas, com data de início e fim.",
+    descr: "Um Motorista conduz várias Viaturas ao longo do tempo. Uma Viatura é conduzida por vários motoristas, com data de início e fim do uso.",
     atrib: "Motorista(codMot, nome, carta)   |   Viatura(matricula, marca, modelo)",
-    tentativa: "Colocámos matricula na tabela MOTORISTA:",
-    headers: ["codMot", "nome", "carta", "matricula"],
-    rows: [
-      ["M-01", "João Silva", "B", "12-AB-34"],
-      ["M-01", "João Silva", "B", "56-CD-78"],
-      ["M-02", "Ana Costa", "B", "12-AB-34"],
-    ],
   },
   {
-    titulo: "Livro e Editora",
-    descr: "Cada Livro é publicado por uma Editora. Uma Editora publica vários livros.",
-    atrib: "Livro(ISBN, titulo, ano)   |   Editora(codEd, nome, pais)",
-    tentativa: "Colocámos codEd na tabela LIVRO:",
-    headers: ["ISBN", "titulo", "ano", "codEd"],
-    rows: [
-      ["978-85-01-1", "Os Maias", "1888", "10"],
-      ["978-85-02-2", "A Cidade e as Serras", "1901", "10"],
-      ["978-85-03-3", "Memorial do Convento", "1982", "15"],
-    ],
+    titulo: "Artista e Escola Padrinho",
+    descr: "Um Artista pode (ou não) ser apadrinhado por uma Escola Local. Uma Escola pode (ou não) apadrinhar um Artista. Nenhum dos lados é obrigatório.",
+    atrib: "Artista(codArtista, nome, tipo)   |   Escola(codEscola, nome, zona)",
   },
 ];
 
@@ -1347,41 +1241,18 @@ function trainingScenarioBlock(n, s) {
     }),
     P(s.descr, { italic: true }),
     new Paragraph({
-      spacing: { after: 80 },
+      spacing: { after: 120 },
       children: [
         new TextRun({ text: "Atributos: ", bold: true, size: 20 }),
         new TextRun({ text: s.atrib, size: 20 }),
       ],
     }),
-    new Paragraph({
-      spacing: { after: 80 },
-      children: [
-        new TextRun({ text: "Passo A — Tentativa já feita. ", bold: true, size: 20 }),
-        new TextRun({ text: s.tentativa, size: 20 }),
-      ],
-    }),
-    makeTable(s.headers, [2410, 2410, 2409, 2409], s.rows, 0),
-    space(80),
-    new Paragraph({
-      spacing: { after: 60 },
-      children: [
-        new TextRun({ text: "Passo B — Observe: ", bold: true, size: 20 }),
-        new TextRun({ text: "☐  Há NULLs?     ☐  Há repetições?            ", size: 20 }),
-      ],
-    }),
-    new Paragraph({
-      spacing: { after: 60 },
-      children: [
-        new TextRun({ text: "Passo C — Decisão: ", bold: true, size: 20 }),
-        new TextRun({ text: "☐  Fica assim (2 tabelas)     ☐  Criar tabela associativa: _______________ (3 tabelas)", size: 20 }),
-      ],
-    }),
-    new Paragraph({
-      spacing: { after: 200 },
-      children: [
-        new TextRun({ text: "Passo D — Regra aplicada: Regra _____", bold: true, size: 20 }),
-      ],
-    }),
+    makeTable(
+      ["Cardinalidade", "Participação", "Regra", "Nº tabelas", "Onde fica a FK"],
+      [1600, 2600, 1200, 1300, 2938],
+      [], 1
+    ),
+    space(300),
   ];
 }
 
@@ -1390,36 +1261,26 @@ const trainingDoc = {
   headerTitle: "Treino de Fase 5 — 10 Cenários",
   sections: [
     H1("Treino de Fase 5 — 10 Cenários"),
-    P("Este worksheet isola apenas a Fase 5 da modelação E-R: decidir se uma relação se converte em 2 tabelas (FK do lado natural) ou em 3 tabelas (com tabela associativa). Em cada cenário, a Tentativa (Passo A) já foi feita por si — a sua tarefa é observar a tabela pré-preenchida, detectar o problema (se houver) e decidir. Faça os 10 cenários de seguida para ganhar automatismo."),
+    P("Este worksheet isola apenas a Fase 5: identificar a regra de construção aplicável a cada relação. Para cada cenário, indique a cardinalidade (1:1, 1:N ou N:M), a participação em cada lado, a regra aplicável (1 a 6), o número de tabelas resultantes e onde fica a chave estrangeira (ou se nasce uma tabela da relação)."),
     space(120),
     new Paragraph({
       spacing: { after: 120 },
       shading: { fill: LIGHT_GREY, type: ShadingType.CLEAR },
       border: { top: border(), bottom: border(), left: border(), right: border() },
       children: [
-        new TextRun({ text: "Método em 4 passos:", bold: true, size: 22, color: DARK_BLUE }),
+        new TextRun({ text: "Lembrete — 6 Regras de Construção", bold: true, size: 22, color: DARK_BLUE }),
       ],
     }),
-    PMulti([
-      new TextRun({ text: "A. ", bold: true, size: 20 }),
-      new TextRun({ text: "(feito) Tabela-tentativa com a FK no lado natural.    ", size: 20 }),
-      new TextRun({ text: "B. ", bold: true, size: 20 }),
-      new TextRun({ text: "Observe: há NULLs? há repetições?", size: 20 }),
-    ]),
-    PMulti([
-      new TextRun({ text: "C. ", bold: true, size: 20 }),
-      new TextRun({ text: "Decida: 2 tabelas (limpo) ou 3 tabelas (com assoc).    ", size: 20 }),
-      new TextRun({ text: "D. ", bold: true, size: 20 }),
-      new TextRun({ text: "Nomeie a regra (4 / 5 / 6).", size: 20 }),
-    ]),
-    space(),
     makeTable(
-      ["Situação", "O que faz", "Regra"],
-      [3500, 4138, 2000],
+      ["Regra", "Cardinalidade", "Participação", "Nº tabelas", "Onde fica a FK"],
+      [700, 1500, 2500, 1300, 3638],
       [
-        ["Tudo limpo (sem NULLs nem repetições)", "Fica com 2 tabelas", "Regra 4"],
-        ["Aparecem células vazias (NULLs)", "Cria 3ª tabela associativa", "Regra 5"],
-        ["Aparecem linhas repetidas", "Cria 3ª tabela associativa", "Regra 6"],
+        ["1", "1:1", "Obrigatória em ambas", "1", "PK de qualquer das entidades"],
+        ["2", "1:1", "Obrig. apenas numa", "2", "PK da não-obrig. → FK na obrig."],
+        ["3", "1:1", "Nenhuma obrigatória", "3", "Tabela da relação com ambas PKs"],
+        ["4", "1:N", "Obrig. no lado N", "2", "PK do lado 1 → FK no lado N"],
+        ["5", "1:N", "Não obrig. no lado N", "3", "Tabela da relação com ambas PKs"],
+        ["6", "N:M", "Indiferente", "3", "Tabela da relação com ambas PKs"],
       ]
     ),
     space(),
