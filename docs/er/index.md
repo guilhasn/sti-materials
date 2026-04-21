@@ -10,7 +10,7 @@ Este módulo introduz o **Modelo Entidade-Relacionamento (E-R)** como ferramenta
     - Recomendado: segundo ecrã para ter o diagrama e o enunciado lado a lado
 
 !!! tip "Recursos de consulta rápida"
-    - :material-file-document-outline: [**Ficha de Consulta Rápida**](cheat-sheet.md) — página A4 imprimível com notação, 7 regras, 9 fases e atalho mental
+    - :material-file-document-outline: [**Ficha de Consulta Rápida**](cheat-sheet.md) — página A4 imprimível com notação, legenda dos símbolos, 6 regras e 9 fases
     - :material-alert-outline: [**Erros Frequentes**](erros-frequentes.md) — catálogo de anti-padrões com exemplos e correcções
 
 ---
@@ -81,7 +81,7 @@ O **Modelo E-R** fornece uma forma visual de projectar a estrutura dos dados **a
 
 ---
 
-## Conversão E-R → Tabelas — a intuição antes das regras
+## Conversão E-R → Tabelas — as 6 Regras de Construção
 
 ### Porquê aplicar regras de conversão?
 
@@ -92,96 +92,116 @@ O diagrama E-R é um **modelo conceptual** — desenha entidades, atributos e re
 - **Não aparecem campos vazios desnecessários** — evita-se o desperdício e os erros associados a NULLs
 - **Cada tabela tem uma chave que identifica univocamente as suas linhas** — base para consultas correctas
 
-Sem regras, dois analistas a converter o mesmo diagrama produziriam tabelas diferentes — algumas correctas, outras com problemas. As regras existem para que **qualquer pessoa**, partindo do mesmo diagrama, chegue às **mesmas tabelas**.
+Sem regras, dois analistas a converter o mesmo diagrama produziriam tabelas diferentes. As regras existem para que **qualquer pessoa**, partindo do mesmo diagrama, chegue às **mesmas tabelas**.
 
-### As 7 regras de conversão
+### Legenda dos símbolos
 
-| Regra | Cardinalidade | Participação | Nº Tabelas | Onde fica a FK |
+Para ler os diagramas das regras, use esta legenda:
+
+![Legenda dos símbolos das regras](assets/regras/legenda.png){ loading=lazy }
+
+| Símbolo | Significado |
+|---------|-------------|
+| **?** | Com ou sem participação obrigatória (indiferente) |
+| :material-key: | **Chave primária** (obrigatória + exclusiva) |
+| :material-key-outline: | **Chave estrangeira** |
+| **★** | Obrigatória |
+| **★★** | Obrigatória + Exclusiva (única) |
+
+### Resumo visual das 6 regras
+
+![Resumo das 6 regras de conversão](assets/regras/resumo-regras.png){ loading=lazy }
+
+### As 6 regras de construção
+
+| Regra | Cardinalidade | Participação | Nº tabelas | Onde fica a FK |
 |-------|--------------|-------------|------------|----------------|
-| 1 | 1:1 | Obrigatória ambas | 1 | PK de qualquer uma |
-| 2 | 1:1 | Obrigatória numa | 2 | PK da não-obrigatória → na obrigatória |
-| 3 | 1:1 | Nenhuma obrigatória | 3 | Tabela de relação com ambas PKs |
-| **4** | **1:N** | **Obrigatória lado N** | **2** | **PK do lado 1 → no lado N** |
-| 5 | 1:N | Não obrigatória lado N | 3 | Tabela de relação |
-| **6** | **M:N** | **Indiferente** | **3** | **Tabela de relação com ambas PKs** |
-| 7 | Ternária | Indiferente | 4 | Tabela de relação com todas PKs |
+| **1** | 1:1 | Obrigatória **em ambas** | **1** | PK de qualquer das entidades |
+| **2** | 1:1 | Obrigatória **apenas numa** | **2** | PK da não-obrigatória → FK na obrigatória |
+| **3** | 1:1 | **Nenhuma** obrigatória | **3** | Tabela da relação com ambas as PKs |
+| **4** | 1:N | Obrigatória **do lado N** | **2** | PK do lado 1 → FK no lado N |
+| **5** | 1:N | **Não** obrigatória do lado N | **3** | Tabela da relação com ambas as PKs |
+| **6** | N:M | Indiferente | **3** | Tabela da relação com ambas as PKs |
 
 !!! tip "Regras mais comuns na AP"
-    Na prática, **95% dos casos** caem em duas situações: **Regra 4** (relação 1:N obrigatória → 2 tabelas) e **Regra 6** (relação M:N → 3 tabelas). Dominar estas duas cobre quase todos os cenários reais.
+    Na prática, **95% dos casos** caem em duas situações: **Regra 4** (relação 1:N com obrigatoriedade no lado N → 2 tabelas) e **Regra 6** (relação N:M → 3 tabelas). Dominar estas duas cobre quase todos os cenários reais.
 
-### A intuição por trás das regras
+---
 
-Em vez de decorar 7 regras, basta perceber **dois princípios**:
+### Regra 1 — 1:1 com participação obrigatória em ambas
 
-1. **Não queremos campos vazios (NULLs)** — desperdiçam espaço e geram confusão
-2. **Não queremos linhas repetidas** — geram inconsistências e erros
+![Regra 1](assets/regras/regra-1.png){ loading=lazy }
 
-Para cada relação entre duas entidades, faça mentalmente este exercício:
+Quando a cardinalidade é **1:1** e a participação é **obrigatória em ambas** as entidades, basta **1 tabela** — a chave primária pode ser a chave de qualquer uma das entidades.
 
-> *"Se eu meter a chave estrangeira (FK) no lado mais natural, escrever 3 linhas com dados reais — aparece algum vazio ou alguma linha repetida?"*
+**Exemplo Vila Feliz**: *Cada Edição de Festival tem um Cartaz Oficial e cada Cartaz Oficial refere-se a uma única Edição — ambas obrigatórias.*
 
-A resposta dá-lhe **quantas tabelas** precisa.
+→ Basta a tabela `EDICAO_FESTIVAL(codEdicao, ano, tema, cartazURL, ...)`.
 
-### Caso A — Tudo limpo → ficam 2 tabelas
+---
 
-**Exemplo:** *Cada Evento realiza-se num único Espaço (obrigatório); cada Espaço acolhe vários Eventos.*
+### Regra 2 — 1:1 com participação obrigatória apenas numa
 
-Meto `codEspaco` dentro de `EVENTO`:
+![Regra 2](assets/regras/regra-2.png){ loading=lazy }
 
-| codEvento | nome | codEspaco |
-|---|---|---|
-| 1 | Festival Chocolate | 5 |
-| 2 | Mercado Medieval | 5 |
-| 3 | Natal Vila Feliz | 7 |
+Quando a cardinalidade é **1:1** e a participação é **obrigatória apenas numa** das entidades, são necessárias **2 tabelas** — uma por entidade. A PK da entidade com participação não obrigatória entra como FK na entidade com participação obrigatória.
 
-- Há células vazias? **Não** ✅
-- Há linhas repetidas? **Não** ✅
+**Exemplo Vila Feliz**: *Cada Evento tem obrigatoriamente um Coordenador, mas nem todo Funcionário é coordenador de um evento.*
 
-→ **Bastam 2 tabelas** (`EVENTO` e `ESPAÇO`). Esta situação chama-se tecnicamente **Regra 4**.
+→ `EVENTO(codEvento, ..., #codFuncionario)` + `FUNCIONARIO(codFuncionario, ...)`.
 
-### Caso B — Aparecem NULLs → precisa de 3 tabelas
+---
 
-**Exemplo:** *Um Artista pode (ou não) ter um agente; cada agente representa vários artistas.*
+### Regra 3 — 1:1 sem participação obrigatória
 
-Meto `codAgente` dentro de `ARTISTA`:
+![Regra 3](assets/regras/regra-3.png){ loading=lazy }
 
-| codArtista | nome | codAgente |
-|---|---|---|
-| 10 | João Silva | 3 |
-| 11 | Ana Costa | *(vazio)* |
-| 12 | Pedro Lima | *(vazio)* |
+Quando a cardinalidade é **1:1** e **nenhuma** das entidades tem participação obrigatória, são necessárias **3 tabelas** — uma para cada entidade e uma para o relacionamento. A tabela do relacionamento contém as chaves primárias das duas entidades.
 
-- Há células vazias? **Sim** ❌
+**Exemplo Vila Feliz**: *Um Artista pode ser apadrinhado por uma Escola Local (opcional) e cada Escola pode apadrinhar um Artista (opcional).*
 
-→ Criar uma **3ª tabela** `REPRESENTAÇÃO` só com os artistas que *têm* agente. Esta situação chama-se **Regra 5**.
+→ `ARTISTA(...)` + `ESCOLA(...)` + `APADRINHAMENTO(#codArtista, #codEscola, dataInicio)`.
 
-### Caso C — Aparecem repetições → precisa de 3 tabelas
+---
 
-**Exemplo:** *Um Evento tem vários Patrocinadores; cada Patrocinador apoia vários Eventos.*
+### Regra 4 — 1:N com participação obrigatória no lado N
 
-Tento meter `codPatrocinador` dentro de `EVENTO`:
+![Regra 4](assets/regras/regra-4.png){ loading=lazy }
 
-| codEvento | nome | codPatrocinador |
-|---|---|---|
-| 1 | Festival Chocolate | 100 |
-| 1 | Festival Chocolate | 101 ← *mesmo evento outra vez!* |
-| 1 | Festival Chocolate | 102 ← *e outra vez!* |
-| 2 | Mercado Medieval | 100 |
+Quando a cardinalidade é **1:N** e há **participação obrigatória do lado N**, são necessárias **2 tabelas**. A chave primária da entidade do lado 1 entra como FK na tabela do lado N.
 
-- Há linhas repetidas? **Sim** ❌
+**Exemplo Vila Feliz**: *Cada Evento realiza-se num único Espaço (obrigatório). Um Espaço acolhe vários Eventos.*
 
-→ Criar uma **3ª tabela** `PATROCÍNIO` com os pares (evento, patrocinador). Esta situação chama-se **Regra 6** e é **obrigatória sempre que há M:N**.
+→ `EVENTO(codEvento, nome, ..., #codEspaco)` + `ESPACO(codEspaco, nome, ...)`.
 
-### Atalho mental
+---
 
-| O que vê na tabela tentativa? | O que faz? | Nome técnico |
-|---|---|---|
-| Tudo limpo (sem vazios, sem repetições) | Fica com **2 tabelas** | Regra 4 |
-| **Células vazias** (NULLs) | Cria **3ª tabela** para esconder os vazios | Regra 5 |
-| **Linhas repetidas** | Cria **3ª tabela** para esconder as repetições | Regra 6 |
+### Regra 5 — 1:N sem participação obrigatória no lado N
 
-!!! tip "Treino específico"
-    Disponível um [**worksheet com 10 cenários curtos para praticar apenas este raciocínio**](worksheets/worksheet-fase5-treino.docx) — isola a Fase 5 e aplica o método dos 4 passos (tentativa → observação → decisão → regra).
+![Regra 5](assets/regras/regra-5.png){ loading=lazy }
+
+Quando a cardinalidade é **1:N** e o lado N **não** tem participação obrigatória, são necessárias **3 tabelas** — uma para cada entidade e uma para o relacionamento, contendo as PKs das duas entidades.
+
+**Exemplo Vila Feliz**: *Um Artista pode (ou não) ter um Agente associado ao seu contrato.*
+
+→ `ARTISTA(...)` + `AGENTE(...)` + `REPRESENTACAO(#codArtista, #codAgente, dataInicio)`.
+
+---
+
+### Regra 6 — N:M com participação indiferente
+
+![Regra 6](assets/regras/regra-6.png){ loading=lazy }
+
+Quando a cardinalidade é **N:M**, a participação é **indiferente** (obrigatória ou não em qualquer lado). São sempre necessárias **3 tabelas** — uma para cada entidade e uma para o relacionamento, contendo as PKs das duas entidades.
+
+**Exemplo Vila Feliz**: *Um Evento tem vários Patrocinadores. Um Patrocinador apoia vários Eventos.*
+
+→ `EVENTO(...)` + `PATROCINADOR(...)` + `PATROCINIO(#codEvento, #codPatrocinador, valor)`.
+
+---
+
+!!! tip "Treino específico — identificar a regra"
+    Disponível um [**worksheet com 10 cenários curtos para praticar a identificação da regra correcta**](worksheets/worksheet-fase5-treino.docx) — dados a cardinalidade e a participação, qual é a regra a aplicar?
 
 ---
 

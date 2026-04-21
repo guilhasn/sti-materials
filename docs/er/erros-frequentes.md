@@ -55,69 +55,62 @@ Catálogo dos **erros mais comuns** cometidos na modelação Entidade-Relacionam
 
 ## B. Erros na Fase 5 — os mais críticos
 
-### B1. Esquecer que M:N precisa **sempre** de tabela associativa
+### B1. Esquecer que N:M precisa **sempre** de tabela da relação (Regra 6)
 
 !!! danger "Errado"
     *"Um Aluno inscreve-se em várias UCs, uma UC tem vários alunos. Meto `codUC` na tabela Aluno e está resolvido."*
 
-**Problema**: se João se inscreve em 5 UCs, a tabela Aluno teria 5 linhas para ele — **repetição massiva** dos dados pessoais. E a chave primária seria ambígua.
+**Problema**: se João se inscreve em 5 UCs, a tabela Aluno teria 5 linhas para ele — os dados pessoais ficariam repetidos e a chave primária seria ambígua. A Regra 6 existe precisamente para evitar isso.
 
-| numAluno | nome | codUC |
-|---|---|---|
-| 2100123 | João Silva | UC01 |
-| 2100123 | João Silva | UC02 | ← repetido
-| 2100123 | João Silva | UC03 | ← repetido
-| 2100123 | João Silva | UC04 | ← repetido
+!!! success "Correcto — aplicar Regra 6"
+    N:M → **3 tabelas**. Além de `Aluno` e `UC`, criar tabela da relação `Inscricao(#numAluno, #codUC, dataInscricao, nota)`.
 
-!!! success "Correcto"
-    Criar **tabela associativa** `Inscricao(numAluno, codUC, dataInscricao, nota)`. Agora cada inscrição é uma linha separada, sem repetir os dados pessoais.
-
-**Regra**: `M:N` → **Regra 6** → **sempre** tabela associativa. Não há excepção.
+**Como evitar**: quando identificar cardinalidade **N:M**, a regra é sempre a 6. Não há excepção.
 
 ---
 
-### B2. Criar tabela associativa onde não é preciso
+### B2. Criar tabela da relação onde não é preciso (confundir Regra 4 com Regra 6)
 
 !!! danger "Errado"
-    *"Para a relação Requerente → Processo (1:N), crio uma tabela `Submissao(codRequerente, numProcesso)`."*
+    *"Para a relação Requerente → Processo (1:N obrigatória), crio uma tabela `Submissao(#codRequerente, #numProcesso)`."*
 
-**Problema**: desnecessário. Cada processo tem **exactamente um** requerente — a FK `codRequerente` cabe directamente dentro de `Processo` sem NULLs nem repetições.
+**Problema**: desnecessário. Na Regra 4 (1:N com obrigatoriedade no lado N), a FK entra directamente na tabela do lado N. Criar uma tabela da relação adiciona complexidade sem benefício.
 
-!!! success "Correcto"
-    `Processo(numProcesso, ..., #codRequerente)`. Apenas **2 tabelas**, FK no lado N.
+!!! success "Correcto — aplicar Regra 4"
+    1:N obrigatória no N → **2 tabelas**. `Processo(numProcesso, ..., #codRequerente)`.
 
-**Regra**: aplicar o método dos 4 passos. Se não aparecem NULLs nem repetições → **Regra 4**, fica com 2 tabelas.
+**Como evitar**: sempre que for **1:N** com obrigatoriedade no lado N, aplica-se a Regra 4 (2 tabelas), nunca a Regra 6.
 
 ---
 
-### B3. Confundir Regra 5 (NULLs) com Regra 6 (repetições)
+### B3. Confundir Regra 4 com Regra 5 (ignorar participação)
 
 !!! danger "Errado"
-    Detecta que algo está mal mas aplica a regra errada.
+    *"Relação Cidadão → Advogado, 1:N, aplica-se a Regra 4: FK `cedulaAdvogado` na tabela Cidadao."*
 
-**Problema**: são os dois sintomas de "problema na FK", mas com causas diferentes e soluções iguais (ambos precisam de 3ª tabela). Ainda assim, o **raciocínio** tem de ser claro.
+**Problema**: se nem todo cidadão tem advogado, a Regra 4 não se aplica — porque exige **participação obrigatória** do lado N. Usar a Regra 4 neste caso geraria muitas células vazias (NULLs) na coluna `cedulaAdvogado`.
 
-!!! success "Correcto — distinção precisa"
-    - **NULLs** = células vazias (algo **opcional** que não existe) → **Regra 5**
-    - **Repetições** = linhas iguais ou quase iguais (muitos-para-muitos) → **Regra 6**
+!!! success "Correcto — aplicar Regra 5"
+    1:N **sem** obrigatoriedade no lado N → **3 tabelas**. Tabela da relação `Representacao(#NIF, #cedulaAdvogado, dataInicio)` só com os cidadãos que *têm* advogado.
+
+**Como evitar**: antes de escolher entre Regra 4 e Regra 5, confirmar **sempre** se a participação do lado N é obrigatória ou não.
 
 ---
 
-### B4. Ignorar a participação obrigatória / opcional
+### B4. Identificar cardinalidade errada (1:N onde é N:M, ou vice-versa)
 
 !!! danger "Errado"
-    *"Cada Cidadão tem um Advogado. Regra 4, 2 tabelas, resolvido."*
+    *"Cada Aluno tem uma UC; cada UC tem vários alunos → 1:N."*
 
-**Problema**: nem todo cidadão tem advogado. Se colocar `cedulaAdvogado` na tabela `Cidadao`, vai ter muitas células vazias (NULLs) — porque a maioria dos cidadãos **não tem** advogado atribuído.
+**Problema**: a pergunta está incompleta. Tem de se confirmar os **dois lados**:
 
-| NIF | nome | cedulaAdv |
-|---|---|---|
-| 100111 | João Silva | A-234 |
-| 200222 | Maria Costa | *(vazio)* |
-| 300333 | Pedro Lima | *(vazio)* |
+- "Um aluno tem **apenas uma** UC? Ou várias?"
+- "Uma UC tem vários alunos? Ou só um?"
+
+Se cada aluno tem várias UCs E cada UC tem vários alunos → **N:M**, não 1:N.
 
 !!! success "Correcto"
-    1:N com participação **opcional** (não obrigatória) no lado N → **Regra 5** → tabela `Representacao(NIF, cedulaAdvogado)` só com os que *têm* advogado.
+    Sempre verificar os dois sentidos da relação antes de decidir a cardinalidade. Só assim se escolhe a regra correcta.
 
 ---
 
@@ -259,4 +252,4 @@ Se respondeu **sim** a tudo — o modelo está robusto.
 ---
 
 !!! tip "Próximo passo"
-    Está a praticar a Fase 5 e ainda sente dúvidas? Use o [**worksheet de treino com 10 cenários**](worksheets/worksheet-fase5-treino.docx) para consolidar o método.
+    Está a praticar a Fase 5 e ainda sente dúvidas? Use o [**worksheet de treino com 10 cenários**](worksheets/worksheet-fase5-treino.docx) para consolidar a **identificação da regra correcta** (1 a 6).

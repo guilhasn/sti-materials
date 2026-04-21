@@ -15,7 +15,7 @@ Uma página A4 paisagem com **tudo o que precisa à mão** durante um exercício
 
 ## Resumo do conteúdo
 
-A ficha contém **8 blocos** organizados em duas colunas:
+A ficha contém **7 blocos** organizados em duas colunas:
 
 ### Coluna esquerda — Fundamentos
 
@@ -24,12 +24,11 @@ A ficha contém **8 blocos** organizados em duas colunas:
 3. **Notação relacional** — convenção `TABELA(pk, #fk)` para o esquema final
 4. **9 fases** — sequência completa de criação de uma base de dados
 
-### Coluna direita — Fase 5 (o crítico) + Referência
+### Coluna direita — Regras e Referência
 
-5. **Método dos 4 passos** — Tentativa → Observação → Decisão → Regra
-6. **Atalho mental** — o que fazer em cada caso (limpo / NULLs / repetições)
-7. **7 regras completas** — tabela de referência para casos raros (1:1, ternárias)
-8. **Tipos de dados comuns** — INTEGER, VARCHAR(n), DATE, DECIMAL(p,s), BOOLEAN
+5. **Legenda dos símbolos** — **?**, :material-key: **PK**, :material-key-outline: **FK**, **★**, **★★**
+6. **6 Regras de construção** — tabela de referência rápida (cardinalidade → regra → nº tabelas → FK)
+7. **Tipos de dados comuns** — INTEGER, VARCHAR(n), DATE, DECIMAL(p,s), BOOLEAN
 
 ---
 
@@ -38,12 +37,12 @@ A ficha contém **8 blocos** organizados em duas colunas:
 | Situação | Consulta |
 |---|---|
 | Esqueci-me do que é um "atributo multivalor" | Bloco 2 |
-| Não sei que tipo de dados usar em Fase 9 | Bloco 8 |
-| Perdi-me no passo da Fase 5 | Blocos 5 e 6 |
-| Que regra aplicar a este cenário 1:1? | Bloco 7 |
+| Não sei que tipo de dados usar em Fase 9 | Bloco 7 |
+| Qual é o símbolo de chave estrangeira? | Bloco 5 |
+| Que regra aplicar a este cenário 1:N? | Bloco 6 |
 | Em que ordem faço as fases? | Bloco 4 |
 
 ---
 
 !!! info "Não substitui a aprendizagem"
-    Esta ficha é uma **ferramenta de consulta**, não um substituto para a compreensão. Se ao resolver um exercício só está a copiar da ficha sem perceber, use primeiro o [worksheet de treino da Fase 5](worksheets/worksheet-fase5-treino.docx) para consolidar o raciocínio.
+    Esta ficha é uma **ferramenta de consulta**, não um substituto para a compreensão. Se ao resolver um exercício só está a copiar da ficha sem perceber, use primeiro o [worksheet de treino da Fase 5](worksheets/worksheet-fase5-treino.docx) para consolidar a identificação das 6 regras.

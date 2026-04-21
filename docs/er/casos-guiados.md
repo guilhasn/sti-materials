@@ -12,7 +12,7 @@ Quatro exercícios guiados passo-a-passo para construir diagramas Entidade-Relac
     2. **Fase 2** — Desenhar DER simplificado (sem atributos)
     3. **Fase 3** — Definir pressupostos de negócio
     4. **Fase 4** — Desenhar DER completo (com atributos e cardinalidades)
-    5. **Fase 5** — Determinar tabelas (abordagem intuitiva, regras só no fim)
+    5. **Fase 5** — Determinar tabelas (aplicar as **6 regras de construção**)
     6. **Fase 6** — Determinar chaves candidatas
     7. **Fase 7** — Determinar chaves primárias
     8. **Fase 8** — Definir tabelas finais (esquema relacional)
@@ -35,7 +35,7 @@ Quatro exercícios guiados passo-a-passo para construir diagramas Entidade-Relac
     Existe ainda um [**template genérico**](worksheets/template-er.docx) para aplicar a qualquer cenário.
 
 !!! abstract "Treino específico da Fase 5"
-    A Fase 5 (determinar tabelas) é a mais difícil de interiorizar. Disponível um [**worksheet de treino com 10 cenários curtos**](worksheets/worksheet-fase5-treino.docx) que isola apenas esta fase — perfeito para ganhar automatismo no método dos 4 passos (tentativa → observação → decisão → regra).
+    A Fase 5 (determinar tabelas) é a mais difícil de interiorizar. Disponível um [**worksheet de treino com 10 cenários curtos**](worksheets/worksheet-fase5-treino.docx) que isola apenas esta fase — perfeito para ganhar automatismo na **identificação da regra correcta** a partir da cardinalidade e da participação.
 
 ---
 
@@ -100,39 +100,31 @@ Participações:
 - **requisita** (Leitor ↔ Livro): não obrigatória em ambos os lados
 - **escreve** (Autor ↔ Livro): obrigatória no Livro (todo livro tem autor); não obrigatória no Autor
 
-### Fase 5 — Determinar tabelas (abordagem intuitiva)
+### Fase 5 — Determinar tabelas (aplicar regras de construção)
 
-Para cada relação, aplicamos o método em 4 passos: (A) tentativa com 3 linhas de dados; (B) observação; (C) decisão; (D) nome da regra.
+Para cada relação, identificamos **cardinalidade + participação** e aplicamos a **regra correspondente**.
 
-#### Relação Leitor ↔ Livro (M:N)
+#### Relação Leitor ↔ Livro (N:M)
 
-**Passo A — Tentativa 1**: colocar `ISBN` dentro de `LEITOR`
+**Cardinalidade**: N:M (um leitor requisita vários livros; um livro é requisitado por vários leitores).
+**Participação**: não obrigatória em ambas.
+**Regra aplicável**: **Regra 6** (N:M → 3 tabelas).
 
-| codLeitor | nome | BI | ISBN |
-|---|---|---|---|
-| 1 | Ana Costa | 12345678 | 978-85-01-1 |
-| **1** | **Ana Costa** | **12345678** | 978-972-1 |
-| 2 | João Silva | 87654321 | 978-85-01-1 |
+**Aplicação**:
 
-**Passo B**: Ana Costa aparece 2 vezes (porque requisitou 2 livros) → ❌ **repetição dos dados pessoais**.
+- Duas tabelas para as entidades: `Leitor` e `Livro`.
+- Uma tabela da relação com as duas PKs: `Empréstimo(#codLeitor, #ISBN, dataEmprestimo, dataDevolucao, devolvido)`.
 
-**Tentativa 2**: colocar `codLeitor` dentro de `LIVRO`
+#### Relação Autor ↔ Livro (N:M)
 
-| ISBN | titulo | autor | codLeitor |
-|---|---|---|---|
-| 978-85-01-1 | Dom Casmurro | Machado | 1 |
-| **978-85-01-1** | **Dom Casmurro** | **Machado** | 2 |
-| 978-972-1 | Os Maias | Eça | 1 |
+**Cardinalidade**: N:M (um autor escreve vários livros; um livro pode ter vários co-autores).
+**Participação**: obrigatória no Livro (todo livro tem pelo menos um autor); não obrigatória no Autor.
+**Regra aplicável**: **Regra 6** (N:M → 3 tabelas, participação é indiferente).
 
-Dom Casmurro aparece 2 vezes (foi requisitado por 2 leitores) → ❌ **repetição dos dados do livro**.
+**Aplicação**:
 
-**Passo C — Decisão**: criar tabela associativa `EMPRÉSTIMO`(codLeitor, ISBN, dataEmprestimo, dataDevolucao).
-
-**Passo D — Regra aplicada**: **Regra 6** — M:N exige sempre tabela associativa, não há alternativa.
-
-#### Relação Autor ↔ Livro (M:N)
-
-Mesma análise: se colocar `codAutor` no `LIVRO`, um livro com 2 autores aparece em 2 linhas — repetição. **Decisão**: criar `AUTORIA`(codAutor, ISBN). **Regra 6**.
+- Duas tabelas para as entidades: `Autor` e `Livro`.
+- Uma tabela da relação: `Autoria(#codAutor, #ISBN)`.
 
 ### Fase 6 — Determinar chaves candidatas
 
@@ -235,42 +227,32 @@ Participações:
 - **submete**: obrigatória no lado N (todo processo tem requerente)
 - **analisa**: não obrigatória em ambos
 
-### Fase 5 — Determinar tabelas (abordagem intuitiva)
+### Fase 5 — Determinar tabelas (aplicar regras de construção)
 
 #### Relação Requerente → Processo (1:N, obrigatória lado N)
 
-**Passo A — Tentativa**: colocar `codRequerente` dentro de `PROCESSO`
+**Cardinalidade**: 1:N (cada processo tem um requerente; um requerente pode ter vários processos).
+**Participação**: obrigatória no lado N (Processo) — todo processo tem um requerente.
+**Regra aplicável**: **Regra 4** (1:N obrigatória no N → 2 tabelas).
 
-| numProcesso | tipoObra | localizacao | codRequerente |
-|---|---|---|---|
-| P-2025/001 | Construção | Zona Industrial | 101 |
-| P-2025/002 | Ampliação | Av. Central | 102 |
-| P-2025/003 | Demolição | R. Nova | 101 |
+**Aplicação**:
 
-**Passo B**: cada processo tem exactamente um requerente (sem vazios); cada linha é um processo diferente (sem repetições) → ✅ **tabela limpa**.
+- Duas tabelas: `Requerente` e `Processo`.
+- A PK `codRequerente` entra como FK na tabela `Processo`: `Processo(..., #codRequerente)`.
 
-**Passo C — Decisão**: fica como está, 2 tabelas (Requerente + Processo com FK).
+#### Relação Técnico ↔ Processo (N:M)
 
-**Passo D — Regra aplicada**: **Regra 4**.
+**Cardinalidade**: N:M (um técnico analisa vários processos; um processo é analisado por vários técnicos).
+**Participação**: indiferente.
+**Regra aplicável**: **Regra 6** (N:M → 3 tabelas).
 
-#### Relação Técnico ↔ Processo (M:N)
+**Aplicação**:
 
-**Passo A — Tentativa**: colocar `codTecnico` dentro de `PROCESSO`
+- Três tabelas: `Técnico`, `Processo` e uma tabela da relação `Parecer`.
+- A tabela `Parecer` contém as duas PKs e os atributos próprios (data, resultado, observações): `Parecer(#numProcesso, #codTecnico, dataParecer, resultado, observacoes)`.
 
-| numProcesso | tipoObra | codTecnico |
-|---|---|---|
-| **P-2025/001** | **Construção** | 10 |
-| **P-2025/001** | **Construção** | 11 |
-| P-2025/002 | Ampliação | 10 |
-
-**Passo B**: P-2025/001 aparece 2 vezes (é analisado por 2 técnicos) → ❌ **repetição**.
-
-**Passo C — Decisão**: criar `PARECER`(numProcesso, codTecnico, dataParecer, resultado, observações).
-
-**Passo D — Regra aplicada**: **Regra 6**.
-
-!!! note "Parecer como tabela associativa com atributos próprios"
-    Muitas relações M:N transportam informação adicional. Aqui, a tabela Parecer não é artificial — é uma entidade natural do negócio (data, resultado e observações *são* atributos do parecer, não do processo nem do técnico).
+!!! note "Parecer — tabela da relação com atributos próprios"
+    Muitas relações N:M transportam informação adicional. Aqui, a tabela Parecer não é artificial — é uma entidade natural do negócio (data, resultado e observações *são* atributos do parecer, não do processo nem do técnico).
 
 ### Fase 6 — Determinar chaves candidatas
 
@@ -365,39 +347,29 @@ Participações:
 - **recebe**: obrigatória no Utente
 - **percorre**: não obrigatória em ambos
 
-### Fase 5 — Determinar tabelas (abordagem intuitiva)
+### Fase 5 — Determinar tabelas (aplicar regras de construção)
 
-#### Relação Utente ↔ Refeição (M:N)
+#### Relação Utente ↔ Refeição (N:M)
 
-**Passo A — Tentativa**: colocar `codUtente` dentro de `REFEIÇÃO`
+**Cardinalidade**: N:M (um utente recebe várias refeições; a mesma refeição é entregue a vários utentes).
+**Participação**: obrigatória no Utente (todo utente registado recebe refeições); indiferente.
+**Regra aplicável**: **Regra 6** (N:M → 3 tabelas).
 
-| codRefeicao | data | tipo | codUtente |
-|---|---|---|---|
-| **R-001** | **2025-04-15** | **Almoço** | 50 |
-| **R-001** | **2025-04-15** | **Almoço** | 51 |
-| **R-001** | **2025-04-15** | **Almoço** | 52 |
+**Aplicação**:
 
-**Passo B**: a mesma refeição (R-001) aparece 3 vezes porque é entregue a 3 utentes → ❌ **repetição massiva**.
-
-**Passo C — Decisão**: criar `ENTREGA`(codUtente, codRefeicao, horaEntrega, observações).
-
-**Passo D — Regra aplicada**: **Regra 6**.
+- Três tabelas: `Utente`, `Refeição` e tabela da relação `Entrega`.
+- `Entrega(#codUtente, #codRefeicao, horaEntrega, observacoes)`.
 
 #### Relação Voluntário → Rota (1:N)
 
-**Passo A — Tentativa**: colocar `codVoluntario` dentro de `ROTA`
+**Cardinalidade**: 1:N (um voluntário percorre várias rotas; cada rota é percorrida por um voluntário de cada vez).
+**Participação**: obrigatória do lado N (toda rota tem um voluntário responsável atribuído); não obrigatória no Voluntário (pode haver voluntários sem rota activa).
+**Regra aplicável**: **Regra 4** (1:N obrigatória no N → 2 tabelas).
 
-| codRota | nome | zona | codVoluntario |
-|---|---|---|---|
-| R01 | Centro | Centro da vila | 7 |
-| R02 | Norte | Zona norte | 7 |
-| R03 | Sul | Zona sul | 9 |
+**Aplicação**:
 
-**Passo B**: cada rota tem 1 voluntário (sem vazios); cada linha é uma rota única (sem repetições) → ✅ **tabela limpa**.
-
-**Passo C — Decisão**: fica como está, 2 tabelas (Voluntário + Rota com FK).
-
-**Passo D — Regra aplicada**: **Regra 4**.
+- Duas tabelas: `Voluntário` e `Rota`.
+- A PK `codVoluntario` entra como FK na tabela `Rota`: `Rota(..., #codVoluntario)`.
 
 ### Fase 6 — Determinar chaves candidatas
 
@@ -492,43 +464,42 @@ Viatura ── tem_manutencao ── Manutenção
 | **Departamento** | codDepartamento, nome, responsavel | codDepartamento | tem Viaturas e Motoristas (1:N) |
 | **Manutenção** | codManutencao, matricula, data, tipo, descricao, custo, oficina | codManutencao | refere-se a Viatura (N:1) |
 
-### Fase 5 — Determinar tabelas (abordagem intuitiva)
+### Fase 5 — Determinar tabelas (aplicar regras de construção)
 
 #### Relação Viatura → Departamento (N:1, obrigatória)
 
-**Passo A — Tentativa**: colocar `codDepartamento` dentro de `VIATURA`
+**Cardinalidade**: 1:N (um departamento tem várias viaturas; cada viatura pertence a um departamento).
+**Participação**: obrigatória no lado N (Viatura) — toda viatura pertence a um departamento.
+**Regra aplicável**: **Regra 4** (1:N obrigatória no N → 2 tabelas).
 
-| matricula | marca | modelo | codDepartamento |
-|---|---|---|---|
-| 12-AB-34 | Renault | Clio | 3 |
-| 34-CD-56 | Ford | Transit | 3 |
-| 56-EF-78 | Peugeot | 3008 | 5 |
-
-Cada viatura tem 1 departamento → sem vazios, sem repetições → ✅ **tabela limpa**. **Decisão**: fica como está. **Regra 4**.
+**Aplicação**: FK `codDepartamento` na tabela `Viatura`.
 
 #### Relação Motorista → Departamento (N:1, obrigatória)
 
-Mesma análise: `codDepartamento` no `MOTORISTA` → sem problemas. **Regra 4**.
+**Análise simétrica** à anterior: 1:N com obrigatoriedade no lado N.
+**Regra aplicável**: **Regra 4**.
 
-#### Relação Viatura ↔ Motorista (M:N)
+**Aplicação**: FK `codDepartamento` na tabela `Motorista`.
 
-**Passo A — Tentativa**: colocar `codMotorista` dentro de `VIATURA`
+#### Relação Viatura ↔ Motorista (N:M)
 
-| matricula | marca | codMotorista |
-|---|---|---|
-| **12-AB-34** | **Renault Clio** | 21 |
-| **12-AB-34** | **Renault Clio** | 22 |
-| 34-CD-56 | Ford Transit | 21 |
+**Cardinalidade**: N:M (um motorista conduz várias viaturas ao longo do tempo; uma viatura é conduzida por vários motoristas).
+**Participação**: indiferente (nem toda viatura está requisitada; nem todo motorista tem requisição activa).
+**Regra aplicável**: **Regra 6** (N:M → 3 tabelas).
 
-**Passo B**: a viatura 12-AB-34 aparece 2 vezes (foi conduzida por 2 motoristas em momentos diferentes) → ❌ **repetição**.
+**Aplicação**:
 
-**Passo C — Decisão**: criar `REQUISIÇÃO`(codRequisicao, matricula, codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado).
-
-**Passo D — Regra aplicada**: **Regra 6**. Os atributos próprios (datas, destino, km) justificam uma PK simples (`codRequisicao`) em vez de uma chave composta longa.
+- Três tabelas: `Viatura`, `Motorista` e tabela da relação `Requisição`.
+- A tabela `Requisição` contém as duas PKs + atributos próprios (datas, destino, km, estado): `Requisição(codRequisicao, #matricula, #codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado)`.
+- Nota: usou-se `codRequisicao` como PK simples em vez da chave composta `(matricula, codMotorista, dataInicio)` para evitar FKs longas noutras tabelas que referenciem a requisição.
 
 #### Relação Viatura → Manutenção (1:N, obrigatória lado N)
 
-`matricula` como FK na `MANUTENÇÃO` — cada manutenção pertence a uma viatura, sem repetição. **Regra 4**.
+**Cardinalidade**: 1:N (uma viatura tem várias manutenções; cada manutenção refere-se a uma viatura).
+**Participação**: obrigatória no lado N (Manutenção).
+**Regra aplicável**: **Regra 4** (1:N obrigatória no N → 2 tabelas).
+
+**Aplicação**: FK `matricula` na tabela `Manutenção`.
 
 ### Fase 6 — Determinar chaves candidatas
 
