@@ -132,7 +132,7 @@ Para cada relação, identificamos **cardinalidade + participação** e aplicamo
 | LEITOR | Num_Leitor; NIF; CC |
 | LIVRO | cota; ISBN |
 | AUTOR | Id_autor |
-| REQUISITAR | (Num_Leitor, cota) |
+| REQUISITAR | cota (é único porque cada livro está emprestado a 1 leitor de cada vez) |
 | ESCREVER | (cota, Id_autor) |
 
 ### Fase 7 — Determinar chaves primárias
@@ -142,8 +142,8 @@ Para cada relação, identificamos **cardinalidade + participação** e aplicamo
 | LEITOR | Num_Leitor | Código interno estável; NIF e CC podem mudar |
 | LIVRO | cota | Identificador interno único do exemplar físico; ISBN é comum a várias cópias |
 | AUTOR | Id_autor | Código interno; nomes podem repetir-se |
-| REQUISITAR | (Num_Leitor, cota) | PK composta — uma requisição activa é única por par leitor-livro |
-| ESCREVER | (cota, Id_autor) | PK composta — um autor só co-assina uma vez o mesmo livro |
+| REQUISITAR | cota | Num_Leitor seria repetido (um leitor pode ter vários livros); **cota é única** porque o livro só está emprestado a 1 leitor de cada vez (Regra 5) |
+| ESCREVER | (cota, Id_autor) | PK composta — um autor só co-assina uma vez o mesmo livro (Regra 6, N:M) |
 
 ### Fase 8 — Definir tabelas finais
 
@@ -153,9 +153,19 @@ Para cada relação, identificamos **cardinalidade + participação** e aplicamo
 >
 > **AUTOR** (<u>Id_autor</u>, nome, nacionalidade, dataNascimento)
 >
-> **REQUISITAR** (<u>Num_Leitor</u>, <u>cota</u>) — PK composta; ambos os atributos são também FKs (para LEITOR e LIVRO)
+> **REQUISITAR** (<u>cota</u>, FK_Num_Leitor) — `cota` é PK (e FK para LIVRO); `FK_Num_Leitor` é FK para LEITOR
 >
-> **ESCREVER** (<u>cota</u>, <u>Id_autor</u>) — PK composta; ambos os atributos são também FKs
+> **ESCREVER** (<u>cota</u>, <u>Id_autor</u>) — PK composta; ambos os atributos são também FKs (para LIVRO e AUTOR)
+
+!!! info "Porquê a cota é PK da REQUISITAR — e não uma PK composta?"
+    Na **Regra 5** (1:N não obrigatória), a tabela da relação herda a PK do **lado N**. No nosso caso:
+
+    - Lado 1 = Leitor (pode ter vários livros)
+    - Lado N = Livro (tem apenas **um** leitor de cada vez)
+
+    Portanto, na tabela REQUISITAR, a **cota** aparece no máximo uma vez — identifica univocamente cada registo. O `Num_Leitor` fica apenas como chave estrangeira (prefixo `FK_`).
+
+    Contraste com a Regra 6 (ESCREVER): aí ambos os lados podem repetir-se, portanto a PK **tem de ser composta**.
 
 !!! info "Porquê a cota como PK do LIVRO?"
     Cada exemplar físico na estante tem uma **cota única** (identificador interno da biblioteca). Várias cópias do mesmo título partilham o mesmo **ISBN**. Como a base de dados gere exemplares físicos individuais (que podem ser emprestados um de cada vez), a cota é o identificador natural.
@@ -241,7 +251,7 @@ Participações:
 **Aplicação**:
 
 - Duas tabelas: `Requerente` e `Processo`.
-- A PK `codRequerente` entra como FK na tabela **PROCESSO**: **PROCESSO** (<u>numProcesso</u>, ..., codRequerente).
+- A PK `codRequerente` entra como FK na tabela **PROCESSO**: **PROCESSO** (<u>numProcesso</u>, ..., FK_codRequerente).
 
 #### Relação Técnico ↔ Processo (N:M)
 
@@ -279,11 +289,11 @@ Participações:
 
 > **REQUERENTE** (<u>codRequerente</u>, nome, NIF, morada, telefone)
 >
-> **PROCESSO** (<u>numProcesso</u>, tipoObra, descricao, localizacao, dataEntrada, estado, codRequerente) — `codRequerente` é FK
+> **PROCESSO** (<u>numProcesso</u>, tipoObra, descricao, localizacao, dataEntrada, estado, FK_codRequerente)
 >
 > **TECNICO** (<u>codTecnico</u>, nome, especialidade, email)
 >
-> **PARECER** (<u>numProcesso</u>, <u>codTecnico</u>, dataParecer, resultado, observacoes) — PK composta; ambos FKs
+> **PARECER** (<u>numProcesso</u>, <u>codTecnico</u>, dataParecer, resultado, observacoes) — PK composta; ambos FKs (Regra 6)
 
 !!! warning "Parecer tem chave composta"
     Se o mesmo técnico pudesse dar vários pareceres ao mesmo processo, precisaríamos de acrescentar dataParecer à chave.
@@ -373,7 +383,7 @@ Participações:
 **Aplicação**:
 
 - Duas tabelas: `Voluntário` e `Rota`.
-- A PK `codVoluntario` entra como FK na tabela **ROTA**: **ROTA** (<u>codRota</u>, ..., codVoluntario).
+- A PK `codVoluntario` entra como FK na tabela **ROTA**: **ROTA** (<u>codRota</u>, ..., FK_codVoluntario).
 
 ### Fase 6 — Determinar chaves candidatas
 
@@ -403,9 +413,9 @@ Participações:
 >
 > **VOLUNTARIO** (<u>codVoluntario</u>, nome, telefone, cartaConducao, disponibilidade)
 >
-> **ROTA** (<u>codRota</u>, nome, zona, distanciaKm, codVoluntario) — `codVoluntario` é FK
+> **ROTA** (<u>codRota</u>, nome, zona, distanciaKm, FK_codVoluntario)
 >
-> **ENTREGA** (<u>codUtente</u>, <u>codRefeicao</u>, horaEntrega, observacoes) — PK composta; ambos FKs
+> **ENTREGA** (<u>codUtente</u>, <u>codRefeicao</u>, horaEntrega, observacoes) — PK composta; ambos FKs (Regra 6)
 
 !!! tip "Tabela Entrega como ponto central"
     Responde à pergunta: "Que refeição foi entregue a que utente e a que hora?"
@@ -496,7 +506,7 @@ Viatura ── tem_manutencao ── Manutenção
 **Aplicação**:
 
 - Três tabelas: `Viatura`, `Motorista` e tabela da relação `Requisição`.
-- A tabela **REQUISICAO** contém as PKs de Viatura e Motorista como FKs + atributos próprios: **REQUISICAO** (<u>codRequisicao</u>, matricula, codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado) — `matricula` e `codMotorista` são FKs.
+- A tabela **REQUISICAO** contém as PKs de Viatura e Motorista como FKs + atributos próprios: **REQUISICAO** (<u>codRequisicao</u>, FK_matricula, FK_codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado).
 - Nota: usou-se `codRequisicao` como PK simples em vez da chave composta `(matricula, codMotorista, dataInicio)` para evitar FKs longas noutras tabelas que referenciem a requisição.
 
 #### Relação Viatura → Manutenção (1:N, obrigatória lado N)
@@ -529,15 +539,15 @@ Viatura ── tem_manutencao ── Manutenção
 
 ### Fase 8 — Definir tabelas finais
 
-> **VIATURA** (<u>matricula</u>, marca, modelo, ano, combustivel, quilometragem, estado, codDepartamento) — `codDepartamento` é FK
+> **VIATURA** (<u>matricula</u>, marca, modelo, ano, combustivel, quilometragem, estado, FK_codDepartamento)
 >
-> **MOTORISTA** (<u>codMotorista</u>, nome, numCartaConducao, categorias, telefone, codDepartamento) — `codDepartamento` é FK
+> **MOTORISTA** (<u>codMotorista</u>, nome, numCartaConducao, categorias, telefone, FK_codDepartamento)
 >
 > **DEPARTAMENTO** (<u>codDepartamento</u>, nome, responsavel)
 >
-> **REQUISICAO** (<u>codRequisicao</u>, matricula, codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado) — `matricula` e `codMotorista` são FKs
+> **REQUISICAO** (<u>codRequisicao</u>, FK_matricula, FK_codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado)
 >
-> **MANUTENCAO** (<u>codManutencao</u>, matricula, data, tipo, descricao, custo, oficina) — `matricula` é FK
+> **MANUTENCAO** (<u>codManutencao</u>, FK_matricula, data, tipo, descricao, custo, oficina)
 
 !!! tip "Requisição como tabela central"
     Responde à pergunta: "Que viatura foi usada, por que motorista, em que datas e para que destino?"

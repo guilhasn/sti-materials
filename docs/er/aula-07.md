@@ -98,7 +98,7 @@ Agora aplicamos cada regra identificada, uma relação de cada vez.
 - **2 tabelas**: `Evento` e `Espaco`
 - A PK `codEspaco` entra como FK na tabela `Evento`
 
-> **EVENTO** (<u>codEvento</u>, nome, dataInicio, dataFim, edicao, orcamento, codEspaco) — onde `codEspaco` é FK para ESPACO
+> **EVENTO** (<u>codEvento</u>, nome, dataInicio, dataFim, edicao, orcamento, FK_codEspaco)
 >
 > **ESPACO** (<u>codEspaco</u>, nome, localizacao, tipo, lotacao)
 
@@ -136,11 +136,11 @@ Agora aplicamos cada regra identificada, uma relação de cada vez.
 - **3 tabelas**: `Evento`, `Artista` e uma tabela da relação (chamemos-lhe `Actuação`)
 - A tabela `Actuação` contém as PKs de ambos + atributos próprios (cachê, data)
 
-> **EVENTO** (<u>codEvento</u>, nome, ..., codEspaco) — `codEspaco` é FK
+> **EVENTO** (<u>codEvento</u>, nome, ..., FK_codEspaco)
 >
 > **ARTISTA** (<u>codArtista</u>, nome, tipo, contacto, email)
 >
-> **ACTUACAO** (<u>codEvento</u>, <u>codArtista</u>, cache, dataActuacao) — PK composta; ambos os atributos são FKs
+> **ACTUACAO** (<u>codEvento</u>, <u>codArtista</u>, cache, dataActuacao) — PK composta; ambos atributos são também FKs (Regra 6)
 
 **Exemplo de preenchimento**:
 
@@ -168,7 +168,7 @@ Mesma cardinalidade, mesma regra.
 
 > **PATROCINADOR** (<u>codPatrocinador</u>, nome, NIF, contacto, email)
 >
-> **PATROCINIO** (<u>codEvento</u>, <u>codPatrocinador</u>, valor, tipo) — PK composta; ambos os atributos são FKs
+> **PATROCINIO** (<u>codEvento</u>, <u>codPatrocinador</u>, valor, tipo) — PK composta; ambos atributos são também FKs (Regra 6)
 
 **Tabela Patrocínio**
 
@@ -187,7 +187,7 @@ Mesma cardinalidade, mesma regra.
 
 Reunindo todas as tabelas:
 
-> **EVENTO** (<u>codEvento</u>, nome, dataInicio, dataFim, edicao, orcamento, codEspaco) — `codEspaco` é FK para ESPACO
+> **EVENTO** (<u>codEvento</u>, nome, dataInicio, dataFim, edicao, orcamento, FK_codEspaco)
 >
 > **ESPACO** (<u>codEspaco</u>, nome, localizacao, tipo, lotacao)
 >
@@ -195,9 +195,9 @@ Reunindo todas as tabelas:
 >
 > **PATROCINADOR** (<u>codPatrocinador</u>, nome, NIF, contacto, email)
 >
-> **ACTUACAO** (<u>codEvento</u>, <u>codArtista</u>, cache, dataActuacao) — PK composta; ambos os atributos são FKs
+> **ACTUACAO** (<u>codEvento</u>, <u>codArtista</u>, cache, dataActuacao) — PK composta (Regra 6)
 >
-> **PATROCINIO** (<u>codEvento</u>, <u>codPatrocinador</u>, valor, tipo) — PK composta; ambos os atributos são FKs
+> **PATROCINIO** (<u>codEvento</u>, <u>codPatrocinador</u>, valor, tipo) — PK composta (Regra 6)
 
 Total: **6 tabelas** — 4 entidades + 2 tabelas da relação.
 

@@ -114,14 +114,14 @@ Para ler os diagramas das regras, use esta legenda:
 
 ### As 6 regras de construção
 
-| Regra | Cardinalidade | Participação | Nº tabelas | Onde fica a FK |
-|-------|--------------|-------------|------------|----------------|
+| Regra | Cardinalidade | Participação | Nº tabelas | PK da tabela da relação |
+|-------|--------------|-------------|------------|-------------------------|
 | **1** | 1:1 | Obrigatória **em ambas** | **1** | PK de qualquer das entidades |
-| **2** | 1:1 | Obrigatória **apenas numa** | **2** | PK da não-obrigatória → FK na obrigatória |
-| **3** | 1:1 | **Nenhuma** obrigatória | **3** | Tabela da relação com ambas as PKs |
-| **4** | 1:N | Obrigatória **do lado N** | **2** | PK do lado 1 → FK no lado N |
-| **5** | 1:N | **Não** obrigatória do lado N | **3** | Tabela da relação com ambas as PKs |
-| **6** | N:M | Indiferente | **3** | Tabela da relação com ambas as PKs |
+| **2** | 1:1 | Obrigatória **apenas numa** | **2** | — (a FK entra na tabela obrigatória) |
+| **3** | 1:1 | **Nenhuma** obrigatória | **3** | Uma das PKs; a outra fica como `FK_` |
+| **4** | 1:N | Obrigatória **do lado N** | **2** | — (a FK entra na tabela do lado N) |
+| **5** | 1:N | **Não** obrigatória do lado N | **3** | PK do **lado N**; a PK do lado 1 fica como `FK_` |
+| **6** | N:M | Indiferente | **3** | **Composta** de ambas as PKs |
 
 !!! tip "Regras mais comuns na AP"
     Na prática, **95% dos casos** caem em duas situações: **Regra 4** (relação 1:N com obrigatoriedade no lado N → 2 tabelas) e **Regra 6** (relação N:M → 3 tabelas). Dominar estas duas cobre quase todos os cenários reais.
@@ -148,7 +148,7 @@ Quando a cardinalidade é **1:1** e a participação é **obrigatória apenas nu
 
 **Exemplo Vila Feliz**: *Cada Evento tem obrigatoriamente um Coordenador, mas nem todo Funcionário é coordenador de um evento.*
 
-→ **EVENTO** (<u>codEvento</u>, ..., #codFuncionario) + **FUNCIONARIO** (<u>codFuncionario</u>, ...).
+→ **EVENTO** (<u>codEvento</u>, ..., FK_codFuncionario) + **FUNCIONARIO** (<u>codFuncionario</u>, ...).
 
 ---
 
@@ -160,7 +160,7 @@ Quando a cardinalidade é **1:1** e **nenhuma** das entidades tem participação
 
 **Exemplo Vila Feliz**: *Um Artista pode ser apadrinhado por uma Escola Local (opcional) e cada Escola pode apadrinhar um Artista (opcional).*
 
-→ **ARTISTA** (<u>codArtista</u>, ...) + **ESCOLA** (<u>codEscola</u>, ...) + **APADRINHAMENTO** (<u>codArtista</u>, <u>codEscola</u>, dataInicio).
+→ **ARTISTA** (<u>codArtista</u>, ...) + **ESCOLA** (<u>codEscola</u>, ...) + **APADRINHAMENTO** (<u>codArtista</u>, FK_codEscola, dataInicio) — PK é `codArtista` (cada artista é apadrinhado por ≤1 escola); `FK_codEscola` é a FK.
 
 ---
 
@@ -172,7 +172,7 @@ Quando a cardinalidade é **1:N** e há **participação obrigatória do lado N*
 
 **Exemplo Vila Feliz**: *Cada Evento realiza-se num único Espaço (obrigatório). Um Espaço acolhe vários Eventos.*
 
-→ **EVENTO** (<u>codEvento</u>, nome, ..., #codEspaco) + **ESPACO** (<u>codEspaco</u>, nome, ...).
+→ **EVENTO** (<u>codEvento</u>, nome, ..., FK_codEspaco) + **ESPACO** (<u>codEspaco</u>, nome, ...).
 
 ---
 
@@ -184,7 +184,7 @@ Quando a cardinalidade é **1:N** e o lado N **não** tem participação obrigat
 
 **Exemplo Vila Feliz**: *Um Artista pode (ou não) ter um Agente associado ao seu contrato.*
 
-→ **ARTISTA** (<u>codArtista</u>, ...) + **AGENTE** (<u>codAgente</u>, ...) + **REPRESENTACAO** (<u>codArtista</u>, <u>codAgente</u>, dataInicio).
+→ **ARTISTA** (<u>codArtista</u>, ...) + **AGENTE** (<u>codAgente</u>, ...) + **REPRESENTACAO** (<u>codArtista</u>, FK_codAgente, dataInicio) — PK é `codArtista` (cada artista tem ≤1 agente — lado N); `FK_codAgente` é a FK.
 
 ---
 
@@ -209,19 +209,23 @@ Quando a cardinalidade é **N:M**, a participação é **indiferente** (obrigat�
 
 Para documentar o esquema relacional, usa-se a convenção:
 
-> **TABELA** (<u>atributo_PK</u>, atributo, atributo, ...)
+> **TABELA** (<u>atributo_PK</u>, atributo, FK_outroAtributo)
 
 - **Sublinhado** → chave primária (PK)
-- Os atributos que também são chaves estrangeiras (FKs para outras tabelas) indicam-se no texto descritivo; o sublinhado é **reservado à PK**
+- Prefixo **`FK_`** → chave estrangeira simples (não faz parte da PK)
+- Quando um atributo é **simultaneamente PK e FK** (tabela da relação em N:M), fica **apenas sublinhado** (não se coloca `FK_`)
 
-**Exemplo — uma entidade e uma relação N:M**:
+**Exemplos**:
 
-> **EVENTO** (<u>codEvento</u>, designação, dataInicio, dataFim, codEspaco) — onde `codEspaco` é FK para ESPACO
+> **EVENTO** (<u>codEvento</u>, designação, dataInicio, dataFim, FK_codEspaco)
+>
+> **ACTUACAO** (<u>codEvento</u>, <u>codArtista</u>, cache) — tabela de uma relação **N:M**; PK composta; ambos atributos são também FKs
+>
+> **REQUISITAR** (<u>cota</u>, FK_Num_Leitor) — tabela de uma relação **1:N não obrigatória**; PK simples (do lado N); o outro atributo é apenas FK
 
-> **ACTUACAO** (<u>codEvento</u>, <u>codArtista</u>, cache) — PK composta; ambos os atributos são também FKs
-
-!!! tip "PK composta"
-    Numa tabela da relação (ex.: ACTUACAO), a PK é formada pela junção das chaves das entidades envolvidas. Ambos os atributos aparecem **sublinhados** — os dois juntos são a chave primária.
+!!! tip "Quando a PK é composta vs simples"
+    - **Relação N:M (Regra 6)** → PK **composta** das duas PKs das entidades; ambos os atributos aparecem sublinhados
+    - **Relação 1:N não obrigatória (Regra 5)** ou **1:1 sem obrigatoriedade (Regra 3)** → PK **simples** (a do lado com cardinalidade limitada); o outro atributo fica como `FK_`
 
 ---
 
