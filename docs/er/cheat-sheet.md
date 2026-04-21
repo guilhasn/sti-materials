@@ -21,7 +21,7 @@ A ficha contém **7 blocos** organizados em duas colunas:
 
 1. **Notação Chen** — símbolos do diagrama E-R (rectângulo, losango, elipse, etc.)
 2. **5 tipos de atributos** — atómico, composto, multivalor, derivado, chave
-3. **Notação relacional** — convenção `TABELA(pk, #fk)` para o esquema final
+3. **Notação relacional** — convenção **TABELA (<u>pk</u>, atributo, fk)** para o esquema final; PK fica sublinhada
 4. **9 fases** — sequência completa de criação de uma base de dados
 
 ### Coluna direita — Regras e Referência

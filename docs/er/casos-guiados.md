@@ -59,116 +59,119 @@ Quatro exercícios guiados passo-a-passo para construir diagramas Entidade-Relac
 Lendo o cenário, identificam-se três entidades principais:
 
 - **Leitor** — pessoa registada na biblioteca
-- **Livro** — obra do acervo
-- **Autor** — quem escreveu o livro
+- **Livro** — exemplar físico da obra (identificado pela cota única na estante)
+- **Autor** — quem escreveu a obra
 
 !!! tip "Porquê separar Autor?"
-    Um autor pode ter vários livros e um livro pode ter vários autores. Se guardarmos o autor como atributo do livro, quando o mesmo autor escreve 10 livros, os seus dados repetem-se 10 vezes.
+    Um autor pode escrever vários livros e um livro pode ter vários co-autores. Se guardarmos o autor como atributo do livro, quando o mesmo autor escreve 10 livros, os seus dados repetem-se 10 vezes.
 
 ### Fase 2 — Desenhar DER simplificado
 
 Sem atributos, apenas entidades ligadas pelas relações:
 
 ```
-Leitor ─── requisita ─── Livro ─── escreve ─── Autor
+Leitor ─── requisita ─── Livro ─── escrito_por ─── Autor
 ```
 
 | Relação | Entidade A | Entidade B |
 |---------|-----------|-----------|
 | requisita | Leitor | Livro |
-| escreve | Autor | Livro |
+| escrito_por | Livro | Autor |
 
 ### Fase 3 — Definir pressupostos
 
 - Cada leitor tem um código único e pode requisitar vários livros ao longo do tempo.
-- Um livro pode ser requisitado por vários leitores (em datas diferentes).
+- Um livro, **enquanto está emprestado, só pode ser requisitado por um único leitor** (não pode ser emprestado a dois leitores em simultâneo).
+- Nem todo livro tem empréstimo activo; nem todo leitor tem livro requisitado.
 - Um livro tem pelo menos um autor; pode ter vários co-autores.
 - Um autor pode escrever vários livros.
-- Nem todo leitor tem empréstimo activo; nem todo livro está emprestado.
-- O mesmo leitor pode requisitar o mesmo livro em datas diferentes.
 
 ### Fase 4 — Desenhar DER completo
 
 | Entidade | Atributos | PK candidata | Cardinalidades |
 |----------|-----------|-------------|---------------|
-| **Leitor** | codLeitor, nome, BI, morada, telefone, email | codLeitor | requisita Livro (M:N) |
-| **Livro** | ISBN, titulo, anoPublicacao, editora, numExemplares | ISBN | requisitado por Leitor (M:N); escrito por Autor (M:N) |
-| **Autor** | codAutor, nome, nacionalidade | codAutor | escreve Livro (M:N) |
+| **Leitor** | Num_Leitor, NIF, CC, nome, morada, email, contacto, observações | Num_Leitor | requisita Livro (1:N) |
+| **Livro** | cota, ISBN, título, data, edição, editora | cota | requisitado por Leitor (1:N); escrito por Autor (N:M) |
+| **Autor** | Id_autor, nome, nacionalidade, dataNascimento | Id_autor | escreve Livro (N:M) |
 
 Participações:
 
-- **requisita** (Leitor ↔ Livro): não obrigatória em ambos os lados
-- **escreve** (Autor ↔ Livro): obrigatória no Livro (todo livro tem autor); não obrigatória no Autor
+- **requisita** (Leitor ↔ Livro): **não obrigatória** em ambos os lados (nem todo leitor está a requisitar; nem todo livro está emprestado).
+- **escreve** (Autor ↔ Livro): obrigatória no Livro (todo livro tem autor); não obrigatória no Autor.
 
 ### Fase 5 — Determinar tabelas (aplicar regras de construção)
 
 Para cada relação, identificamos **cardinalidade + participação** e aplicamos a **regra correspondente**.
 
-#### Relação Leitor ↔ Livro (N:M)
+#### Relação Leitor ↔ Livro (1:N, sem participação obrigatória)
 
-**Cardinalidade**: N:M (um leitor requisita vários livros; um livro é requisitado por vários leitores).
-**Participação**: não obrigatória em ambas.
-**Regra aplicável**: **Regra 6** (N:M → 3 tabelas).
+**Cardinalidade**: 1:N (um leitor pode requisitar vários livros; um livro só é requisitado por **um leitor de cada vez**).
+**Participação**: não obrigatória em ambos os lados.
+**Regra aplicável**: **Regra 5** (1:N, não obrigatória do lado N → 3 tabelas).
 
 **Aplicação**:
 
-- Duas tabelas para as entidades: `Leitor` e `Livro`.
-- Uma tabela da relação com as duas PKs: `Empréstimo(#codLeitor, #ISBN, dataEmprestimo, dataDevolucao, devolvido)`.
+- Duas tabelas para as entidades: **LEITOR** e **LIVRO**.
+- Uma tabela da relação **REQUISITAR** contendo as PKs das duas entidades.
 
 #### Relação Autor ↔ Livro (N:M)
 
 **Cardinalidade**: N:M (um autor escreve vários livros; um livro pode ter vários co-autores).
 **Participação**: obrigatória no Livro (todo livro tem pelo menos um autor); não obrigatória no Autor.
-**Regra aplicável**: **Regra 6** (N:M → 3 tabelas, participação é indiferente).
+**Regra aplicável**: **Regra 6** (N:M → 3 tabelas).
 
 **Aplicação**:
 
-- Duas tabelas para as entidades: `Autor` e `Livro`.
-- Uma tabela da relação: `Autoria(#codAutor, #ISBN)`.
+- Duas tabelas para as entidades: **AUTOR** e **LIVRO**.
+- Uma tabela da relação **ESCREVER**.
 
 ### Fase 6 — Determinar chaves candidatas
 
 | Tabela | Chaves candidatas |
 |--------|-------------------|
-| Leitor | codLeitor; BI |
-| Livro | ISBN |
-| Autor | codAutor |
-| Empréstimo | (codLeitor, ISBN, dataEmprestimo) |
-| Autoria | (codAutor, ISBN) |
+| LEITOR | Num_Leitor; NIF; CC |
+| LIVRO | cota; ISBN |
+| AUTOR | Id_autor |
+| REQUISITAR | (Num_Leitor, cota) |
+| ESCREVER | (cota, Id_autor) |
 
 ### Fase 7 — Determinar chaves primárias
 
 | Tabela | PK escolhida | Justificação |
 |--------|-------------|-------------|
-| Leitor | codLeitor | Código interno estável; o BI pode mudar (novo CC) |
-| Livro | ISBN | Identificador internacional único |
-| Autor | codAutor | Código interno; nomes podem repetir-se |
-| Empréstimo | (codLeitor, ISBN, dataEmprestimo) | O mesmo leitor pode requisitar o mesmo livro em datas distintas |
-| Autoria | (codAutor, ISBN) | Um autor só co-assina uma vez o mesmo livro |
+| LEITOR | Num_Leitor | Código interno estável; NIF e CC podem mudar |
+| LIVRO | cota | Identificador interno único do exemplar físico; ISBN é comum a várias cópias |
+| AUTOR | Id_autor | Código interno; nomes podem repetir-se |
+| REQUISITAR | (Num_Leitor, cota) | PK composta — uma requisição activa é única por par leitor-livro |
+| ESCREVER | (cota, Id_autor) | PK composta — um autor só co-assina uma vez o mesmo livro |
 
 ### Fase 8 — Definir tabelas finais
 
-```
-Leitor(codLeitor, nome, BI, morada, telefone, email)
-Livro(ISBN, titulo, anoPublicacao, editora, numExemplares)
-Autor(codAutor, nome, nacionalidade)
-Emprestimo(#codLeitor, #ISBN, dataEmprestimo, dataDevolucao, devolvido)
-Autoria(#codAutor, #ISBN)
-```
+> **LEITOR** (<u>Num_Leitor</u>, NIF, CC, nome, morada, email, contacto, observações)
+>
+> **LIVRO** (<u>cota</u>, ISBN, título, data, edição, editora)
+>
+> **AUTOR** (<u>Id_autor</u>, nome, nacionalidade, dataNascimento)
+>
+> **REQUISITAR** (<u>Num_Leitor</u>, <u>cota</u>) — PK composta; ambos os atributos são também FKs (para LEITOR e LIVRO)
+>
+> **ESCREVER** (<u>cota</u>, <u>Id_autor</u>) — PK composta; ambos os atributos são também FKs
 
-!!! info "Chave composta no Empréstimo"
-    A chave do Empréstimo é composta por codLeitor + ISBN + dataEmprestimo — porque o mesmo leitor pode requisitar o mesmo livro em datas diferentes.
+!!! info "Porquê a cota como PK do LIVRO?"
+    Cada exemplar físico na estante tem uma **cota única** (identificador interno da biblioteca). Várias cópias do mesmo título partilham o mesmo **ISBN**. Como a base de dados gere exemplares físicos individuais (que podem ser emprestados um de cada vez), a cota é o identificador natural.
 
 ### Fase 9 — Definir domínio dos atributos (entidade Leitor)
 
 | Atributo | Tipo | Obrigatório | Restrição |
 |----------|------|-------------|-----------|
-| codLeitor | INTEGER | Sim | PK, auto-incremento |
+| Num_Leitor | INTEGER | Sim | PK, auto-incremento |
+| NIF | VARCHAR(9) | Sim | Único; 9 dígitos |
+| CC | VARCHAR(12) | Sim | Único; número do Cartão de Cidadão |
 | nome | VARCHAR(100) | Sim | — |
-| BI | VARCHAR(15) | Sim | Único |
 | morada | VARCHAR(200) | Sim | — |
-| telefone | VARCHAR(15) | Não | Formato nacional |
 | email | VARCHAR(100) | Não | Formato email válido |
+| contacto | VARCHAR(15) | Não | Telefone nacional |
+| observações | TEXT | Não | Notas livres (preferências, restrições) |
 
 ---
 
@@ -238,7 +241,7 @@ Participações:
 **Aplicação**:
 
 - Duas tabelas: `Requerente` e `Processo`.
-- A PK `codRequerente` entra como FK na tabela `Processo`: `Processo(..., #codRequerente)`.
+- A PK `codRequerente` entra como FK na tabela **PROCESSO**: **PROCESSO** (<u>numProcesso</u>, ..., codRequerente).
 
 #### Relação Técnico ↔ Processo (N:M)
 
@@ -249,7 +252,7 @@ Participações:
 **Aplicação**:
 
 - Três tabelas: `Técnico`, `Processo` e uma tabela da relação `Parecer`.
-- A tabela `Parecer` contém as duas PKs e os atributos próprios (data, resultado, observações): `Parecer(#numProcesso, #codTecnico, dataParecer, resultado, observacoes)`.
+- A tabela **PARECER** contém as duas PKs e os atributos próprios (data, resultado, observações): **PARECER** (<u>numProcesso</u>, <u>codTecnico</u>, dataParecer, resultado, observacoes) — PK composta; ambos os atributos são FKs.
 
 !!! note "Parecer — tabela da relação com atributos próprios"
     Muitas relações N:M transportam informação adicional. Aqui, a tabela Parecer não é artificial — é uma entidade natural do negócio (data, resultado e observações *são* atributos do parecer, não do processo nem do técnico).
@@ -274,12 +277,13 @@ Participações:
 
 ### Fase 8 — Definir tabelas finais
 
-```
-Requerente(codRequerente, nome, NIF, morada, telefone)
-Processo(numProcesso, tipoObra, descricao, localizacao, dataEntrada, estado, #codRequerente)
-Tecnico(codTecnico, nome, especialidade, email)
-Parecer(#numProcesso, #codTecnico, dataParecer, resultado, observacoes)
-```
+> **REQUERENTE** (<u>codRequerente</u>, nome, NIF, morada, telefone)
+>
+> **PROCESSO** (<u>numProcesso</u>, tipoObra, descricao, localizacao, dataEntrada, estado, codRequerente) — `codRequerente` é FK
+>
+> **TECNICO** (<u>codTecnico</u>, nome, especialidade, email)
+>
+> **PARECER** (<u>numProcesso</u>, <u>codTecnico</u>, dataParecer, resultado, observacoes) — PK composta; ambos FKs
 
 !!! warning "Parecer tem chave composta"
     Se o mesmo técnico pudesse dar vários pareceres ao mesmo processo, precisaríamos de acrescentar dataParecer à chave.
@@ -358,7 +362,7 @@ Participações:
 **Aplicação**:
 
 - Três tabelas: `Utente`, `Refeição` e tabela da relação `Entrega`.
-- `Entrega(#codUtente, #codRefeicao, horaEntrega, observacoes)`.
+- **ENTREGA** (<u>codUtente</u>, <u>codRefeicao</u>, horaEntrega, observacoes) — PK composta; ambos FKs.
 
 #### Relação Voluntário → Rota (1:N)
 
@@ -369,7 +373,7 @@ Participações:
 **Aplicação**:
 
 - Duas tabelas: `Voluntário` e `Rota`.
-- A PK `codVoluntario` entra como FK na tabela `Rota`: `Rota(..., #codVoluntario)`.
+- A PK `codVoluntario` entra como FK na tabela **ROTA**: **ROTA** (<u>codRota</u>, ..., codVoluntario).
 
 ### Fase 6 — Determinar chaves candidatas
 
@@ -393,13 +397,15 @@ Participações:
 
 ### Fase 8 — Definir tabelas finais
 
-```
-Utente(codUtente, nome, morada, telefone, contactoEmergencia, restricoes)
-Refeicao(codRefeicao, data, tipo, ementa, calorias)
-Voluntario(codVoluntario, nome, telefone, cartaConducao, disponibilidade)
-Rota(codRota, nome, zona, distanciaKm, #codVoluntario)
-Entrega(#codUtente, #codRefeicao, horaEntrega, observacoes)
-```
+> **UTENTE** (<u>codUtente</u>, nome, morada, telefone, contactoEmergencia, restricoes)
+>
+> **REFEICAO** (<u>codRefeicao</u>, data, tipo, ementa, calorias)
+>
+> **VOLUNTARIO** (<u>codVoluntario</u>, nome, telefone, cartaConducao, disponibilidade)
+>
+> **ROTA** (<u>codRota</u>, nome, zona, distanciaKm, codVoluntario) — `codVoluntario` é FK
+>
+> **ENTREGA** (<u>codUtente</u>, <u>codRefeicao</u>, horaEntrega, observacoes) — PK composta; ambos FKs
 
 !!! tip "Tabela Entrega como ponto central"
     Responde à pergunta: "Que refeição foi entregue a que utente e a que hora?"
@@ -490,7 +496,7 @@ Viatura ── tem_manutencao ── Manutenção
 **Aplicação**:
 
 - Três tabelas: `Viatura`, `Motorista` e tabela da relação `Requisição`.
-- A tabela `Requisição` contém as duas PKs + atributos próprios (datas, destino, km, estado): `Requisição(codRequisicao, #matricula, #codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado)`.
+- A tabela **REQUISICAO** contém as PKs de Viatura e Motorista como FKs + atributos próprios: **REQUISICAO** (<u>codRequisicao</u>, matricula, codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado) — `matricula` e `codMotorista` são FKs.
 - Nota: usou-se `codRequisicao` como PK simples em vez da chave composta `(matricula, codMotorista, dataInicio)` para evitar FKs longas noutras tabelas que referenciem a requisição.
 
 #### Relação Viatura → Manutenção (1:N, obrigatória lado N)
@@ -523,13 +529,15 @@ Viatura ── tem_manutencao ── Manutenção
 
 ### Fase 8 — Definir tabelas finais
 
-```
-Viatura(matricula, marca, modelo, ano, combustivel, quilometragem, estado, #codDepartamento)
-Motorista(codMotorista, nome, numCartaConducao, categorias, telefone, #codDepartamento)
-Departamento(codDepartamento, nome, responsavel)
-Requisicao(codRequisicao, #matricula, #codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado)
-Manutencao(codManutencao, #matricula, data, tipo, descricao, custo, oficina)
-```
+> **VIATURA** (<u>matricula</u>, marca, modelo, ano, combustivel, quilometragem, estado, codDepartamento) — `codDepartamento` é FK
+>
+> **MOTORISTA** (<u>codMotorista</u>, nome, numCartaConducao, categorias, telefone, codDepartamento) — `codDepartamento` é FK
+>
+> **DEPARTAMENTO** (<u>codDepartamento</u>, nome, responsavel)
+>
+> **REQUISICAO** (<u>codRequisicao</u>, matricula, codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado) — `matricula` e `codMotorista` são FKs
+>
+> **MANUTENCAO** (<u>codManutencao</u>, matricula, data, tipo, descricao, custo, oficina) — `matricula` é FK
 
 !!! tip "Requisição como tabela central"
     Responde à pergunta: "Que viatura foi usada, por que motorista, em que datas e para que destino?"

@@ -77,7 +77,7 @@ O **Modelo E-R** fornece uma forma visual de projectar a estrutura dos dados **a
     - **Linha dupla** = participação obrigatória; **linha simples** = participação parcial
     - **Atributo-chave** sublinhado; **multivalor** em elipse dupla; **derivado** a tracejado
 
-    Existem outras notações (Crow's Foot, UML, IDEF1X) usadas na indústria, mas a notação Chen é a mais clara para aprender o modelo conceptual — separa visualmente entidade, atributo e relação. Quando convertermos para o **esquema relacional** (tabelas), passamos à notação `TABELA(pk, atributo, fk)`, que o ERDPlus gera automaticamente.
+    Existem outras notações (Crow's Foot, UML, IDEF1X) usadas na indústria, mas a notação Chen é a mais clara para aprender o modelo conceptual — separa visualmente entidade, atributo e relação. Quando convertermos para o **esquema relacional** (tabelas), passamos à notação **TABELA (<u>pk</u>, atributo, fk)** — a chave primária fica **sublinhada**.
 
 ---
 
@@ -136,7 +136,7 @@ Quando a cardinalidade é **1:1** e a participação é **obrigatória em ambas*
 
 **Exemplo Vila Feliz**: *Cada Edição de Festival tem um Cartaz Oficial e cada Cartaz Oficial refere-se a uma única Edição — ambas obrigatórias.*
 
-→ Basta a tabela `EDICAO_FESTIVAL(codEdicao, ano, tema, cartazURL, ...)`.
+→ Basta a tabela **EDICAO_FESTIVAL** (<u>codEdicao</u>, ano, tema, cartazURL, ...).
 
 ---
 
@@ -148,7 +148,7 @@ Quando a cardinalidade é **1:1** e a participação é **obrigatória apenas nu
 
 **Exemplo Vila Feliz**: *Cada Evento tem obrigatoriamente um Coordenador, mas nem todo Funcionário é coordenador de um evento.*
 
-→ `EVENTO(codEvento, ..., #codFuncionario)` + `FUNCIONARIO(codFuncionario, ...)`.
+→ **EVENTO** (<u>codEvento</u>, ..., #codFuncionario) + **FUNCIONARIO** (<u>codFuncionario</u>, ...).
 
 ---
 
@@ -160,7 +160,7 @@ Quando a cardinalidade é **1:1** e **nenhuma** das entidades tem participação
 
 **Exemplo Vila Feliz**: *Um Artista pode ser apadrinhado por uma Escola Local (opcional) e cada Escola pode apadrinhar um Artista (opcional).*
 
-→ `ARTISTA(...)` + `ESCOLA(...)` + `APADRINHAMENTO(#codArtista, #codEscola, dataInicio)`.
+→ **ARTISTA** (<u>codArtista</u>, ...) + **ESCOLA** (<u>codEscola</u>, ...) + **APADRINHAMENTO** (<u>codArtista</u>, <u>codEscola</u>, dataInicio).
 
 ---
 
@@ -172,7 +172,7 @@ Quando a cardinalidade é **1:N** e há **participação obrigatória do lado N*
 
 **Exemplo Vila Feliz**: *Cada Evento realiza-se num único Espaço (obrigatório). Um Espaço acolhe vários Eventos.*
 
-→ `EVENTO(codEvento, nome, ..., #codEspaco)` + `ESPACO(codEspaco, nome, ...)`.
+→ **EVENTO** (<u>codEvento</u>, nome, ..., #codEspaco) + **ESPACO** (<u>codEspaco</u>, nome, ...).
 
 ---
 
@@ -184,7 +184,7 @@ Quando a cardinalidade é **1:N** e o lado N **não** tem participação obrigat
 
 **Exemplo Vila Feliz**: *Um Artista pode (ou não) ter um Agente associado ao seu contrato.*
 
-→ `ARTISTA(...)` + `AGENTE(...)` + `REPRESENTACAO(#codArtista, #codAgente, dataInicio)`.
+→ **ARTISTA** (<u>codArtista</u>, ...) + **AGENTE** (<u>codAgente</u>, ...) + **REPRESENTACAO** (<u>codArtista</u>, <u>codAgente</u>, dataInicio).
 
 ---
 
@@ -196,7 +196,7 @@ Quando a cardinalidade é **N:M**, a participação é **indiferente** (obrigat�
 
 **Exemplo Vila Feliz**: *Um Evento tem vários Patrocinadores. Um Patrocinador apoia vários Eventos.*
 
-→ `EVENTO(...)` + `PATROCINADOR(...)` + `PATROCINIO(#codEvento, #codPatrocinador, valor)`.
+→ **EVENTO** (<u>codEvento</u>, ...) + **PATROCINADOR** (<u>codPatrocinador</u>, ...) + **PATROCINIO** (<u>codEvento</u>, <u>codPatrocinador</u>, valor).
 
 ---
 
@@ -209,24 +209,19 @@ Quando a cardinalidade é **N:M**, a participação é **indiferente** (obrigat�
 
 Para documentar o esquema relacional, usa-se a convenção:
 
-```
-ENTIDADE(atributo1, atributo2, atributo3, ...)
-```
+> **TABELA** (<u>atributo_PK</u>, atributo, atributo, ...)
 
 - **Sublinhado** → chave primária (PK)
-- *Itálico* → chave estrangeira (FK)
+- Os atributos que também são chaves estrangeiras (FKs para outras tabelas) indicam-se no texto descritivo; o sublinhado é **reservado à PK**
 
-**Exemplo:**
+**Exemplo — uma entidade e uma relação N:M**:
 
-```
-EVENTO(codEvento, designação, dataInício, dataFim, codEspaco)
-       ─────────                                   ─────────
-           PK                                          FK
+> **EVENTO** (<u>codEvento</u>, designação, dataInicio, dataFim, codEspaco) — onde `codEspaco` é FK para ESPACO
 
-ACTUAÇÃO(codEvento, codArtista, cachê)
-         ─────────  ──────────
-          FK (PK)    FK (PK)     ← PK composta
-```
+> **ACTUACAO** (<u>codEvento</u>, <u>codArtista</u>, cache) — PK composta; ambos os atributos são também FKs
+
+!!! tip "PK composta"
+    Numa tabela da relação (ex.: ACTUACAO), a PK é formada pela junção das chaves das entidades envolvidas. Ambos os atributos aparecem **sublinhados** — os dois juntos são a chave primária.
 
 ---
 

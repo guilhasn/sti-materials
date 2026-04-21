@@ -63,7 +63,7 @@ Catálogo dos **erros mais comuns** cometidos na modelação Entidade-Relacionam
 **Problema**: se João se inscreve em 5 UCs, a tabela Aluno teria 5 linhas para ele — os dados pessoais ficariam repetidos e a chave primária seria ambígua. A Regra 6 existe precisamente para evitar isso.
 
 !!! success "Correcto — aplicar Regra 6"
-    N:M → **3 tabelas**. Além de `Aluno` e `UC`, criar tabela da relação `Inscricao(#numAluno, #codUC, dataInscricao, nota)`.
+    N:M → **3 tabelas**. Além de **ALUNO** e **UC**, criar tabela da relação **INSCRICAO** (<u>numAluno</u>, <u>codUC</u>, dataInscricao, nota) — PK composta; ambos FKs.
 
 **Como evitar**: quando identificar cardinalidade **N:M**, a regra é sempre a 6. Não há excepção.
 
@@ -72,12 +72,12 @@ Catálogo dos **erros mais comuns** cometidos na modelação Entidade-Relacionam
 ### B2. Criar tabela da relação onde não é preciso (confundir Regra 4 com Regra 6)
 
 !!! danger "Errado"
-    *"Para a relação Requerente → Processo (1:N obrigatória), crio uma tabela `Submissao(#codRequerente, #numProcesso)`."*
+    *"Para a relação Requerente → Processo (1:N obrigatória), crio uma tabela **SUBMISSAO** (<u>codRequerente</u>, <u>numProcesso</u>)."*
 
 **Problema**: desnecessário. Na Regra 4 (1:N com obrigatoriedade no lado N), a FK entra directamente na tabela do lado N. Criar uma tabela da relação adiciona complexidade sem benefício.
 
 !!! success "Correcto — aplicar Regra 4"
-    1:N obrigatória no N → **2 tabelas**. `Processo(numProcesso, ..., #codRequerente)`.
+    1:N obrigatória no N → **2 tabelas**. **PROCESSO** (<u>numProcesso</u>, ..., codRequerente) — `codRequerente` é FK.
 
 **Como evitar**: sempre que for **1:N** com obrigatoriedade no lado N, aplica-se a Regra 4 (2 tabelas), nunca a Regra 6.
 
@@ -91,7 +91,7 @@ Catálogo dos **erros mais comuns** cometidos na modelação Entidade-Relacionam
 **Problema**: se nem todo cidadão tem advogado, a Regra 4 não se aplica — porque exige **participação obrigatória** do lado N. Usar a Regra 4 neste caso geraria muitas células vazias (NULLs) na coluna `cedulaAdvogado`.
 
 !!! success "Correcto — aplicar Regra 5"
-    1:N **sem** obrigatoriedade no lado N → **3 tabelas**. Tabela da relação `Representacao(#NIF, #cedulaAdvogado, dataInicio)` só com os cidadãos que *têm* advogado.
+    1:N **sem** obrigatoriedade no lado N → **3 tabelas**. Tabela da relação **REPRESENTACAO** (<u>NIF</u>, <u>cedulaAdvogado</u>, dataInicio) só com os cidadãos que *têm* advogado — PK composta; ambos FKs.
 
 **Como evitar**: antes de escolher entre Regra 4 e Regra 5, confirmar **sempre** se a participação do lado N é obrigatória ou não.
 
@@ -138,7 +138,7 @@ Se cada aluno tem várias UCs E cada UC tem vários alunos → **N:M**, não 1:N
 **Problema**: chaves compostas longas são **desconfortáveis** — todas as FKs que apontem para esta tabela têm de ser também de 3 campos. Complica o modelo sem necessidade.
 
 !!! success "Correcto"
-    `Requisicao(codRequisicao, #matricula, #codMotorista, dataInicio, dataFim, destino, km)` — criar um código interno simples. O trio `(matricula, codMotorista, dataInicio)` mantém-se como **candidata** (UNIQUE) mas a PK é simples.
+    **REQUISICAO** (<u>codRequisicao</u>, matricula, codMotorista, dataInicio, dataFim, destino, km) — criar um código interno simples; `matricula` e `codMotorista` são FKs. O trio `(matricula, codMotorista, dataInicio)` mantém-se como **candidata** (UNIQUE) mas a PK é simples.
 
 **Regra prática**: chaves simples > compostas, sempre que possível.
 
@@ -158,27 +158,31 @@ Se cada aluno tem várias UCs E cada UC tem vários alunos → **N:M**, não 1:N
 
 ## D. Erros de notação
 
-### D1. Esquecer o `#` antes das FKs
+### D1. Não sublinhar a chave primária (PK)
 
 !!! danger "Errado"
-    `Processo(numProcesso, tipoObra, codRequerente)` — como se distingue a PK da FK?
+    `LIVRO (cota, ISBN, título, ano)` — PK identificada apenas pela posição (primeira coluna).
 
-**Problema**: notação ambígua. Quem lê não sabe o que é `codRequerente` — atributo normal ou FK.
+**Problema**: sem marca visual, um leitor apressado não sabe qual é a chave primária. A convenção académica exige sublinhado.
 
 !!! success "Correcto"
-    `Processo(numProcesso, tipoObra, #codRequerente)` — o `#` marca claramente que `codRequerente` é uma chave estrangeira que aponta para outra tabela.
+    **LIVRO** (<u>cota</u>, ISBN, título, ano) — a PK fica **sublinhada**.
+
+**Regra**: a notação padrão usa apenas **sublinhado para PK**. As FKs são identificadas pelo texto descritivo que acompanha a tabela (ex.: *"onde `cota` é FK para LIVRO"*) ou pelas setas do diagrama E-R original.
 
 ---
 
-### D2. Não sublinhar a PK
+### D2. Não identificar as FKs no texto
 
 !!! danger "Errado"
-    `Livro(ISBN, titulo, ano)` — PK identificada só pela posição.
+    **PROCESSO** (<u>numProcesso</u>, tipoObra, descricao, codRequerente) — e ponto final.
 
-**Problema**: sem marca visual, um leitor apressado não sabe qual é a chave primária. Convenção perdida.
+**Problema**: quem lê não sabe se `codRequerente` é apenas um atributo comum ou se referencia a PK de outra tabela.
 
 !!! success "Correcto"
-    `Livro(**_ISBN_**, titulo, ano)` — a PK está **sublinhada** (ou marcada com negrito) para destacar.
+    **PROCESSO** (<u>numProcesso</u>, tipoObra, descricao, codRequerente) — onde `codRequerente` é **FK** para REQUERENTE.
+
+**Dica**: identifica todas as FKs por baixo do esquema, como notas, ou integra-as na descrição natural do modelo.
 
 ---
 
@@ -216,7 +220,7 @@ Se cada aluno tem várias UCs E cada UC tem vários alunos → **N:M**, não 1:N
 **Problema**: quando o leitor muda de nome (casamento, correcção), é preciso actualizar em **vários sítios**. Se esquecer um, os dados ficam inconsistentes.
 
 !!! success "Correcto"
-    Nome só em `Leitor(codLeitor, nome, ...)`. Na tabela `Emprestimo`, apenas a FK `#codLeitor` — o nome é obtido por JOIN quando necessário.
+    Nome só em **LEITOR** (<u>codLeitor</u>, nome, ...). Na tabela **EMPRESTIMO**, apenas o atributo `codLeitor` como FK — o nome é obtido por JOIN quando necessário.
 
 **Princípio**: cada dado deve ser guardado **num único sítio** (single source of truth).
 

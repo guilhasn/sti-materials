@@ -40,6 +40,43 @@ function P(text, opts = {}) {
     })],
   });
 }
+// Renderiza uma string que pode conter <u>...</u> como TextRuns com e sem underline
+function renderMarkedText(text, baseOpts = {}) {
+  const runs = [];
+  const regex = /<u>([^<]*)<\/u>/g;
+  let lastIdx = 0;
+  let match;
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIdx) {
+      runs.push(new TextRun({
+        text: text.slice(lastIdx, match.index),
+        size: baseOpts.size ?? 22,
+        font: baseOpts.font,
+        color: baseOpts.color,
+        bold: baseOpts.bold,
+      }));
+    }
+    runs.push(new TextRun({
+      text: match[1],
+      size: baseOpts.size ?? 22,
+      font: baseOpts.font,
+      color: baseOpts.color,
+      bold: baseOpts.bold,
+      underline: { type: "single" },
+    }));
+    lastIdx = regex.lastIndex;
+  }
+  if (lastIdx < text.length) {
+    runs.push(new TextRun({
+      text: text.slice(lastIdx),
+      size: baseOpts.size ?? 22,
+      font: baseOpts.font,
+      color: baseOpts.color,
+      bold: baseOpts.bold,
+    }));
+  }
+  return runs;
+}
 function PMulti(runs, opts = {}) {
   return new Paragraph({ spacing: { after: opts.after ?? 80 }, alignment: opts.align, children: runs });
 }
@@ -323,7 +360,7 @@ function fase5SolBlock(s) {
     }),
     ...(s.aplicacao || []).map(line => new Paragraph({
       spacing: { after: 60 },
-      children: [new TextRun({ text: line, font: "Consolas", size: 20, color: DARK_BLUE })],
+      children: renderMarkedText(line, { font: "Consolas", size: 20, color: DARK_BLUE }),
     })),
     ...(s.nota ? [new Paragraph({
       spacing: { after: 120 },
@@ -372,7 +409,7 @@ function fase8(schema = []) {
     schema.forEach(line => {
       out.push(new Paragraph({
         spacing: { after: 80 },
-        children: [new TextRun({ text: line, font: "Consolas", size: 22, color: DARK_BLUE })],
+        children: renderMarkedText(line, { font: "Consolas", size: 22, color: DARK_BLUE }),
       }));
     });
   } else {
@@ -470,11 +507,12 @@ const scaffoldCaso1 = {
   f2: [["", "", ""], ["", "", ""]], // deixar em branco — identificar relações É pensamento
   f3: ["Cada leitor tem um código único e pode requisitar vários livros ao longo do tempo."],
   f4: [["Leitor", "", "", ""], ["Livro", "", "", ""], ["Autor", "", "", ""]],
-  f6: [["Leitor", ""], ["Livro", ""], ["Autor", ""], ["Emprestimo", ""], ["Autoria", ""]],
-  f7: [["Leitor", "", ""], ["Livro", "", ""], ["Autor", "", ""], ["Emprestimo", "", ""], ["Autoria", "", ""]],
+  f6: [["LEITOR", ""], ["LIVRO", ""], ["AUTOR", ""], ["REQUISITAR", ""], ["ESCREVER", ""]],
+  f7: [["LEITOR", "", ""], ["LIVRO", "", ""], ["AUTOR", "", ""], ["REQUISITAR", "", ""], ["ESCREVER", "", ""]],
   f9entidade: "Leitor",
-  f9: [["codLeitor", "", "", ""], ["nome", "", "", ""], ["BI", "", "", ""],
-       ["morada", "", "", ""], ["telefone", "", "", ""], ["email", "", "", ""]],
+  f9: [["Num_Leitor", "", "", ""], ["NIF", "", "", ""], ["CC", "", "", ""],
+       ["nome", "", "", ""], ["morada", "", "", ""],
+       ["email", "", "", ""], ["contacto", "", "", ""], ["observações", "", "", ""]],
 };
 
 const scaffoldCaso2 = {
@@ -517,39 +555,38 @@ const scaffoldCaso4 = {
 const solucaoCaso1 = {
   f1: [
     ["Leitor", "Pessoa registada na biblioteca"],
-    ["Livro", "Obra do acervo"],
+    ["Livro", "Exemplar físico da obra (cota única na estante)"],
     ["Autor", "Quem escreveu a obra"],
   ],
   f2: [
     ["requisita", "Leitor", "Livro"],
-    ["escreve", "Autor", "Livro"],
+    ["escrito_por", "Livro", "Autor"],
   ],
   f3: [
     "Cada leitor tem um código único e pode requisitar vários livros ao longo do tempo.",
-    "Um livro pode ser requisitado por vários leitores (em datas diferentes).",
+    "Um livro, enquanto está emprestado, só pode ser requisitado por um único leitor (não pode ser emprestado a dois em simultâneo).",
+    "Nem todo livro tem empréstimo activo; nem todo leitor tem livro requisitado.",
     "Um livro tem pelo menos um autor; pode ter vários co-autores.",
     "Um autor pode escrever vários livros.",
-    "Nem todo leitor tem empréstimo activo; nem todo livro está emprestado.",
-    "O mesmo leitor pode requisitar o mesmo livro em datas diferentes.",
   ],
   f4: [
-    ["Leitor", "codLeitor, nome, BI, morada, telefone, email", "codLeitor", "requisita Livro (M:N)"],
-    ["Livro", "ISBN, titulo, anoPublicacao, editora, numExemplares", "ISBN", "requisitado (M:N); escrito (M:N)"],
-    ["Autor", "codAutor, nome, nacionalidade", "codAutor", "escreve Livro (M:N)"],
+    ["Leitor", "Num_Leitor, NIF, CC, nome, morada, email, contacto, observações", "Num_Leitor", "requisita Livro (1:N)"],
+    ["Livro", "cota, ISBN, título, data, edição, editora", "cota", "requisitado (1:N); escrito (N:M)"],
+    ["Autor", "Id_autor, nome, nacionalidade, dataNascimento", "Id_autor", "escreve Livro (N:M)"],
   ],
   f5: [
     {
-      nome: "Leitor ↔ Livro (N:M)",
-      cardinalidade: "N:M",
+      nome: "Leitor ↔ Livro (1:N, não obrig. ambas)",
+      cardinalidade: "1:N",
       participacao: "Não obrigatória em ambas",
-      regra: 6, numTabelas: 3,
+      regra: 5, numTabelas: 3,
       fk: "Tabela da relação com ambas as PKs",
       aplicacao: [
-        "Leitor(codLeitor, nome, BI, morada, telefone, email)",
-        "Livro(ISBN, titulo, anoPublicacao, editora, numExemplares)",
-        "Empréstimo(#codLeitor, #ISBN, dataEmprestimo, dataDevolucao, devolvido)",
+        "LEITOR (<u>Num_Leitor</u>, NIF, CC, nome, morada, email, contacto, observações)",
+        "LIVRO (<u>cota</u>, ISBN, título, data, edição, editora)",
+        "REQUISITAR (<u>Num_Leitor</u>, <u>cota</u>)",
       ],
-      nota: "N:M → Regra 6 sempre, sem excepção",
+      nota: "Um livro só está emprestado a um leitor de cada vez, mas sem obrigatoriedade → Regra 5 (não Regra 4 nem 6)",
     },
     {
       nome: "Autor ↔ Livro (N:M)",
@@ -558,40 +595,42 @@ const solucaoCaso1 = {
       regra: 6, numTabelas: 3,
       fk: "Tabela da relação com ambas as PKs",
       aplicacao: [
-        "Autor(codAutor, nome, nacionalidade)",
-        "Autoria(#codAutor, #ISBN)",
+        "AUTOR (<u>Id_autor</u>, nome, nacionalidade, dataNascimento)",
+        "ESCREVER (<u>cota</u>, <u>Id_autor</u>)",
       ],
     },
   ],
   f6: [
-    ["Leitor", "codLeitor; BI"],
-    ["Livro", "ISBN"],
-    ["Autor", "codAutor"],
-    ["Empréstimo", "(codLeitor, ISBN, dataEmprestimo)"],
-    ["Autoria", "(codAutor, ISBN)"],
+    ["LEITOR", "Num_Leitor; NIF; CC"],
+    ["LIVRO", "cota; ISBN"],
+    ["AUTOR", "Id_autor"],
+    ["REQUISITAR", "(Num_Leitor, cota)"],
+    ["ESCREVER", "(cota, Id_autor)"],
   ],
   f7: [
-    ["Leitor", "codLeitor", "Código interno estável; BI pode mudar (CC novo)"],
-    ["Livro", "ISBN", "Identificador internacional único"],
-    ["Autor", "codAutor", "Código interno; nomes podem repetir-se"],
-    ["Empréstimo", "(codLeitor, ISBN, dataEmprestimo)", "Mesmo leitor pode requisitar mesmo livro em datas distintas"],
-    ["Autoria", "(codAutor, ISBN)", "Um autor só co-assina uma vez o mesmo livro"],
+    ["LEITOR", "Num_Leitor", "Código interno estável; NIF e CC podem mudar"],
+    ["LIVRO", "cota", "Identificador único do exemplar físico; ISBN é comum a várias cópias"],
+    ["AUTOR", "Id_autor", "Código interno; nomes podem repetir-se"],
+    ["REQUISITAR", "(Num_Leitor, cota)", "PK composta — uma requisição activa por par leitor-livro"],
+    ["ESCREVER", "(cota, Id_autor)", "PK composta — um autor só co-assina uma vez o mesmo livro"],
   ],
   f8: [
-    "Leitor(codLeitor, nome, BI, morada, telefone, email)",
-    "Livro(ISBN, titulo, anoPublicacao, editora, numExemplares)",
-    "Autor(codAutor, nome, nacionalidade)",
-    "Empréstimo(#codLeitor, #ISBN, dataEmprestimo, dataDevolucao, devolvido)",
-    "Autoria(#codAutor, #ISBN)",
+    "LEITOR (<u>Num_Leitor</u>, NIF, CC, nome, morada, email, contacto, observações)",
+    "LIVRO (<u>cota</u>, ISBN, título, data, edição, editora)",
+    "AUTOR (<u>Id_autor</u>, nome, nacionalidade, dataNascimento)",
+    "REQUISITAR (<u>Num_Leitor</u>, <u>cota</u>)",
+    "ESCREVER (<u>cota</u>, <u>Id_autor</u>)",
   ],
   f9entidade: "Leitor",
   f9: [
-    ["codLeitor", "INTEGER", "Sim", "PK, auto-incremento"],
+    ["Num_Leitor", "INTEGER", "Sim", "PK, auto-incremento"],
+    ["NIF", "VARCHAR(9)", "Sim", "Único; 9 dígitos"],
+    ["CC", "VARCHAR(12)", "Sim", "Único; nº Cartão de Cidadão"],
     ["nome", "VARCHAR(100)", "Sim", "—"],
-    ["BI", "VARCHAR(15)", "Sim", "Único"],
     ["morada", "VARCHAR(200)", "Sim", "—"],
-    ["telefone", "VARCHAR(15)", "Não", "Formato nacional"],
     ["email", "VARCHAR(100)", "Não", "Formato email válido"],
+    ["contacto", "VARCHAR(15)", "Não", "Telefone nacional"],
+    ["observações", "TEXT", "Não", "Notas livres"],
   ],
 };
 
@@ -626,8 +665,8 @@ const solucaoCaso2 = {
       regra: 4, numTabelas: 2,
       fk: "PK codRequerente → FK no Processo",
       aplicacao: [
-        "Requerente(codRequerente, nome, NIF, morada, telefone)",
-        "Processo(numProcesso, tipoObra, ..., #codRequerente)",
+        "REQUERENTE (<u>codRequerente</u>, nome, NIF, morada, telefone)",
+        "PROCESSO (<u>numProcesso</u>, tipoObra, ..., codRequerente)",
       ],
     },
     {
@@ -637,8 +676,8 @@ const solucaoCaso2 = {
       regra: 6, numTabelas: 3,
       fk: "Tabela da relação com ambas as PKs",
       aplicacao: [
-        "Tecnico(codTecnico, nome, especialidade, email)",
-        "Parecer(#numProcesso, #codTecnico, dataParecer, resultado, observacoes)",
+        "TECNICO (<u>codTecnico</u>, nome, especialidade, email)",
+        "PARECER (<u>numProcesso</u>, <u>codTecnico</u>, dataParecer, resultado, observacoes)",
       ],
       nota: "A tabela Parecer tem atributos próprios (data, resultado, observações)",
     },
@@ -656,10 +695,10 @@ const solucaoCaso2 = {
     ["Parecer", "(numProcesso, codTecnico)", "Um técnico dá um parecer a um processo"],
   ],
   f8: [
-    "Requerente(codRequerente, nome, NIF, morada, telefone)",
-    "Processo(numProcesso, tipoObra, descricao, localizacao, dataEntrada, estado, #codRequerente)",
-    "Tecnico(codTecnico, nome, especialidade, email)",
-    "Parecer(#numProcesso, #codTecnico, dataParecer, resultado, observacoes)",
+    "REQUERENTE (<u>codRequerente</u>, nome, NIF, morada, telefone)",
+    "PROCESSO (<u>numProcesso</u>, tipoObra, descricao, localizacao, dataEntrada, estado, codRequerente)",
+    "TECNICO (<u>codTecnico</u>, nome, especialidade, email)",
+    "PARECER (<u>numProcesso</u>, <u>codTecnico</u>, dataParecer, resultado, observacoes)",
   ],
   f9entidade: "Processo",
   f9: [
@@ -706,9 +745,9 @@ const solucaoCaso3 = {
       regra: 6, numTabelas: 3,
       fk: "Tabela da relação com ambas as PKs",
       aplicacao: [
-        "Utente(codUtente, nome, morada, ...)",
-        "Refeicao(codRefeicao, data, tipo, ementa, calorias)",
-        "Entrega(#codUtente, #codRefeicao, horaEntrega, observacoes)",
+        "UTENTE (<u>codUtente</u>, nome, morada, ...)",
+        "REFEICAO (<u>codRefeicao</u>, data, tipo, ementa, calorias)",
+        "ENTREGA (<u>codUtente</u>, <u>codRefeicao</u>, horaEntrega, observacoes)",
       ],
     },
     {
@@ -718,8 +757,8 @@ const solucaoCaso3 = {
       regra: 4, numTabelas: 2,
       fk: "PK codVoluntario → FK na Rota",
       aplicacao: [
-        "Voluntario(codVoluntario, nome, telefone, ...)",
-        "Rota(codRota, nome, zona, distanciaKm, #codVoluntario)",
+        "VOLUNTARIO (<u>codVoluntario</u>, nome, telefone, ...)",
+        "ROTA (<u>codRota</u>, nome, zona, distanciaKm, codVoluntario)",
       ],
     },
   ],
@@ -738,11 +777,11 @@ const solucaoCaso3 = {
     ["Entrega", "(codUtente, codRefeicao)", "Uma entrega por utente/refeição"],
   ],
   f8: [
-    "Utente(codUtente, nome, morada, telefone, contactoEmergencia, restricoes)",
-    "Refeicao(codRefeicao, data, tipo, ementa, calorias)",
-    "Voluntario(codVoluntario, nome, telefone, cartaConducao, disponibilidade)",
-    "Rota(codRota, nome, zona, distanciaKm, #codVoluntario)",
-    "Entrega(#codUtente, #codRefeicao, horaEntrega, observacoes)",
+    "UTENTE (<u>codUtente</u>, nome, morada, telefone, contactoEmergencia, restricoes)",
+    "REFEICAO (<u>codRefeicao</u>, data, tipo, ementa, calorias)",
+    "VOLUNTARIO (<u>codVoluntario</u>, nome, telefone, cartaConducao, disponibilidade)",
+    "ROTA (<u>codRota</u>, nome, zona, distanciaKm, codVoluntario)",
+    "ENTREGA (<u>codUtente</u>, <u>codRefeicao</u>, horaEntrega, observacoes)",
   ],
   f9entidade: "Utente",
   f9: [
@@ -790,8 +829,8 @@ const solucaoCaso4 = {
       regra: 4, numTabelas: 2,
       fk: "PK codDepartamento → FK na Viatura",
       aplicacao: [
-        "Viatura(matricula, ..., #codDepartamento)",
-        "Departamento(codDepartamento, nome, responsavel)",
+        "VIATURA (<u>matricula</u>, ..., codDepartamento)",
+        "DEPARTAMENTO (<u>codDepartamento</u>, nome, responsavel)",
       ],
     },
     {
@@ -801,7 +840,7 @@ const solucaoCaso4 = {
       regra: 4, numTabelas: 2,
       fk: "PK codDepartamento → FK no Motorista",
       aplicacao: [
-        "Motorista(codMotorista, ..., #codDepartamento)",
+        "MOTORISTA (<u>codMotorista</u>, ..., codDepartamento)",
       ],
       nota: "Análise simétrica à anterior",
     },
@@ -812,7 +851,7 @@ const solucaoCaso4 = {
       regra: 6, numTabelas: 3,
       fk: "Tabela da relação com ambas as PKs",
       aplicacao: [
-        "Requisicao(codRequisicao, #matricula, #codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado)",
+        "REQUISICAO (<u>codRequisicao</u>, matricula, codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado)",
       ],
       nota: "Atributos próprios (datas, destino, km) justificam PK simples codRequisicao",
     },
@@ -823,7 +862,7 @@ const solucaoCaso4 = {
       regra: 4, numTabelas: 2,
       fk: "PK matricula → FK na Manutenção",
       aplicacao: [
-        "Manutencao(codManutencao, #matricula, data, tipo, descricao, custo, oficina)",
+        "MANUTENCAO (<u>codManutencao</u>, matricula, data, tipo, descricao, custo, oficina)",
       ],
     },
   ],
@@ -842,11 +881,11 @@ const solucaoCaso4 = {
     ["Requisição", "codRequisicao", "Chave simples evita composta longa"],
   ],
   f8: [
-    "Viatura(matricula, marca, modelo, ano, combustivel, quilometragem, estado, #codDepartamento)",
-    "Motorista(codMotorista, nome, numCartaConducao, categorias, telefone, #codDepartamento)",
-    "Departamento(codDepartamento, nome, responsavel)",
-    "Requisicao(codRequisicao, #matricula, #codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado)",
-    "Manutencao(codManutencao, #matricula, data, tipo, descricao, custo, oficina)",
+    "VIATURA (<u>matricula</u>, marca, modelo, ano, combustivel, quilometragem, estado, codDepartamento)",
+    "MOTORISTA (<u>codMotorista</u>, nome, numCartaConducao, categorias, telefone, codDepartamento)",
+    "DEPARTAMENTO (<u>codDepartamento</u>, nome, responsavel)",
+    "REQUISICAO (<u>codRequisicao</u>, matricula, codMotorista, dataInicio, dataFim, destino, kmInicio, kmFim, estado)",
+    "MANUTENCAO (<u>codManutencao</u>, matricula, data, tipo, descricao, custo, oficina)",
   ],
   f9entidade: "Viatura",
   f9: [
