@@ -80,6 +80,15 @@ nav:
       - Erros Frequentes: er/erros-frequentes.md
       - Ficha de Consulta Rapida: er/cheat-sheet.md
       - Auto-avaliacao: er/avaliacao.md
+  - Power BI:
+      - Visao Geral: powerbi/index.md
+      - Do Excel ao Dashboard: powerbi/aula-09.md
+      - Da Tabela ao Modelo: powerbi/aula-10.md
+      - Do Dashboard ao Municipe: powerbi/aula-11.md
+      - Fichas Praticas: powerbi/exercicios.md
+      - DAX Minimo: powerbi/dax-minimo.md
+      - Erros Frequentes: powerbi/erros-frequentes.md
+      - Ficha de Consulta Rapida: powerbi/cheat-sheet.md
 
 extra:
   social:
